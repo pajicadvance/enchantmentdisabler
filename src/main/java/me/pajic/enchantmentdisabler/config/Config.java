@@ -45,26 +45,21 @@ public class Config {
                 Identifier id = new Identifier(configOption.enchantmentId);
                 Enchantment enchantment = Registries.ENCHANTMENT.get(id);
                 if (enchantment != null) {
-                    LOGGER.info("All list addition: " + id);
                     all.add(enchantment);
 
                     if (configOption.disabled) {
-                        LOGGER.info("Disabled list addition: " + id);
                         disabled.add(enchantment);
                     }
                 } else {
-                    LOGGER.info("Removed list addition: " + id);
                     removed.add(configOption);
                 }
             }
 
             if (!removed.isEmpty()) {
                 options.removeAll(removed);
-                LOGGER.info("Removed config options: " + removed);
             }
 
             EnchantmentUtil.ENCHANTMENT_BLACKLIST = new ArrayList<>(disabled);
-            LOGGER.info("Updated blacklist: " + EnchantmentUtil.ENCHANTMENT_BLACKLIST);
 
             List<Enchantment> newEnchantments = new ArrayList<>(ENCHANTMENTS);
             newEnchantments.removeAll(all);
@@ -73,15 +68,12 @@ public class Config {
             try (FileWriter writer = new FileWriter(configFile.toFile())) {
                 if (!newEnchantments.isEmpty()) {
                     newEnchantments.forEach(enchantment -> options.add(new ConfigOption(Objects.requireNonNull(EnchantmentHelper.getEnchantmentId(enchantment)).toString(), false)));
-                    LOGGER.info("New enchantments: " + newEnchantments);
                 }
                 gson2.toJson(options, writer);
-                LOGGER.info("Updated mod config");
             } catch (IOException e) {
                 LOGGER.error("Failed to save mod config", e);
             }
         } catch (FileNotFoundException e) {
-            LOGGER.info("Config not found, initializing");
             initializeConfig();
         } catch (IOException e) {
             LOGGER.error("Failed to read mod config", e);
@@ -96,7 +88,6 @@ public class Config {
 
             for (Enchantment enchantment : ENCHANTMENTS) {
                 String id = Objects.requireNonNull(EnchantmentHelper.getEnchantmentId(enchantment)).toString();
-                LOGGER.info("Initial add: " + id);
 
                 if (DISABLED_BY_DEFAULT.contains(enchantment)) {
                     options.add(new ConfigOption(id, true));
@@ -108,7 +99,6 @@ public class Config {
 
             EnchantmentUtil.ENCHANTMENT_BLACKLIST = new ArrayList<>(DISABLED_BY_DEFAULT);
             gson.toJson(options, writer);
-            LOGGER.info("Config initialized");
         } catch (IOException e) {
             LOGGER.error("Failed to save mod config", e);
         }
