@@ -13,5 +13,8 @@
   },
   "client": [
     "MinecraftClientMixin"
+  ],
+  "server": [
+    "MinecraftServerMixin"
   ]
 }
