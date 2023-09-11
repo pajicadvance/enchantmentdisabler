@@ -5,6 +5,8 @@ Enchantment Disabler is a Fabric mod that effectively disables enchantments by p
 - Enchantment table
 ## Disclaimer
 This is my first mod ever. While it works for my use case and in my limited testing, this does not mean that the mod is 100% bullet-proof, and I cannot guarantee that it does not contain major flaws or oversights. If you run into any problems, please open an issue report.
+## Download
+Download from [Modrinth](https://modrinth.com/mod/enchantment-disabler)
 ## Configuration
 The configuration file is located in `.minecraft/config/enchantmentdisabler.json`.
 
