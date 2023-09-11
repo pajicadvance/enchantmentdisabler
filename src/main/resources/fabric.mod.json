@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "enchantmentdisabler",
+  "version": "${version}",
+  "name": "Enchantment Disabler",
+  "description": "Effectively disables enchantments by preventing them from appearing anywhere in the game",
+  "authors": ["pajic"],
+  "contact": {
+    "repo": "https://github.com/pajicadvance/enchantmentdisabler"
+  },
+  "license": "MIT License",
+  "icon": "enchantmentdisabler.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.pajic.enchantmentdisabler.EnchantmentDisablerMain"
+    ]
+  },
+  "mixins": [
+    "enchantmentdisabler.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
