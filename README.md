@@ -3,7 +3,7 @@ Enchantment Disabler is a Fabric mod that effectively disables enchantments spec
 
 The mod doesn't technically remove enchantments from the game's registry, but rather prevents them from being added to tools, armor and enchanted books from loot chests, villager trades and the enchanting table, which is basically equivalent to playing the game without those enchantments. This approach should be entirely safe and mostly mod-compatible compared to actually deleting the enchantments from the game's registry.
 ## Disclaimer
-This is my first mod ever. While it works for my use case and in my limited testing, this does not mean that the mod is 100% bullet-proof, and I cannot guarantee that it does not contain major flaws or oversights. If you run into any problems, please open an issue report.
+This is my first mod ever. It was primarily created because I could not find an existing mod with similar functionality. While it works for my use case and in my limited testing, this does not mean that the mod is 100% bullet-proof, and I cannot guarantee that it does not contain major flaws or oversights. If you run into any problems, please open an issue report.
 ## Configuration
 The configuration file is located in `.minecraft/config/enchantmentdisabler.json`.
 
