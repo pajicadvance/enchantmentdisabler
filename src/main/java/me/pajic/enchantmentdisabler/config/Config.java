@@ -7,8 +7,8 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +23,7 @@ public class Config {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("EnchantmentDisabler-Config");
     private static final Path configFile = FabricLoader.getInstance().getConfigDir().resolve("enchantmentdisabler.json");
-    private static final List<Enchantment> ENCHANTMENTS = Registries.ENCHANTMENT.stream().toList();
+    private static final List<Enchantment> ENCHANTMENTS = Registry.ENCHANTMENT.stream().toList();
     private static final List<Enchantment> DISABLED_BY_DEFAULT = Arrays.asList(
             Enchantments.MENDING,
             Enchantments.VANISHING_CURSE,
@@ -43,7 +43,7 @@ public class Config {
 
             for (ConfigOption configOption : options) {
                 Identifier id = new Identifier(configOption.enchantmentId);
-                Enchantment enchantment = Registries.ENCHANTMENT.get(id);
+                Enchantment enchantment = Registry.ENCHANTMENT.get(id);
                 if (enchantment != null) {
                     all.add(enchantment);
 
