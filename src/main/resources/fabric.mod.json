@@ -3,7 +3,7 @@
   "id": "enchantmentdisabler",
   "version": "${version}",
   "name": "Enchantment Disabler",
-  "description": "Effectively disables enchantments by preventing them from appearing anywhere in the game",
+  "description": "Effectively disables enchantments you don't like by preventing them from appearing anywhere in the game",
   "authors": ["pajic"],
   "contact": {
     "repo": "https://github.com/pajicadvance/enchantmentdisabler"
