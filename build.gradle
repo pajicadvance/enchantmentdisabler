@@ -69,6 +69,10 @@ jar {
     }
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/enchantmentdisabler.accesswidener")
+}
+
 // configure the maven publication
 publishing {
     publications {

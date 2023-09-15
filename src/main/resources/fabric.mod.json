@@ -19,6 +19,7 @@
   "mixins": [
     "enchantmentdisabler.mixins.json"
   ],
+  "accessWidener" : "enchantmentdisabler.accesswidener",
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
