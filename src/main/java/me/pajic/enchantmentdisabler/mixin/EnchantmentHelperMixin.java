@@ -15,6 +15,6 @@ public class EnchantmentHelperMixin {
     @Redirect(method = "getPossibleEntries", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z"))
     private static <E> boolean redirectListAdd(List<EnchantmentLevelEntry> instance, E e) {
         EnchantmentLevelEntry entry = (EnchantmentLevelEntry) e;
-        return EnchantmentUtil.preventEnchantmentAdditionToList(instance, entry);
+        return EnchantmentUtil.preventEnchantmentAdditionToListIfBlacklisted(instance, entry);
     }
 }
