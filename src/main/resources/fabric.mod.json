@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "enchantmentdisabler",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "name": "Enchantment Disabler",
   "description": "Effectively disables enchantments you don't like by preventing them from appearing anywhere in the game",
   "authors": ["pajic"],
@@ -18,6 +18,6 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": "1.20.2-beta.4"
+    "minecraft": "${minecraft_version}"
   }
 }
