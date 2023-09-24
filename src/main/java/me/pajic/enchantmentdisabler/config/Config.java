@@ -2,6 +2,9 @@ package me.pajic.enchantmentdisabler.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+import it.unimi.dsi.fastutil.objects.Object2BooleanArrayMap;
 import me.pajic.enchantmentdisabler.util.EnchantmentUtil;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.enchantment.Enchantment;
@@ -22,6 +25,10 @@ import java.util.*;
 public class Config {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("EnchantmentDisabler-Config");
+    private static final Gson GSON = new GsonBuilder()
+            .registerTypeAdapter(Identifier.class, new Identifier.Serializer())
+            .setPrettyPrinting()
+            .create();
     private static final Path configFile = FabricLoader.getInstance().getConfigDir().resolve("enchantmentdisabler.json");
     private static final List<Enchantment> ENCHANTMENTS = Registry.ENCHANTMENT.stream().toList();
     private static final List<Enchantment> DISABLED_BY_DEFAULT = Arrays.asList(
@@ -30,50 +37,48 @@ public class Config {
             Enchantments.BINDING_CURSE,
             Enchantments.THORNS
     );
-    private record ConfigOption(String enchantmentId, boolean disabled){}
 
     public Config() {
-
         try (FileReader reader = new FileReader(configFile.toFile())) {
-            Gson gson = new Gson();
-            List<ConfigOption> options = new ArrayList<>(List.of(gson.fromJson(reader, ConfigOption[].class)));
-            List<ConfigOption> removed = new ArrayList<>();
+            Map<Identifier, Boolean> options = GSON.fromJson(reader, new TypeToken<Map<Identifier, Boolean>>() {}.getType());
+            List<Identifier> removed = new ArrayList<>();
             List<Enchantment> all = new ArrayList<>();
             List<Enchantment> disabled = new ArrayList<>();
 
-            for (ConfigOption configOption : options) {
-                Identifier id = new Identifier(configOption.enchantmentId);
-                Enchantment enchantment = Registry.ENCHANTMENT.get(id);
+            for (Map.Entry<Identifier, Boolean> identifierBooleanEntry : options.entrySet()) {
+                Identifier identifier = identifierBooleanEntry.getKey();
+                boolean disable = identifierBooleanEntry.getValue();
+                Enchantment enchantment = Registry.ENCHANTMENT.get(identifier);
                 if (enchantment != null) {
                     all.add(enchantment);
-
-                    if (configOption.disabled) {
+                    if (disable) {
                         disabled.add(enchantment);
                     }
                 } else {
-                    removed.add(configOption);
+                    removed.add(identifier);
                 }
             }
 
-            if (!removed.isEmpty()) {
-                options.removeAll(removed);
-            }
+            removed.forEach(identifier -> {
+                options.remove(identifier);
+                LOGGER.warn("Enchantment with id {} does not exist; removing...", identifier);
+            });
 
             EnchantmentUtil.ENCHANTMENT_BLACKLIST = new ArrayList<>(disabled);
 
             List<Enchantment> newEnchantments = new ArrayList<>(ENCHANTMENTS);
             newEnchantments.removeAll(all);
 
-            Gson gson2 = new GsonBuilder().setPrettyPrinting().create();
             try (FileWriter writer = new FileWriter(configFile.toFile())) {
                 if (!newEnchantments.isEmpty()) {
-                    newEnchantments.forEach(enchantment -> options.add(new ConfigOption(Objects.requireNonNull(EnchantmentHelper.getEnchantmentId(enchantment)).toString(), false)));
+                    newEnchantments.forEach(enchantment -> options.put(EnchantmentHelper.getEnchantmentId(enchantment), false));
                 }
-                gson2.toJson(options, writer);
+                GSON.toJson(options, writer);
             } catch (IOException e) {
                 LOGGER.error("Failed to save mod config", e);
             }
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | JsonSyntaxException e) {
+            LOGGER.warn("Config doesn't exist or is malformed, initializing new mod config...");
             initializeConfig();
         } catch (IOException e) {
             LOGGER.error("Failed to read mod config", e);
@@ -81,24 +86,15 @@ public class Config {
     }
 
     private void initializeConfig() {
-
         try (FileWriter writer = new FileWriter(configFile.toFile())) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            List<ConfigOption> options = new ArrayList<>();
+            Map<Identifier, Boolean> options = new Object2BooleanArrayMap<>();
 
             for (Enchantment enchantment : ENCHANTMENTS) {
-                String id = Objects.requireNonNull(EnchantmentHelper.getEnchantmentId(enchantment)).toString();
-
-                if (DISABLED_BY_DEFAULT.contains(enchantment)) {
-                    options.add(new ConfigOption(id, true));
-                }
-                else {
-                    options.add(new ConfigOption(id, false));
-                }
+                options.put(Objects.requireNonNull(EnchantmentHelper.getEnchantmentId(enchantment)), DISABLED_BY_DEFAULT.contains(enchantment));
             }
 
             EnchantmentUtil.ENCHANTMENT_BLACKLIST = new ArrayList<>(DISABLED_BY_DEFAULT);
-            gson.toJson(options, writer);
+            GSON.toJson(options, writer);
         } catch (IOException e) {
             LOGGER.error("Failed to save mod config", e);
         }
