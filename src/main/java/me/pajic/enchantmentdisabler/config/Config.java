@@ -8,23 +8,25 @@ import it.unimi.dsi.fastutil.objects.Object2BooleanArrayMap;
 import me.pajic.enchantmentdisabler.util.EnchantmentUtil;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class Config {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("EnchantmentDisabler-Config");
+    private static final Logger LOGGER = LogManager.getLogger("EnchantmentDisabler-Config");
     private static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Identifier.class, new Identifier.Serializer())
             .setPrettyPrinting()
@@ -71,7 +73,7 @@ public class Config {
 
             try (FileWriter writer = new FileWriter(configFile.toFile())) {
                 if (!newEnchantments.isEmpty()) {
-                    newEnchantments.forEach(enchantment -> options.put(EnchantmentHelper.getEnchantmentId(enchantment), false));
+                    newEnchantments.forEach(enchantment -> options.put(Registry.ENCHANTMENT.getId(enchantment), false));
                 }
                 GSON.toJson(options, writer);
             } catch (IOException e) {
@@ -90,7 +92,7 @@ public class Config {
             Map<Identifier, Boolean> options = new Object2BooleanArrayMap<>();
 
             for (Enchantment enchantment : ENCHANTMENTS) {
-                options.put(Objects.requireNonNull(EnchantmentHelper.getEnchantmentId(enchantment)), DISABLED_BY_DEFAULT.contains(enchantment));
+                options.put(Registry.ENCHANTMENT.getId(enchantment), DISABLED_BY_DEFAULT.contains(enchantment));
             }
 
             EnchantmentUtil.ENCHANTMENT_BLACKLIST = new ArrayList<>(DISABLED_BY_DEFAULT);
