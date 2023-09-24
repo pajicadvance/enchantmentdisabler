@@ -1,8 +1,12 @@
 package me.pajic.enchantmentdisabler.mixin;
 
+import com.mojang.datafixers.util.Function4;
 import me.pajic.enchantmentdisabler.config.Config;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.server.SaveLoader;
+import net.minecraft.resource.DataPackSettings;
+import net.minecraft.resource.ResourceManager;
+import net.minecraft.util.registry.DynamicRegistryManager;
+import net.minecraft.world.SaveProperties;
 import net.minecraft.world.level.storage.LevelStorage;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,8 +18,8 @@ import java.util.function.Function;
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
 
-    @Inject(method = "startIntegratedServer(Ljava/lang/String;Ljava/util/function/Function;Ljava/util/function/Function;ZLnet/minecraft/client/MinecraftClient$WorldLoadAction;)V", at = @At("HEAD"))
-    private void preStart(String worldName, Function<LevelStorage.Session, SaveLoader.DataPackSettingsSupplier> dataPackSettingsSupplierGetter, Function<LevelStorage.Session, SaveLoader.SavePropertiesSupplier> savePropertiesSupplierGetter, boolean safeMode, MinecraftClient.WorldLoadAction worldLoadAction, CallbackInfo ci) {
+    @Inject(method = "startIntegratedServer(Ljava/lang/String;Lnet/minecraft/util/registry/DynamicRegistryManager$Impl;Ljava/util/function/Function;Lcom/mojang/datafixers/util/Function4;ZLnet/minecraft/client/MinecraftClient$WorldLoadAction;)V", at = @At("HEAD"))
+    private void preStart(String worldName, DynamicRegistryManager.Impl registryTracker, Function<LevelStorage.Session, DataPackSettings> dataPackSettingsGetter, Function4<LevelStorage.Session, DynamicRegistryManager.Impl, ResourceManager, DataPackSettings, SaveProperties> savePropertiesGetter, boolean safeMode, MinecraftClient.WorldLoadAction worldLoadAction, CallbackInfo ci) {
         new Config();
     }
 }
