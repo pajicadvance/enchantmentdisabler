@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "enchantmentdisabler",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "name": "Enchantment Disabler",
   "description": "Effectively disables enchantments you don't like by preventing them from appearing anywhere in the game",
   "authors": ["pajic"],
