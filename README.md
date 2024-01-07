@@ -9,7 +9,7 @@ This is my first mod ever. It was primarily created because I could not find an 
 
 [CurseForge](https://legacy.curseforge.com/minecraft/mc-mods/enchantmentdisabler)
 ## Configuration
-The configuration file is located in `.minecraft/config/enchantmentdisabler.json`.
+The configuration file is located in `.minecraft/config/enchantmentdisabler.json`. **It will appear after you load any world**, both on client and server.
 
 It lists all enchantments currently registered in the game (including modded ones).
 
