@@ -28,7 +28,7 @@ public abstract class EnchantBookFactoryMixin {
     private List<Enchantment> possibleEnchantments;
 
     @Inject(method = "<init>(III[Lnet/minecraft/enchantment/Enchantment;)V", at = @At(value = "TAIL"))
-    private void modifyArg(int experience, int minLevel, int maxLevel, Enchantment[] possibleEnchantments, CallbackInfo ci) {
+    private void filterList(int experience, int minLevel, int maxLevel, Enchantment[] possibleEnchantments, CallbackInfo ci) {
         this.possibleEnchantments = EnchantmentUtil.removeEnchantmentsFromList(List.of(possibleEnchantments));
     }
 

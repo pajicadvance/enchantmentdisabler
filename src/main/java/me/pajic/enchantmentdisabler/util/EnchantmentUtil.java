@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EnchantmentUtil {
-    public static List<Enchantment> ENCHANTMENT_BLACKLIST;
+    public static List<Enchantment> ENCHANTMENT_BLACKLIST = new ArrayList<>();
 
     public static boolean preventEnchantmentAdditionToListIfBlacklisted(List<EnchantmentLevelEntry> list, EnchantmentLevelEntry entry) {
         if (ENCHANTMENT_BLACKLIST.contains(entry.enchantment)) {
@@ -27,6 +27,11 @@ public class EnchantmentUtil {
     public static Enchantment rerollEnchantmentIfBlacklisted(ItemStack stack, Enchantment enchantment, Random random) {
         if (ENCHANTMENT_BLACKLIST.contains(enchantment)) {
             List<Enchantment> compatibleEnchantments = Registries.ENCHANTMENT.stream().filter(e -> e.isAcceptableItem(stack) && !ENCHANTMENT_BLACKLIST.contains(e)).toList();
+
+            if (compatibleEnchantments.isEmpty()) {
+                return null;
+            }
+
             enchantment = compatibleEnchantments.get(random.nextInt(compatibleEnchantments.size()));
         }
 
