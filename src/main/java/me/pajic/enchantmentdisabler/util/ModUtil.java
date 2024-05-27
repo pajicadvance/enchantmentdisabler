@@ -15,7 +15,7 @@ public class ModUtil {
                 return Integer.parseInt(enchantmentLevelPair[1]);
             }
         }
-        return 0;
+        return enchantment.getMaxLevel();
     }
 
     public static List<Enchantment> filterList(List<Enchantment> list) {

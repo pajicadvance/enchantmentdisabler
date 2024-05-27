@@ -35,7 +35,8 @@ public abstract class VillagerTradesMixin {
         private List<Enchantment> modifyEnchantmentList(List<Enchantment> list) {
             if (Main.CONFIG.disablerEnabled()) {
                 return ModUtil.filterList(list);
-            } else {
+            }
+            else {
                 return list;
             }
         }

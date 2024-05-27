@@ -16,4 +16,6 @@ The mod also contains additional tweaks, which are disabled by default and fully
 
 [CurseForge](https://legacy.curseforge.com/minecraft/mc-mods/enchantmentdisabler)
 ## Configuration
-This mod uses [owo-config](https://docs.wispforest.io/owo/config/) for configuration. [ModMenu](https://modrinth.com/mod/modmenu) is required to access the in-game config menu.
+This mod requires and uses [owo-lib](https://modrinth.com/mod/owo-lib) for configuration.
+
+[ModMenu](https://modrinth.com/mod/modmenu) is required for accessing the in-game config menu.
