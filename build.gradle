@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-version = project.mod_version
+version = "${project.mod_version}+${stonecutter.current.version}"
 group = project.maven_group
 
 base {
@@ -20,11 +20,16 @@ repositories {
         name = 'ParchmentMC'
         url = 'https://maven.parchmentmc.org'
     }
+    maven {
+        name = "Terraformers"
+        url = "https://maven.terraformersmc.com/"
+    }
+    maven { url 'https://maven.wispforest.io' }
 }
 
 dependencies {
     // To change the versions see the gradle.properties file
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    minecraft "com.mojang:minecraft:${stonecutter.current.version}"
     mappings loom.layered() {
         officialMojangMappings()
         parchment("org.parchmentmc.data:parchment-${parchment_version}@zip")
@@ -33,6 +38,11 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
+
+    annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
+    include "io.wispforest:owo-sentinel:${project.owo_version}"
 }
 
 processResources {

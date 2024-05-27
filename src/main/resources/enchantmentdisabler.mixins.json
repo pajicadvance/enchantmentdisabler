@@ -4,6 +4,13 @@
   "package": "me.pajic.enchantmentdisabler.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "EnchantmentHelperMixin",
+    "EnchantmentMenuMixin",
+    "EnchantmentTableBlockMixin",
+    "EnchantRandomlyFunctionMixin",
+    "VillagerTradesMixin",
+    "VillagerTradesMixin$EnchantBookForEmeraldsMixin",
+    "VillagerTradesMixin$EnchantedItemForEmeraldsMixin"
   ],
   "client": [
   ],

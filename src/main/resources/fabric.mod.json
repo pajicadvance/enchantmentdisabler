@@ -14,7 +14,11 @@
   "license": "MIT",
   "icon": "enchantmentdisabler.png",
   "environment": "*",
-  "entrypoints": {},
+  "entrypoints": {
+    "main": [
+      "me.pajic.enchantmentdisabler.Main"
+    ]
+  },
   "mixins": [
     "enchantmentdisabler.mixins.json"
   ],
