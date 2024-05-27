@@ -25,6 +25,10 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": "${minecraft_version}"
+    "minecraft": "${minecraft_version}",
+    "owo-lib": "^0.11.2"
+  },
+  "recommends": {
+    "modmenu": "^7.2.2"
   }
 }
