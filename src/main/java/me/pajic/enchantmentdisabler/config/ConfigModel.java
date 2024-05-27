@@ -31,6 +31,8 @@ public class ConfigModel {
         public int maxEnchantedBookTradeUses = 12;
         public boolean modifyEnchantedItemTradeUses = false;
         public int maxEnchantedItemTradeUses = 3;
+        public boolean enchantedBookTradeRestockEnabled = true;
+        public boolean enchantedItemTradeRestockEnabled = true;
     }
 
     public static class EnchantingTableNest {

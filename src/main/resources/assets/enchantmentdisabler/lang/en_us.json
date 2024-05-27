@@ -17,6 +17,10 @@
   "text.config.enchantmentdisabler-config.option.tradesNest.modifyEnchantedItemTradeUses": "Modify Max Enchanted Item Trade Uses",
   "text.config.enchantmentdisabler-config.option.tradesNest.modifyEnchantedItemTradeUses.tooltip": "Set the maximum amount of times enchanted item trades\ncan be used before having to restock.\nVanilla is 3.",
   "text.config.enchantmentdisabler-config.option.tradesNest.maxEnchantedItemTradeUses": "Max Enchanted Item Trade Uses",
+  "text.config.enchantmentdisabler-config.option.tradesNest.enchantedBookTradeRestockEnabled": "Toggle Enchanted Book Trade Restock",
+  "text.config.enchantmentdisabler-config.option.tradesNest.enchantedBookTradeRestockEnabled.tooltip": "Set to Disabled to make enchanted book trades never restock.",
+  "text.config.enchantmentdisabler-config.option.tradesNest.enchantedItemTradeRestockEnabled": "Toggle Enchanted Item Trade Restock",
+  "text.config.enchantmentdisabler-config.option.tradesNest.enchantedItemTradeRestockEnabled.tooltip": "Set to Disabled to make enchanted item trades never restock.",
   "text.config.enchantmentdisabler-config.option.enchantingTableNest.enchantingTableEnabled": "Toggle Enchanting Table Functionality",
   "text.config.enchantmentdisabler-config.option.enchantingTableNest.enchantingTableEnabled.tooltip": "Set to Disabled to completely disable the function of the enchanting table.\nUsing it will do nothing."
 }

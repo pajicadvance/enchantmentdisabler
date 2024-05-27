@@ -48,7 +48,7 @@ public abstract class VillagerTradesMixin {
         )
         private void replaceTrade(Entity entity, RandomSource random, CallbackInfoReturnable<MerchantOffer> cir,
                                   @Local List<Enchantment> list) {
-            if (list.isEmpty() && Main.CONFIG.disablerEnabled()) {
+            if (Main.CONFIG.disablerEnabled() && list.isEmpty()) {
                 cir.setReturnValue(new MerchantOffer(
                         new ItemStack(Items.EMERALD, 1),
                         new ItemStack(Items.BOOK, 1),

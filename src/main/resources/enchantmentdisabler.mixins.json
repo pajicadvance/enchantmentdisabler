@@ -8,6 +8,7 @@
     "EnchantmentMenuMixin",
     "EnchantmentTableBlockMixin",
     "EnchantRandomlyFunctionMixin",
+    "MerchantOfferMixin",
     "VillagerTradesMixin",
     "VillagerTradesMixin$EnchantBookForEmeraldsMixin",
     "VillagerTradesMixin$EnchantedItemForEmeraldsMixin"
