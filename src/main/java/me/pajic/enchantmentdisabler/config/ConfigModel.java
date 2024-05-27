@@ -37,5 +37,7 @@ public class ConfigModel {
 
     public static class EnchantingTableNest {
         public boolean enchantingTableEnabled = true;
+        public boolean modifyLapisCost = false;
+        public String lapisCostFormula = "id+1";
     }
 }

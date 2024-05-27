@@ -22,5 +22,8 @@
   "text.config.enchantmentdisabler-config.option.tradesNest.enchantedItemTradeRestockEnabled": "Toggle Enchanted Item Trade Restock",
   "text.config.enchantmentdisabler-config.option.tradesNest.enchantedItemTradeRestockEnabled.tooltip": "Set to Disabled to make enchanted item trades never restock.",
   "text.config.enchantmentdisabler-config.option.enchantingTableNest.enchantingTableEnabled": "Toggle Enchanting Table Functionality",
-  "text.config.enchantmentdisabler-config.option.enchantingTableNest.enchantingTableEnabled.tooltip": "Set to Disabled to completely disable the function of the enchanting table.\nUsing it will do nothing."
+  "text.config.enchantmentdisabler-config.option.enchantingTableNest.enchantingTableEnabled.tooltip": "Set to Disabled to completely disable the function of the enchanting table.\nUsing it will do nothing.",
+  "text.config.enchantmentdisabler-config.option.enchantingTableNest.modifyLapisCost": "Modify Lapis Cost",
+  "text.config.enchantmentdisabler-config.option.enchantingTableNest.modifyLapisCost.tooltip": "Change the amount of lapis required to enchant items,\nwhere 'id' is the index of the given enchantment option:\nid = 0 -> option 1\nid = 1 -> option 2\nid = 2 -> option 3\nMust have id in the formula. Results 0 and below will be corrected to 1.\nVanilla formula is 'id+1'",
+  "text.config.enchantmentdisabler-config.option.enchantingTableNest.lapisCostFormula": "Lapis Cost Formula"
 }
