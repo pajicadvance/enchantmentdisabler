@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "enchantmentdisabler",
+  "version": "${version}",
+  "name": "Enchantment Disabler",
+  "description": "Disable enchantments you don't like. Configurable, also works with modded enchantments.",
+  "authors": [
+    "pajic"
+  ],
+  "contact": {
+    "website": "https://modrinth.com/mod/enchantment-disabler",
+    "repo": "https://github.com/pajicadvance/enchantmentdisabler"
+  },
+  "license": "MIT",
+  "icon": "enchantmentdisabler.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.pajic.enchantmentdisabler.Main"
+    ]
+  },
+  "mixins": [
+    "enchantmentdisabler.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": [
+      "1.20.2", "1.20.3", "1.20.4"
+    ],
+    "owo-lib": ">=0.11.4"
+  },
+  "suggests": {
+    "modmenu": ">=8.0.1"
+  }
+}

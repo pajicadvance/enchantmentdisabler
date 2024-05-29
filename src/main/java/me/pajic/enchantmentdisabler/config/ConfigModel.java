@@ -13,7 +13,7 @@ import java.util.List;
 public class ConfigModel {
 
     @SectionHeader("disabler")
-    public boolean disablerEnabled = true;
+    public boolean disablerEnabled = false;
     @Expanded public List<String> disabledEnchantments = List.of("minecraft:mending");
 
     @SectionHeader("tweaks")
