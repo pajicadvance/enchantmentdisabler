@@ -26,11 +26,11 @@
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": [
-      "1.20", "1.20.1"
+      "1.19", "1.19.1", "1.19.2"
     ],
-    "owo-lib": "^0.11.2"
+    "owo-lib": ">=0.9.3"
   },
   "suggests": {
-    "modmenu": "^7.0.1"
+    "modmenu": ">=4.0.4"
   }
 }
