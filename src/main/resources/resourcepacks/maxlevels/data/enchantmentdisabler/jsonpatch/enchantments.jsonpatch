@@ -1,0 +1,18 @@
+@version "1";
+@target {
+    "path": {
+        "start": "enchantment/",
+        "end": ".json"
+    }
+};
+import "enchantmentdisabler:ed_patcher_lib" as edlib;
+
+foreach (configEntry in enchantmentdisabler_config.maxLevel.maxLevels) {
+    val stringArray = strings.split(configEntry, "/");
+    val enchantment = stringArray[0]; 
+    val enchantmentName = strings.split(enchantment, ":")[1];
+    
+    if (strings.contains($description.translate, enchantmentName)) {
+        $max_level = edlib.strToInt(stringArray[1], configEntry);;
+    }
+}

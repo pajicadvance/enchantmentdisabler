@@ -1,0 +1,28 @@
+@version "1";
+@priority 0;
+
+$strToInt = (s, entry) -> {
+    val nums = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    var num = 0;
+
+    foreach (char in strings.chars(s)) {
+        val charAsNum = arrays.indexOf(nums, char);
+    
+        if (charAsNum != -1) {
+            num = num * 10 + charAsNum;
+        }
+        else {
+            debug.throw("Invalid character " + char + " in entry " + entry + ": Enchantment level can only be a number");
+        }
+    }
+
+    return num;
+};
+
+$arraySize = (array) -> {
+    var size = 0;
+    foreach (element in array) {
+        size++;
+    }
+    return size;
+};

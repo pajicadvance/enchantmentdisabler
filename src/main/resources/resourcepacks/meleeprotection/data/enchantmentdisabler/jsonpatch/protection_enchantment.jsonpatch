@@ -1,0 +1,30 @@
+@version "1";
+@target "minecraft:enchantment/protection.json";
+
+val tags = [
+    {
+        "expected": false,
+        "id": "minecraft:is_fire"
+    },
+    {
+        "expected": false,
+        "id": "minecraft:is_explosion"
+    },
+    {
+        "expected": false,
+        "id": "minecraft:is_projectile"
+    },
+    {
+        "expected": false,
+        "id": "minecraft:is_lightning"
+    },
+    {
+        "expected": false,
+        "id": "minecraft:bypasses_armor"
+    }
+];
+
+foreach (tag in tags) {
+    $effects.'minecraft:damage_protection'[0].requirements.predicate.tags =
+     arrays.push($effects.'minecraft:damage_protection'[0].requirements.predicate.tags, tag);
+}

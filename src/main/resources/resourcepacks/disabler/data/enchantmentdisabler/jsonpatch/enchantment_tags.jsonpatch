@@ -1,0 +1,9 @@
+@version "1";
+@target {
+    "path": {
+        "start": "tags/enchantment/",
+        "end": ".json"
+    }
+};
+
+$values = arrays.removeIf($values, (value) -> arrays.indexOf(enchantmentdisabler_config.disabledEnchantments, value) != -1);

@@ -10,6 +10,8 @@ The mod also contains additional tweaks, which are disabled by default and fully
 - Permanently disable restocking of enchanted book and item villager trades
 - Entirely disable the enchanting table
 - Modify the amount of lapis required to enchant items in the enchanting table
+- Change the Protection enchantment to only protect against physical damage
+- Make Feather Falling mutually exclusive with other protection enchantments
 
 ## Download
 [Modrinth](https://modrinth.com/mod/enchantment-disabler)
