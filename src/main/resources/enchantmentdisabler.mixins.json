@@ -9,8 +9,10 @@
     "EnchantedItemForEmeraldsMixin",
     "EnchantingTableBlockMixin",
     "EnchantmentMenuMixin",
+    "EnchantRandomlyFunctionMixin",
     "JsonPatcherMixin",
-    "MerchantOfferMixin"
+    "MerchantOfferMixin",
+    "SetEnchantmentFunctionMixin"
   ],
   "client": [
   ],
