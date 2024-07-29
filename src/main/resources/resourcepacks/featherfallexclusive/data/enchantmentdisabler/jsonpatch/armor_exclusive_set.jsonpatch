@@ -3,6 +3,6 @@
 
 val featherFallingIndex = arrays.indexOf($values, "minecraft:feather_falling");
 
-if (featherFallingIndex == -1) {
+if (!("minecraft:feather_falling" in $values)) {
     $values = arrays.push($values, "minecraft:feather_falling");
 }

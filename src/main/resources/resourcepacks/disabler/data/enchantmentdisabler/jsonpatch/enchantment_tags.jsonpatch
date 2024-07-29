@@ -6,4 +6,4 @@
     }
 };
 
-$values = arrays.removeIf($values, (value) -> arrays.indexOf(enchantmentdisabler_config.disabledEnchantments, value) != -1);
+$values = arrays.removeIf($values, (value) -> value in enchantmentdisabler_config.disabledEnchantments);
