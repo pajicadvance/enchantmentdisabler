@@ -1,8 +1,6 @@
 @version "1";
 @target "minecraft:tags/enchantment/exclusive_set/armor.json";
 
-val featherFallingIndex = arrays.indexOf($values, "minecraft:feather_falling");
-
 if (!("minecraft:feather_falling" in $values)) {
     $values = arrays.push($values, "minecraft:feather_falling");
 }

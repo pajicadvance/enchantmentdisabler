@@ -40,6 +40,9 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+    implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}"))
+    include("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}:slim")
+
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 
     annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
