@@ -41,7 +41,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}"))
-    include("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}:slim")
+    include("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}")
 
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 
