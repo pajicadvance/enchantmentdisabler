@@ -26,5 +26,8 @@ public abstract class EnchantmentHelperMixin {
                 original.call(dataList, data);
             }
         }
+        else {
+            original.call(dataList, data);
+        }
     }
 }
