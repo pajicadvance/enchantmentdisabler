@@ -1,13 +1,14 @@
 package me.pajic.enchantmentdisabler.config;
 
 import io.wispforest.owo.config.Option;
-import io.wispforest.owo.config.annotation.Config;
 import io.wispforest.owo.config.annotation.Modmenu;
-import io.wispforest.owo.config.annotation.SectionHeader;
+import io.wispforest.owo.config.annotation.Config;
 import io.wispforest.owo.config.annotation.Sync;
+import io.wispforest.owo.config.annotation.SectionHeader;
 import io.wispforest.owo.config.annotation.RestartRequired;
 import io.wispforest.owo.config.annotation.Expanded;
 import io.wispforest.owo.config.annotation.Nest;
+import io.wispforest.owo.config.annotation.PredicateConstraint;
 
 import java.util.List;
 
@@ -34,11 +35,15 @@ public class ConfigModel {
 
     public static class Trades {
         public boolean modifyEnchantedBookTradeUses = false;
-        public int maxEnchantedBookTradeUses = 12;
+        @PredicateConstraint("greaterThanZero") public int maxEnchantedBookTradeUses = 12;
         public boolean modifyEnchantedItemTradeUses = false;
-        public int maxEnchantedItemTradeUses = 3;
+        @PredicateConstraint("greaterThanZero") public int maxEnchantedItemTradeUses = 3;
         public boolean enchantedBookTradeRestockEnabled = true;
         public boolean enchantedItemTradeRestockEnabled = true;
+
+        public static boolean greaterThanZero(int value) {
+            return Predicates.greaterThanZero(value);
+        }
     }
 
     public static class EnchantingTable {
@@ -50,5 +55,17 @@ public class ConfigModel {
     public static class Protection {
         @RestartRequired public boolean meleeProtection = false;
         @RestartRequired public boolean featherFallingExclusive = false;
+        public boolean allowMultipleProtectionEnchantments = false;
+        @PredicateConstraint("greaterThanZero") public int maxProtectionEnchantments = 2;
+
+        public static boolean greaterThanZero(int value) {
+            return Predicates.greaterThanZero(value);
+        }
+    }
+
+    public static class Predicates {
+        public static boolean greaterThanZero(int value) {
+            return value > 0;
+        }
     }
 }

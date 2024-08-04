@@ -30,5 +30,9 @@
   "text.config.enchantmentdisabler-config.option.protection.meleeProtection": "Melee Protection",
   "text.config.enchantmentdisabler-config.option.protection.meleeProtection.tooltip": "Changes Protection to only work against physical damage\nand renames it to Melee Protection.",
   "text.config.enchantmentdisabler-config.option.protection.featherFallingExclusive": "Exclusive Feather Falling",
-  "text.config.enchantmentdisabler-config.option.protection.featherFallingExclusive.tooltip": "Makes Feather Falling mutually exclusive with other protection enchantments."
+  "text.config.enchantmentdisabler-config.option.protection.featherFallingExclusive.tooltip": "Makes Feather Falling mutually exclusive with other protection enchantments.",
+  "text.config.enchantmentdisabler-config.option.protection.allowMultipleProtectionEnchantments": "Allow Multiple Protection Types",
+  "text.config.enchantmentdisabler-config.option.protection.allowMultipleProtectionEnchantments.tooltip": "Allows multiple different types of protection enchantments on the same item.",
+  "text.config.enchantmentdisabler-config.option.protection.maxProtectionEnchantments": "Max Protection Types",
+  "text.config.enchantmentdisabler-config.option.protection.maxProtectionEnchantments.tooltip": "Set the maximum allowed amount of different protection types on the same item."
 }

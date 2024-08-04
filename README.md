@@ -14,6 +14,7 @@ The mod also contains additional tweaks, which are disabled by default and fully
 - Modify the amount of lapis required to enchant items in the enchanting table
 - Change the Protection enchantment to only protect against physical damage
 - Make Feather Falling mutually exclusive with other protection enchantments
+- Set the maximum allowed amount of multiple different protection types on the same item
 
 ## Configuration
 This mod requires and uses [owo-lib](https://modrinth.com/mod/owo-lib) for configuration.
