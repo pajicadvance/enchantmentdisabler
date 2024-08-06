@@ -49,7 +49,7 @@ public class ConfigModel {
     public static class EnchantingTable {
         public boolean enchantingTableEnabled = true;
         public boolean modifyMaxTablePower = false;
-        @PredicateConstraint("greaterThanZero") public int maxTablePower = 30;
+        @PredicateConstraint("greaterThanZero") public int maxTablePower = 15;
         public boolean modifyLapisCost = false;
         public String lapisCostFormula = "id+1";
         public boolean modifyXpCost = false;
@@ -64,7 +64,7 @@ public class ConfigModel {
         @RestartRequired public boolean meleeProtection = false;
         @RestartRequired public boolean featherFallingExclusive = false;
         public boolean allowMultipleProtectionEnchantments = false;
-        @PredicateConstraint("greaterThanZero") public int maxProtectionEnchantments = 2;
+        @PredicateConstraint("greaterThanZero") public int maxProtectionEnchantments = 1;
 
         public static boolean greaterThanZero(int value) {
             return Predicates.greaterThanZero(value);
