@@ -12,7 +12,7 @@ foreach (configEntry in enchantmentdisabler_config.maxLevel.maxLevels) {
     val enchantment = stringArray[0]; 
     val enchantmentName = strings.split(enchantment, ":")[1];
     
-    if (strings.contains($description.translate, enchantmentName)) {
+    if (strings.contains(_target, enchantmentName)) {
         $max_level = edlib.strToInt(stringArray[1], configEntry);
     }
 }
