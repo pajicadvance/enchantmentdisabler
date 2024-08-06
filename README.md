@@ -11,7 +11,8 @@ The mod also contains additional tweaks, which are disabled by default and fully
 - Modify the amount of times enchanted book and item villager trades can be used
 - Permanently disable restocking of enchanted book and item villager trades
 - Entirely disable the enchanting table
-- Modify the amount of lapis required to enchant items in the enchanting table
+- Modify the amount of bookshelves that the enchanting table can accept
+- Modify the amount of lapis and XP levels required to enchant items in the enchanting table
 - Change the Protection enchantment to only protect against physical damage
 - Make Feather Falling mutually exclusive with other protection enchantments
 - Set the maximum allowed amount of multiple different protection types on the same item

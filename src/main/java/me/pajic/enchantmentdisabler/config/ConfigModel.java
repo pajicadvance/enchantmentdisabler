@@ -48,8 +48,16 @@ public class ConfigModel {
 
     public static class EnchantingTable {
         public boolean enchantingTableEnabled = true;
+        public boolean modifyMaxTablePower = false;
+        @PredicateConstraint("greaterThanZero") public int maxTablePower = 30;
         public boolean modifyLapisCost = false;
         public String lapisCostFormula = "id+1";
+        public boolean modifyXpCost = false;
+        public String xpCostFormula = "id+1";
+
+        public static boolean greaterThanZero(int value) {
+            return Predicates.greaterThanZero(value);
+        }
     }
 
     public static class Protection {
