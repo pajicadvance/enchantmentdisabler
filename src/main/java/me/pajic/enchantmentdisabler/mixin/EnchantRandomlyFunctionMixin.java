@@ -1,38 +1,45 @@
 package me.pajic.enchantmentdisabler.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyReceiver;
 import me.pajic.enchantmentdisabler.Main;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Mixin(EnchantRandomlyFunction.class)
 public class EnchantRandomlyFunctionMixin {
 
     @Shadow @Final private Optional<HolderSet<Enchantment>> options;
 
-    @ModifyReceiver(
+    @ModifyArg(
             method = "run",
             at = @At(
                     value = "INVOKE",
-                    target = "Ljava/util/stream/Stream;toList()Ljava/util/List;"
-            )
+                    target = "Lnet/minecraft/Util;getRandomSafe(Ljava/util/List;Lnet/minecraft/util/RandomSource;)Ljava/util/Optional;"
+            ),
+            index = 0
     )
-    private Stream<Holder<Enchantment>> filterOptionsIfPresent(Stream<Holder<Enchantment>> instance) {
-        if (Main.CONFIG.disablerEnabled() && options.map(HolderSet::stream).isPresent()) {
-            return instance.filter(enchantmentHolder ->
-                    Main.CONFIG.disabledEnchantments().stream().noneMatch(s ->
-                            enchantmentHolder.is(ResourceLocation.parse(s))));
+    private List<Holder<Enchantment>> filter(List<Holder<Enchantment>> selections) {
+        if (Main.CONFIG.disablerEnabled()) {
+            if (options.isEmpty()) {
+                return selections.stream().filter(holder -> holder.is(EnchantmentTags.ON_RANDOM_LOOT)).toList();
+            }
+            else {
+                return selections.stream().filter(holder -> Main.CONFIG.disabledEnchantments().stream().noneMatch(
+                        s -> holder.is(ResourceLocation.parse(s)))
+                ).toList();
+            }
         }
-        return instance;
+        return selections;
     }
 }
