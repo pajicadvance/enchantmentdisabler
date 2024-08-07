@@ -1,9 +1,12 @@
 @version "1";
-@target {
-    "path": {
-        "start": "tags/enchantment/",
-        "end": ".json"
-    }
-};
+@target [
+    {"path": "tags/enchantment/in_enchanting_table.json"},
+    {"path": "tags/enchantment/non_treasure.json"},
+    {"path": "tags/enchantment/on_mob_spawn_equipment.json"},
+    {"path": "tags/enchantment/on_random_loot.json"},
+    {"path": "tags/enchantment/on_traded_equipment.json"},
+    {"path": "tags/enchantment/tradeable.json"},
+    {"path": "tags/enchantment/treasure.json"}
+];
 
 $values = arrays.removeIf($values, (value) -> value in enchantmentdisabler_config.disabledEnchantments);
