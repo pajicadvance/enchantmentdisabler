@@ -9,6 +9,7 @@
   "text.config.enchantmentdisabler-config.category.trades": "Villager Trade Tweaks",
   "text.config.enchantmentdisabler-config.category.enchantingTable": "Enchanting Table Tweaks",
   "text.config.enchantmentdisabler-config.category.protection": "Protection Tweaks",
+  "text.config.enchantmentdisabler-config.category.loot": "Loot Tweaks",
   "text.config.enchantmentdisabler-config.option.maxLevel.modifyMaxLevels": "Toggle Max Enchantment Level Modification",
   "text.config.enchantmentdisabler-config.option.maxLevel.modifyMaxLevels.tooltip": "Limit the enchantment level of specified enchantments to specified values.\nAdd new entries below in the following format:\n[enchantment]/[maxLevel].\nAn example entry is provided.",
   "text.config.enchantmentdisabler-config.option.maxLevel.maxLevels": "Max Levels",
@@ -40,5 +41,8 @@
   "text.config.enchantmentdisabler-config.option.protection.allowMultipleProtectionEnchantments": "Allow Multiple Protection Types",
   "text.config.enchantmentdisabler-config.option.protection.allowMultipleProtectionEnchantments.tooltip": "Allows multiple different types of protection enchantments on the same item.",
   "text.config.enchantmentdisabler-config.option.protection.maxProtectionEnchantments": "Max Protection Types",
-  "text.config.enchantmentdisabler-config.option.protection.maxProtectionEnchantments.tooltip": "Set the maximum allowed amount of different protection types on the same item."
+  "text.config.enchantmentdisabler-config.option.protection.maxProtectionEnchantments.tooltip": "Set the maximum allowed amount of different protection types on the same item.",
+  "text.config.enchantmentdisabler-config.option.loot.modifyEnchantWithLevelsMaxPower": "Set Enchantment Power Limit",
+  "text.config.enchantmentdisabler-config.option.loot.modifyEnchantWithLevelsMaxPower.tooltip": "Set a limit on how strong enchantments can be on looted equipment.\nFor reference, the enchanting table has a limit of 30.\nVanilla looted equipment limit can go up to 50 in some places.",
+  "text.config.enchantmentdisabler-config.option.loot.enchantWithLevelsMaxPower": "Enchantment Power Limit"
 }

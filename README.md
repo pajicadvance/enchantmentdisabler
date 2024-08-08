@@ -16,6 +16,7 @@ The mod also contains additional tweaks, which are disabled by default and fully
 - Change the Protection enchantment to only protect against physical damage
 - Make Feather Falling mutually exclusive with other protection enchantments
 - Set the maximum allowed amount of multiple different protection types on the same item
+- Set a limit on how strong enchantments can be on looted equipment
 
 ## Configuration
 This mod requires and uses [owo-lib](https://modrinth.com/mod/owo-lib) for configuration.

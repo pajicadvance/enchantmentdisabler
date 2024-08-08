@@ -27,6 +27,7 @@ public class ConfigModel {
     @Nest public Trades trades = new Trades();
     @Nest public EnchantingTable enchantingTable = new EnchantingTable();
     @Nest public Protection protection = new Protection();
+    @Nest public Loot loot = new Loot();
 
     public static class MaxLevel {
         @RestartRequired public boolean modifyMaxLevels = false;
@@ -65,6 +66,15 @@ public class ConfigModel {
         @RestartRequired public boolean featherFallingExclusive = false;
         public boolean allowMultipleProtectionEnchantments = false;
         @PredicateConstraint("greaterThanZero") public int maxProtectionEnchantments = 1;
+
+        public static boolean greaterThanZero(int value) {
+            return Predicates.greaterThanZero(value);
+        }
+    }
+
+    public static class Loot {
+        public boolean modifyEnchantWithLevelsMaxPower = false;
+        @PredicateConstraint("greaterThanZero") public int enchantWithLevelsMaxPower = 50;
 
         public static boolean greaterThanZero(int value) {
             return Predicates.greaterThanZero(value);
