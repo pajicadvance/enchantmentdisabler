@@ -63,6 +63,8 @@ public class ConfigModel {
 
     public static class Protection {
         @RestartRequired public boolean meleeProtection = false;
+        @RestartRequired public boolean elementalProtection = false;
+        @RestartRequired public boolean magicProtection = false;
         @RestartRequired public boolean featherFallingExclusive = false;
         public boolean allowMultipleProtectionEnchantments = false;
         @PredicateConstraint("greaterThanZero") public int maxProtectionEnchantments = 1;

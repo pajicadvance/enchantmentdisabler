@@ -36,6 +36,10 @@
   "text.config.enchantmentdisabler-config.option.enchantingTable.xpCostFormula": "XP Cost Formula",
   "text.config.enchantmentdisabler-config.option.protection.meleeProtection": "Melee Protection",
   "text.config.enchantmentdisabler-config.option.protection.meleeProtection.tooltip": "Changes Protection to only work against physical damage\nand renames it to Melee Protection.",
+  "text.config.enchantmentdisabler-config.option.protection.elementalProtection": "Elemental Protection",
+  "text.config.enchantmentdisabler-config.option.protection.elementalProtection.tooltip": "Changes Fire Protection to work against lightning and freeze damage\non top of fire damage and renames it to Elemental Protection.",
+  "text.config.enchantmentdisabler-config.option.protection.magicProtection": "Magic Protection",
+  "text.config.enchantmentdisabler-config.option.protection.magicProtection.tooltip": "Adds a new armor enchantment that protects against magic damage.",
   "text.config.enchantmentdisabler-config.option.protection.featherFallingExclusive": "Exclusive Feather Falling",
   "text.config.enchantmentdisabler-config.option.protection.featherFallingExclusive.tooltip": "Makes Feather Falling mutually exclusive with other protection enchantments.",
   "text.config.enchantmentdisabler-config.option.protection.allowMultipleProtectionEnchantments": "Allow Multiple Protection Types",
@@ -44,5 +48,6 @@
   "text.config.enchantmentdisabler-config.option.protection.maxProtectionEnchantments.tooltip": "Set the maximum allowed amount of different protection types on the same item.",
   "text.config.enchantmentdisabler-config.option.loot.modifyEnchantWithLevelsMaxPower": "Set Enchantment Power Limit",
   "text.config.enchantmentdisabler-config.option.loot.modifyEnchantWithLevelsMaxPower.tooltip": "Set a limit on how strong enchantments can be on looted equipment.\nFor reference, the enchanting table has a limit of 30.\nVanilla looted equipment limit can go up to 50 in some places.",
-  "text.config.enchantmentdisabler-config.option.loot.enchantWithLevelsMaxPower": "Enchantment Power Limit"
+  "text.config.enchantmentdisabler-config.option.loot.enchantWithLevelsMaxPower": "Enchantment Power Limit",
+  "enchantment.enchantmentdisabler.magic_protection": "Magic Protection"
 }
