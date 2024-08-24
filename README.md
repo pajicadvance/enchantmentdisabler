@@ -7,13 +7,15 @@ Disabled enchantments are also hidden in creative menus and the EMI index (if [E
 
 The mod also contains additional tweaks, which are disabled by default and fully configurable:
 
-- Modify max enchantment level on a per-enchantment basis
-- Modify the amount of times enchanted book and item villager trades can be used
+- Limit the maximum enchantment level for every enchantment
+- Limit the amount of times enchanted book and item villager trades can be used
 - Permanently disable restocking of enchanted book and item villager trades
 - Entirely disable the enchanting table
-- Modify the amount of bookshelves that the enchanting table can accept
+- Limit the amount of bookshelves that the enchanting table can accept
 - Modify the amount of lapis and XP levels required to enchant items in the enchanting table
-- Change the Protection enchantment to only protect against physical damage
+- Change the Protection enchantment to only protect against physical damage and rename it to Melee Protection
+- Change the Fire Protection enchantment to also protect against lightning and freeze damage and rename it to Elemental Protection
+- Enable Magic Protection, a new armor enchantment that protects against magic damage
 - Make Feather Falling mutually exclusive with other protection enchantments
 - Set the maximum allowed amount of multiple different protection types on the same item
 - Set a limit on how strong enchantments can be on looted equipment
