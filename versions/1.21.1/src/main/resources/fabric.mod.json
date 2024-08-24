@@ -28,7 +28,7 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": "1.21",
+    "minecraft": "1.21.1",
     "owo-lib": ">=0.12.11"
   },
   "suggests": {
