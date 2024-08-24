@@ -13,4 +13,3 @@ val tags = [
 ];
 
 $effects.'minecraft:damage_protection'[0].requirements.terms[0].predicate.tags = tags;
-debug.log($);

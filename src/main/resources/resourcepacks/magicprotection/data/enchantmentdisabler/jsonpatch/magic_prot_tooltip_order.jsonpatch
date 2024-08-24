@@ -1,0 +1,5 @@
+@version "1";
+@target "minecraft:tags/enchantment/tooltip_order.json";
+
+var targetIndex = arrays.indexOf($values, "minecraft:projectile_protection",);
+$values = arrays.insert($values, targetIndex, "enchantmentdisabler:magic_protection");

@@ -49,5 +49,6 @@
   "text.config.enchantmentdisabler-config.option.loot.modifyEnchantWithLevelsMaxPower": "Set Enchantment Power Limit",
   "text.config.enchantmentdisabler-config.option.loot.modifyEnchantWithLevelsMaxPower.tooltip": "Set a limit on how strong enchantments can be on looted equipment.\nFor reference, the enchanting table has a limit of 30.\nVanilla looted equipment limit can go up to 50 in some places.",
   "text.config.enchantmentdisabler-config.option.loot.enchantWithLevelsMaxPower": "Enchantment Power Limit",
-  "enchantment.enchantmentdisabler.magic_protection": "Magic Protection"
+  "enchantment.enchantmentdisabler.magic_protection": "Magic Protection",
+  "enchantment.enchantmentdisabler.magic_protection.desc": "High resistance to magic attacks"
 }
