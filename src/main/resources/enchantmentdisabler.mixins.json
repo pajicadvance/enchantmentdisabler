@@ -24,6 +24,6 @@
   },
   "client": [
     "EnchantmentScreenMixin",
-    "PackSelectionScreenMixin"
+    "PackSelectionModelMixin"
   ]
 }
