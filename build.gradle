@@ -26,6 +26,17 @@ repositories {
     }
     maven { url 'https://maven.wispforest.io' }
     maven { url 'https://jitpack.io' }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 dependencies {
@@ -55,6 +66,8 @@ dependencies {
     implementation 'net.objecthunter:exp4j:0.4.8'
 
     modImplementation "dev.emi:emi-fabric:${emi_version}"
+
+    modImplementation "maven.modrinth:dcwa:${project.dcwa_version}"
 }
 
 processResources {

@@ -29,7 +29,8 @@
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "1.21.1",
-    "owo-lib": ">=0.12.11"
+    "owo-lib": ">=0.12.11",
+    "disable_custom_worlds_advice": ">=6.0"
   },
   "suggests": {
     "modmenu": ">=11.0.1"
