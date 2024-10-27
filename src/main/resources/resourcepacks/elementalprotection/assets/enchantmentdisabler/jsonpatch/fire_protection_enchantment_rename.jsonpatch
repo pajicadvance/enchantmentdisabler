@@ -1,5 +1,0 @@
-@version "1";
-@target "minecraft:lang/en_us.json";
-
-$'enchantment.minecraft.fire_protection' = "Elemental Protection";
-$'enchantment.minecraft.fire_protection.desc' = "High resistance to fire, lightning and freeze damage and reduced burn time if you're set ablaze";

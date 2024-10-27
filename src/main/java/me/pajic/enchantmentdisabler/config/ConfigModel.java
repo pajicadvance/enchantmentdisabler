@@ -26,7 +26,6 @@ public class ConfigModel {
     @Nest public MaxLevel maxLevel = new MaxLevel();
     @Nest public Trades trades = new Trades();
     @Nest public EnchantingTable enchantingTable = new EnchantingTable();
-    @Nest public Protection protection = new Protection();
     @Nest public Loot loot = new Loot();
 
     public static class MaxLevel {
@@ -55,19 +54,6 @@ public class ConfigModel {
         public String lapisCostFormula = "id+1";
         public boolean modifyXpCost = false;
         public String xpCostFormula = "id+1";
-
-        public static boolean greaterThanZero(int value) {
-            return Predicates.greaterThanZero(value);
-        }
-    }
-
-    public static class Protection {
-        @RestartRequired public boolean meleeProtection = false;
-        @RestartRequired public boolean elementalProtection = false;
-        @RestartRequired public boolean magicProtection = false;
-        @RestartRequired public boolean featherFallingExclusive = false;
-        public boolean allowMultipleProtectionEnchantments = false;
-        @PredicateConstraint("greaterThanZero") public int maxProtectionEnchantments = 1;
 
         public static boolean greaterThanZero(int value) {
             return Predicates.greaterThanZero(value);

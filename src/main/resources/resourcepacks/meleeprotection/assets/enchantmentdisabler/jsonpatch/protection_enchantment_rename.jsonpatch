@@ -1,5 +1,0 @@
-@version "1";
-@target "minecraft:lang/en_us.json";
-
-$'enchantment.minecraft.protection' = "Melee Protection";
-$'enchantment.minecraft.protection.desc' = "Moderate damage resistance to most close-up physical damage sources";

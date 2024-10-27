@@ -37,38 +37,6 @@ public class Main implements ModInitializer {
                         ResourcePackActivationType.ALWAYS_ENABLED
                 );
             }
-
-            if (CONFIG.protection.meleeProtection()) {
-                ResourceManagerHelper.registerBuiltinResourcePack(
-                        ResourceLocation.parse("enchantmentdisabler:meleeprotection"),
-                        modContainer,
-                        ResourcePackActivationType.ALWAYS_ENABLED
-                );
-            }
-
-            if (CONFIG.protection.elementalProtection()) {
-                ResourceManagerHelper.registerBuiltinResourcePack(
-                        ResourceLocation.parse("enchantmentdisabler:elementalprotection"),
-                        modContainer,
-                        ResourcePackActivationType.ALWAYS_ENABLED
-                );
-            }
-
-            if (CONFIG.protection.magicProtection()) {
-                ResourceManagerHelper.registerBuiltinResourcePack(
-                        ResourceLocation.parse("enchantmentdisabler:magicprotection"),
-                        modContainer,
-                        ResourcePackActivationType.ALWAYS_ENABLED
-                );
-            }
-
-            if (CONFIG.protection.featherFallingExclusive()) {
-                ResourceManagerHelper.registerBuiltinResourcePack(
-                        ResourceLocation.parse("enchantmentdisabler:featherfallexclusive"),
-                        modContainer,
-                        ResourcePackActivationType.ALWAYS_ENABLED
-                );
-            }
         });
     }
 }

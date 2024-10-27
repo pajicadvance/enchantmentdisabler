@@ -1,6 +1,0 @@
-@version "1";
-@target {"path": "tags/enchantment/exclusive_set/armor.json"};
-
-if (!("minecraft:feather_falling" in $values)) {
-    $values = arrays.push($values, "minecraft:feather_falling");
-}
