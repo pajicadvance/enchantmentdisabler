@@ -20,6 +20,7 @@ public class EnchantmentUtil {
     }
 
     public static List<Enchantment> removeEnchantmentsFromList(List<Enchantment> list) {
+        if (ENCHANTMENT_BLACKLIST == null || ENCHANTMENT_BLACKLIST.isEmpty()) return list;
         return list.stream().filter(enchantment -> !EnchantmentUtil.ENCHANTMENT_BLACKLIST.contains(enchantment)).toList();
     }
 }
