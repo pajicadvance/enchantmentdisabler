@@ -1,0 +1,123 @@
+plugins {
+    id 'java-library'
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.neoforged.gradle.userdev' version '7.0.171'
+}
+
+version = mod_version + "+" + stonecutter.current.version
+group = mod_group_id
+
+repositories {
+    mavenLocal()
+    maven { url = "https://jitpack.io/" }
+    maven { url = "https://maven.terraformersmc.com/" }
+    maven { url = "https://maven.shedaniel.me" }
+}
+
+base {
+    archivesName = mod_id
+}
+
+subsystems {
+    parchment {
+        minecraftVersion = property("neogradle.subsystems.parchment.minecraftVersion")
+        mappingsVersion = property("neogradle.subsystems.parchment.mappingsVersion")
+    }
+}
+
+minecraft {
+    accessTransformers {
+        file('src/main/resources/META-INF/accesstransformer.cfg')
+    }
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+runs {
+    // applies to all the run configs below
+    configureEach {
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+
+        systemProperty 'forge.logging.console.level', 'debug'
+
+        modSource project.sourceSets.main
+    }
+
+    client {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+    }
+
+    server {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+        programArgument '--nogui'
+    }
+
+    gameTestServer {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
+jarJar.enable()
+
+jar {
+    archiveClassifier = "slim"
+}
+
+tasks.named('jarJar') {
+    archiveClassifier = ""
+}
+
+dependencies {
+    implementation "net.neoforged:neoforge:${property("neo_version")}"
+    implementation("io.github.llamalad7:mixinextras-neoforge:${project.mixinextras_version}")
+    jarJar(group: 'io.github.llamalad7', name: 'mixinextras-neoforge', version: "[0.4.1,${project.mixinextras_version}]")
+    implementation("com.github.ramixin:mixson:${project.mixson_version}")
+    jarJar(group: 'com.github.ramixin', name: 'mixson', version: project.mixson_version)
+    implementation 'net.objecthunter:exp4j:0.4.8'
+    jarJar(group: 'net.objecthunter', name: 'exp4j', version: '0.4.8')
+
+    compileOnly "dev.emi:emi-neoforge:${property("emi_version")}:api"
+    runtimeOnly "dev.emi:emi-neoforge:${property("emi_version")}"
+    compileOnly "me.shedaniel:RoughlyEnoughItems-api-neoforge:${property("rei_version")}"
+    runtimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${property("rei_version")}"
+}
+
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            minecraft_version      : getProperty("minecraft_version"),
+            minecraft_version_range: getProperty("minecraft_version_range"),
+            neo_version            : getProperty("neo_version"),
+            neo_version_range      : neo_version_range,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
