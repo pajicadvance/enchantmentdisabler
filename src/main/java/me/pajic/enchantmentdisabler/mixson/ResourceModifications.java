@@ -17,6 +17,7 @@ public class ResourceModifications {
     private static final Logger LOGGER = LoggerFactory.getLogger("EnchantmentDisabler-ResourceModifications");
 
     private static final List<String> DISABLER_TARGETS = List.of(
+            "curse",
             "in_enchanting_table",
             "non_treasure",
             "on_mob_spawn_equipment",
@@ -36,7 +37,10 @@ public class ResourceModifications {
                     ResourceLocation.fromNamespaceAndPath("enchantmentdisabler", "modify_" + name),
                     jsonElement -> {
                         List<JsonElement> values = jsonElement.getAsJsonObject().getAsJsonArray("values").asList();
-                        values.removeIf(value -> Main.CONFIG.disabledEnchantments().contains(value.getAsString()));
+                        values.removeIf(value -> {
+                            if (value.isJsonPrimitive()) return Main.CONFIG.disabledEnchantments().contains(value.getAsString());
+                            else return Main.CONFIG.disabledEnchantments().contains(value.getAsJsonObject().get("id").getAsString());
+                        });
                         JsonArray newValues = new JsonArray();
                         values.forEach(newValues::add);
                         jsonElement.getAsJsonObject().add("values", newValues);
