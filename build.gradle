@@ -85,7 +85,7 @@ dependencies {
     jarJar(group: 'net.objecthunter', name: 'exp4j', version: '0.4.8')
 
     compileOnly "dev.emi:emi-neoforge:${property("emi_version")}:api"
-    runtimeOnly "dev.emi:emi-neoforge:${property("emi_version")}"
+    if (stonecutter.eval(stonecutter.current.version, "1.21.1")) runtimeOnly "dev.emi:emi-neoforge:${property("emi_version")}"
     compileOnly "me.shedaniel:RoughlyEnoughItems-api-neoforge:${property("rei_version")}"
     runtimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${property("rei_version")}"
 }
