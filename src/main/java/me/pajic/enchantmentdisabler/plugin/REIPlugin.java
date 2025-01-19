@@ -15,6 +15,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 
+import java.util.Optional;
+
 public class REIPlugin implements REIClientPlugin {
 
     @Override
@@ -24,15 +26,17 @@ public class REIPlugin implements REIClientPlugin {
             String[] split = enchantmentEntry.split(":");
             ItemStack enchantedBook = Items.ENCHANTED_BOOK.getDefaultInstance();
             ItemEnchantments.Mutable enchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
-            Holder<Enchantment> enchantment = mc.level.registryAccess()
+            Optional<Holder.Reference<Enchantment>> enchantment = mc.level.registryAccess()
                             .lookupOrThrow(Registries.ENCHANTMENT)
-                            .getOrThrow(ResourceKey.create(
+                            .get(ResourceKey.create(
                                     Registries.ENCHANTMENT,
                                     ResourceLocation.fromNamespaceAndPath(split[0], split[1])
                             ));
-            enchantments.set(enchantment, enchantment.value().getMaxLevel());
-            enchantedBook.set(DataComponents.STORED_ENCHANTMENTS, enchantments.toImmutable());
-            rule.hide(EntryStacks.of(enchantedBook));
+            if (enchantment.isPresent()) {
+                enchantments.set(enchantment.get(), enchantment.get().value().getMaxLevel());
+                enchantedBook.set(DataComponents.STORED_ENCHANTMENTS, enchantments.toImmutable());
+                rule.hide(EntryStacks.of(enchantedBook));
+            }
         });
     }
 }

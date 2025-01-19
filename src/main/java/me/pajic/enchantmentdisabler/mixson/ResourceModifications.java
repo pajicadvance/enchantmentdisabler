@@ -10,31 +10,44 @@ import net.ramixin.mixson.Mixson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResourceModifications {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("EnchantmentDisabler-ResourceModifications");
 
-    private static final List<String> DISABLER_TARGETS = List.of(
-            "curse",
-            "in_enchanting_table",
-            "non_treasure",
-            "on_mob_spawn_equipment",
-            "on_random_loot",
-            "on_traded_equipment",
-            "tradeable",
-            "treasure"
-    );
+    private static final List<String> DISABLER_TARGETS = new ArrayList<>(List.of(
+            "minecraft:curse",
+            "minecraft:in_enchanting_table",
+            "minecraft:non_treasure",
+            "minecraft:on_mob_spawn_equipment",
+            "minecraft:on_random_loot",
+            "minecraft:on_traded_equipment",
+            "minecraft:tradeable",
+            "minecraft:treasure"
+    ));
 
     public static void init() {
 
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) Mixson.setDebugMode(DebugMode.EXPORT);
 
+        if (FabricLoader.getInstance().isModLoaded("mr_enchantments_encore")) {
+            DISABLER_TARGETS.addAll(List.of(
+                    "enchantencore:alloy",
+                    "enchantencore:arrow_trail",
+                    "enchantencore:aspect",
+                    "enchantencore:curse",
+                    "enchantencore:protection",
+                    "enchantencore:splash_arrow",
+                    "enchantencore:trail"
+            ));
+        }
+
         if (Main.CONFIG.disablerEnabled()) {
             DISABLER_TARGETS.forEach(name -> Mixson.registerModificationEvent(
-                    ResourceLocation.withDefaultNamespace("tags/enchantment/" + name),
-                    ResourceLocation.fromNamespaceAndPath("enchantmentdisabler", "modify_" + name),
+                    ResourceLocation.parse(name.replace(":", ":tags/enchantment/")),
+                    ResourceLocation.fromNamespaceAndPath("enchantmentdisabler", "modify_" + name.replace(':', '_')),
                     jsonElement -> {
                         List<JsonElement> values = jsonElement.getAsJsonObject().getAsJsonArray("values").asList();
                         values.removeIf(value -> {

@@ -37,6 +37,7 @@ dependencies {
     implementation 'net.objecthunter:exp4j:0.4.8'
 
     modCompileOnly "dev.emi:emi-fabric:${property("emi_version")}"
+    if (stonecutter.eval(stonecutter.current.version, "1.21.1")) modImplementation "dev.emi:emi-fabric:${property("emi_version")}"
     modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:${property("rei_version")}"
 }
 
