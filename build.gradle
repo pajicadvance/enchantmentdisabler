@@ -30,7 +30,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}"
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${property("mixinextras_version")}"))
     include("io.github.llamalad7:mixinextras-fabric:${property("mixinextras_version")}")
-    modImplementation(include("com.github.ramixin:mixson:${project.mixson_version}"))
+    modImplementation(include("com.github.ramixin:mixson-fabric:${project.mixson_version}"))
     modImplementation("com.terraformersmc:modmenu:${property("modmenu_version")}")
     annotationProcessor modImplementation("io.wispforest:owo-lib:${property("owo_version")}")
     include 'net.objecthunter:exp4j:0.4.8'
