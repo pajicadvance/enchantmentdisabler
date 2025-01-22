@@ -79,8 +79,8 @@ dependencies {
     implementation "net.neoforged:neoforge:${property("neo_version")}"
     implementation("io.github.llamalad7:mixinextras-neoforge:${project.mixinextras_version}")
     jarJar(group: 'io.github.llamalad7', name: 'mixinextras-neoforge', version: "[0.4.1,${project.mixinextras_version}]")
-    implementation("com.github.ramixin:mixson:${project.mixson_version}")
-    jarJar(group: 'com.github.ramixin', name: 'mixson', version: project.mixson_version)
+    implementation("com.github.ramixin:mixson-neoforge:${project.mixson_version}")
+    jarJar(group: 'com.github.ramixin', name: 'mixson-neoforge', version: project.mixson_version)
     implementation 'net.objecthunter:exp4j:0.4.8'
     jarJar(group: 'net.objecthunter', name: 'exp4j', version: '0.4.8')
 

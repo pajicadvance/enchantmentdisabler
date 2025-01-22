@@ -1,6 +1,8 @@
 package me.pajic.enchantmentdisabler.mixin;
 
 import me.pajic.enchantmentdisabler.config.ModCommonConfig;
+import me.pajic.enchantmentdisabler.util.ModUtil;
+import net.minecraft.ResourceLocationException;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.resources.ResourceLocation;
@@ -35,9 +37,14 @@ public class EnchantRandomlyFunctionMixin {
                 return selections.stream().filter(holder -> holder.is(EnchantmentTags.ON_RANDOM_LOOT)).toList();
             }
             else {
-                return selections.stream().filter(holder -> ModCommonConfig.disabledEnchantments.stream().noneMatch(
-                        s -> holder.is(ResourceLocation.parse(s)))
-                ).toList();
+                return selections.stream().filter(holder -> ModCommonConfig.disabledEnchantments.stream().noneMatch(s -> {
+                    try {
+                        return holder.is(ResourceLocation.parse(s));
+                    } catch (ResourceLocationException e) {
+                        ModUtil.handleResourceLocationException(s ,e);
+                        return false;
+                    }
+                })).toList();
             }
         }
         return selections;

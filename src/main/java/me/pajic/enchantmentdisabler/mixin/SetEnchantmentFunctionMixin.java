@@ -2,6 +2,8 @@ package me.pajic.enchantmentdisabler.mixin;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import me.pajic.enchantmentdisabler.config.ModCommonConfig;
+import me.pajic.enchantmentdisabler.util.ModUtil;
+import net.minecraft.ResourceLocationException;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -24,6 +26,13 @@ public class SetEnchantmentFunctionMixin {
             )
     )
     private static boolean preventSetEnchantmentIfDisabled(ItemEnchantments.Mutable instance, Holder<Enchantment> enchantment, int level) {
-        return ModCommonConfig.disabledEnchantments.stream().noneMatch(s -> enchantment.is(ResourceLocation.parse(s)));
+        return ModCommonConfig.disabledEnchantments.stream().noneMatch(s -> {
+            try {
+                return enchantment.is(ResourceLocation.parse(s));
+            } catch (ResourceLocationException e) {
+                ModUtil.handleResourceLocationException(s ,e);
+                return false;
+            }
+        });
     }
 }
