@@ -4,20 +4,19 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import me.pajic.enchantmentdisabler.Main;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.resources.ResourceLocation;
-import net.ramixin.mixson.DebugMode;
-import net.ramixin.mixson.Mixson;
+import net.ramixin.mixson.debug.DebugMode;
+import net.ramixin.mixson.inline.EventContext;
+import net.ramixin.mixson.inline.Mixson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ResourceModifications {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("EnchantmentDisabler-ResourceModifications");
 
-    private static final List<String> DISABLER_TARGETS = new ArrayList<>(List.of(
+    private static final List<String> DISABLER_TARGETS = List.of(
             "minecraft:curse",
             "minecraft:in_enchanting_table",
             "minecraft:non_treasure",
@@ -26,39 +25,17 @@ public class ResourceModifications {
             "minecraft:on_traded_equipment",
             "minecraft:tradeable",
             "minecraft:treasure"
-    ));
+    );
 
     public static void init() {
-
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) Mixson.setDebugMode(DebugMode.EXPORT);
 
-        if (FabricLoader.getInstance().isModLoaded("mr_enchantments_encore")) {
-            DISABLER_TARGETS.addAll(List.of(
-                    "enchantencore:alloy",
-                    "enchantencore:arrow_trail",
-                    "enchantencore:aspect",
-                    "enchantencore:curse",
-                    "enchantencore:protection",
-                    "enchantencore:splash_arrow",
-                    "enchantencore:trail"
-            ));
-        }
-
         if (Main.CONFIG.disablerEnabled()) {
-            DISABLER_TARGETS.forEach(name -> Mixson.registerModificationEvent(
-                    ResourceLocation.parse(name.replace(":", ":tags/enchantment/")),
-                    ResourceLocation.fromNamespaceAndPath("enchantmentdisabler", "modify_" + name.replace(':', '_')),
-                    jsonElement -> {
-                        List<JsonElement> values = jsonElement.getAsJsonObject().getAsJsonArray("values").asList();
-                        values.removeIf(value -> {
-                            if (value.isJsonPrimitive()) return Main.CONFIG.disabledEnchantments().contains(value.getAsString());
-                            else return Main.CONFIG.disabledEnchantments().contains(value.getAsJsonObject().get("id").getAsString());
-                        });
-                        JsonArray newValues = new JsonArray();
-                        values.forEach(newValues::add);
-                        jsonElement.getAsJsonObject().add("values", newValues);
-                        return jsonElement;
-                    }
+            DISABLER_TARGETS.forEach(tag -> Mixson.registerEvent(
+                    Mixson.DEFAULT_PRIORITY,
+                    tag.replace(":", ":tags/enchantment/"),
+                    "enchantmentdisabler:modify_" + tag.replace(':', '_'),
+                    context -> runEventOnTag(context, tag)
             ));
         }
 
@@ -78,13 +55,11 @@ public class ResourceModifications {
                         } else {
                             String namespace = split2[0];
                             String enchantment = split2[1];
-                            Mixson.registerModificationEvent(
-                                    ResourceLocation.fromNamespaceAndPath(namespace, "enchantment/" + enchantment),
-                                    ResourceLocation.fromNamespaceAndPath("enchantmentdisabler", "modify_" + enchantment + "_max_level"),
-                                    jsonElement -> {
-                                        jsonElement.getAsJsonObject().addProperty("max_level", maxLevel);
-                                        return jsonElement;
-                                    }
+                            Mixson.registerEvent(
+                                    Mixson.DEFAULT_PRIORITY,
+                                    namespace + ":enchantment/" + enchantment,
+                                    "enchantmentdisabler:modify_" + enchantment + "_max_level",
+                                    context -> context.getFile().getAsJsonObject().addProperty("max_level", maxLevel)
                             );
                         }
                     } catch (NumberFormatException e) {
@@ -93,5 +68,29 @@ public class ResourceModifications {
                 }
             });
         }
+    }
+
+    private static void runEventOnTag(EventContext context, String tag) {
+        context.registerRuntimeEvent(
+                Mixson.DEFAULT_PRIORITY,
+                tag.replace(":", ":tags/enchantment/"),
+                "enchantmentdisabler:modify_" + tag.replace(':', '_'),
+                context1 -> {
+                    List<JsonElement> values = context1.getFile().getAsJsonObject().getAsJsonArray("values").asList();
+                    values.removeIf(value -> {
+                        String entry;
+                        if (value.isJsonPrimitive()) entry = value.getAsString();
+                        else entry = value.getAsJsonObject().get("id").getAsString();
+                        if (entry.startsWith("#")) {
+                            runEventOnTag(context1, entry.replace("#", ""));
+                            return false;
+                        } else return Main.CONFIG.disabledEnchantments().contains(entry);
+                    });
+                    JsonArray newValues = new JsonArray();
+                    values.forEach(newValues::add);
+                    context1.getFile().getAsJsonObject().add("values", newValues);
+                },
+                false
+        );
     }
 }
