@@ -9,6 +9,9 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @EventBusSubscriber(modid = "enchantmentdisabler", bus = EventBusSubscriber.Bus.MOD)
 public class ModServerConfig {
 
@@ -16,6 +19,21 @@ public class ModServerConfig {
 
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
+    private static final ModConfigSpec.BooleanValue LIMIT_OBTAINABLE_ENCHANTMENT_LEVEL = BUILDER
+            .translation("text.config.enchantmentdisabler.option.maxLevel.limitObtainableEnchantmentLevel")
+            .gameRestart()
+            .define("limitObtainableEnchantmentLevel", false);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> OBTAINABLE_ENCHANTMENT_LEVELS = BUILDER
+            .translation("text.config.enchantmentdisabler.option.maxLevel.obtainableEnchantmentLevels")
+            .gameRestart()
+            .defineListAllowEmpty("obtainableEnchantmentLevels", List.of("minecraft:sharpness/4"), () -> "", ModServerConfig::validateObtainableLevelEntry);
+
+    private static final ModConfigSpec.BooleanValue LIMIT_BOOK_TRADE_LEVEL = BUILDER
+            .translation("text.config.enchantmentdisabler.option.trades.limitBookTradeLevel")
+            .define("limitBookTradeLevel", false);
+    private static final ModConfigSpec.IntValue BOOK_TRADE_LEVEL_LIMIT = BUILDER
+            .translation("text.config.enchantmentdisabler.option.trades.bookTradeLevelLimit")
+            .defineInRange("bookTradeLevelLimit", 5, 1, Integer.MAX_VALUE);
     private static final ModConfigSpec.BooleanValue MODIFY_ENCHANTED_BOOK_TRADE_USES = BUILDER
             .translation("text.config.enchantmentdisabler.option.trades.modifyEnchantedBookTradeUses")
             .define("modifyEnchantedBookTradeUses", false);
@@ -66,6 +84,10 @@ public class ModServerConfig {
 
     public static final ModConfigSpec SERVER_SPEC = BUILDER.build();
 
+    public static boolean limitObtainableEnchantmentLevel;
+    public static List<String> obtainableEnchantmentLevels;
+    public static boolean limitBookTradeLevel;
+    public static int bookTradeLevelLimit;
     public static boolean modifyEnchantedBookTradeUses;
     public static int maxEnchantedBookTradeUses;
     public static boolean modifyEnchantedItemTradeUses;
@@ -96,6 +118,22 @@ public class ModServerConfig {
         return false;
     }
 
+    private static boolean validateObtainableLevelEntry(Object o) {
+        if (o instanceof String entry) {
+            String[] split1 = entry.split("/");
+            if (split1.length == 2) {
+                try {
+                    Integer.parseInt(split1[1]);
+                } catch (NumberFormatException e) {
+                    return false;
+                }
+                String[] split2 = split1[0].split(":");
+                return split2.length == 2;
+            }
+        }
+        return false;
+    }
+
     @SubscribeEvent
     static void onLoad(final ModConfigEvent.Loading event) {
         updateConfig(event);
@@ -108,6 +146,11 @@ public class ModServerConfig {
 
     private static void updateConfig(ModConfigEvent event) {
         if (event.getConfig().getSpec() == SERVER_SPEC) {
+            limitObtainableEnchantmentLevel = LIMIT_OBTAINABLE_ENCHANTMENT_LEVEL.get();
+            obtainableEnchantmentLevels = new ArrayList<>(OBTAINABLE_ENCHANTMENT_LEVELS.get());
+
+            limitBookTradeLevel = LIMIT_BOOK_TRADE_LEVEL.get();
+            bookTradeLevelLimit = BOOK_TRADE_LEVEL_LIMIT.get();
             modifyEnchantedBookTradeUses = MODIFY_ENCHANTED_BOOK_TRADE_USES.get();
             maxEnchantedBookTradeUses = MAX_ENCHANTED_BOOK_TRADE_USES.get();
             modifyEnchantedItemTradeUses = MODIFY_ENCHANTED_ITEM_TRADE_USES.get();

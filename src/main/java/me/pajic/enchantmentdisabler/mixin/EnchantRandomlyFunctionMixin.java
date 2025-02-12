@@ -1,6 +1,10 @@
 package me.pajic.enchantmentdisabler.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import me.pajic.enchantmentdisabler.config.ModCommonConfig;
+import me.pajic.enchantmentdisabler.config.ModServerConfig;
 import me.pajic.enchantmentdisabler.util.ModUtil;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.Holder;
@@ -48,5 +52,23 @@ public class EnchantRandomlyFunctionMixin {
             }
         }
         return selections;
+    }
+
+    @ModifyExpressionValue(
+            method = "enchantItem",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/item/enchantment/Enchantment;getMaxLevel()I"
+            )
+    )
+    private static int limitEnchantmentLevel(int original, @Local(argsOnly = true) Holder<Enchantment> enchantment) {
+        if (ModServerConfig.limitObtainableEnchantmentLevel) {
+            for (Object2IntMap.Entry<String> entry : ModUtil.parseObtainableEnchantmentLevelLimits().object2IntEntrySet()) {
+                if (enchantment.is(ResourceLocation.parse(entry.getKey()))) {
+                    if (original > entry.getIntValue()) return entry.getIntValue();
+                }
+            }
+        }
+        return original;
     }
 }

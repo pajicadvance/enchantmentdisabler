@@ -1,9 +1,12 @@
 package me.pajic.enchantmentdisabler.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import me.pajic.enchantmentdisabler.Main;
+import com.llamalad7.mixinextras.sugar.Local;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import me.pajic.enchantmentdisabler.config.ModCommonConfig;
+import me.pajic.enchantmentdisabler.config.ModServerConfig;
 import me.pajic.enchantmentdisabler.util.ModUtil;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.resources.ResourceLocation;
@@ -40,5 +43,23 @@ public class EnchantmentHelperMixin {
             return false;
         }
         return original.call(instance, e);
+    }
+
+    @ModifyExpressionValue(
+            method = "enchantItem(Lnet/minecraft/util/RandomSource;Lnet/minecraft/world/item/ItemStack;ILjava/util/stream/Stream;)Lnet/minecraft/world/item/ItemStack;",
+            at = @At(
+                    value = "FIELD",
+                    target = "Lnet/minecraft/world/item/enchantment/EnchantmentInstance;level:I"
+            )
+    )
+    private static int limitEnchantmentLevel(int original, @Local EnchantmentInstance ei) {
+        if (ModServerConfig.limitObtainableEnchantmentLevel) {
+            for (Object2IntMap.Entry<String> entry : ModUtil.parseObtainableEnchantmentLevelLimits().object2IntEntrySet()) {
+                if (ei.enchantment.is(ResourceLocation.parse(entry.getKey()))) {
+                    if (original > entry.getIntValue()) return entry.getIntValue();
+                }
+            }
+        }
+        return original;
     }
 }
