@@ -25,9 +25,17 @@ public class ConfigModel {
     public static class MaxLevel {
         @RestartRequired public boolean modifyMaxLevels = false;
         @RestartRequired @Expanded public List<String> maxLevels = List.of("minecraft:sharpness/5");
+        public boolean limitObtainableEnchantmentLevel = false;
+        public List<String> obtainableEnchantmentLevels = List.of("minecraft:sharpness/4");
+
+        public static boolean greaterThanZero(int value) {
+            return Predicates.greaterThanZero(value);
+        }
     }
 
     public static class Trades {
+        public boolean limitBookTradeLevel = false;
+        @PredicateConstraint("greaterThanZero") public int bookTradeLevelLimit = 5;
         public boolean modifyEnchantedBookTradeUses = false;
         @PredicateConstraint("greaterThanZero") public int maxEnchantedBookTradeUses = 12;
         public boolean modifyEnchantedItemTradeUses = false;
