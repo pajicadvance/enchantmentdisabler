@@ -41,14 +41,14 @@ public class ResourceModifications {
 
         if (Main.CONFIG.maxLevel.modifyMaxLevels()) {
             Main.CONFIG.maxLevel.maxLevels().forEach(entry -> {
-                String[] split1 = entry.split("/", 2);
-                if (split1.length != 2) {
+                int i = entry.lastIndexOf('/');
+                if (i == -1) {
                     LOGGER.error("Invalid max level entry: {}", entry);
                 } else {
-                    String entryString = split1[0];
+                    String entryString = entry.substring(0, i);
                     int maxLevel;
                     try {
-                        maxLevel = Integer.parseInt(split1[1]);
+                        maxLevel = Integer.parseInt(entry.substring(i + 1));
                         String[] split2 = entryString.split(":", 2);
                         if (split2.length != 2) {
                             LOGGER.error("Enchantment in max level entry must be in format namespace:enchantment: {}", entry);
@@ -70,7 +70,7 @@ public class ResourceModifications {
         }
     }
 
-    private static void runEventOnTag(EventContext context, String tag) {
+    private static void runEventOnTag(EventContext<JsonElement> context, String tag) {
         context.registerRuntimeEvent(
                 Mixson.DEFAULT_PRIORITY,
                 tag.replace(":", ":tags/enchantment/"),
