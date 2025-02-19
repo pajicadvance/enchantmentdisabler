@@ -21,11 +21,9 @@ public class ModServerConfig {
 
     private static final ModConfigSpec.BooleanValue LIMIT_OBTAINABLE_ENCHANTMENT_LEVEL = BUILDER
             .translation("text.config.enchantmentdisabler.option.maxLevel.limitObtainableEnchantmentLevel")
-            .gameRestart()
             .define("limitObtainableEnchantmentLevel", false);
     private static final ModConfigSpec.ConfigValue<List<? extends String>> OBTAINABLE_ENCHANTMENT_LEVELS = BUILDER
             .translation("text.config.enchantmentdisabler.option.maxLevel.obtainableEnchantmentLevels")
-            .gameRestart()
             .defineListAllowEmpty("obtainableEnchantmentLevels", List.of("minecraft:sharpness/4"), () -> "", ModServerConfig::validateObtainableLevelEntry);
 
     private static final ModConfigSpec.BooleanValue LIMIT_BOOK_TRADE_LEVEL = BUILDER

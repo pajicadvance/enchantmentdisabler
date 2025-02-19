@@ -50,14 +50,14 @@ public class ModUtil {
     public static Object2IntMap<String> parseObtainableEnchantmentLevelLimits() {
         Object2IntMap<String> map = new Object2IntOpenHashMap<>();
         ModServerConfig.obtainableEnchantmentLevels.forEach(entry -> {
-            String[] split1 = entry.split("/", 2);
-            if (split1.length != 2) {
+            int i = entry.lastIndexOf('/');
+            if (i == -1) {
                 LOGGER.error("Invalid obtainable level entry: {}", entry);
             } else {
-                String enchantment = split1[0];
+                String enchantment = entry.substring(0, i);
                 int maxLevel;
                 try {
-                    maxLevel = Integer.parseInt(split1[1]);
+                    maxLevel = Integer.parseInt(entry.substring(i + 1));
                     map.put(enchantment, maxLevel);
                 } catch (NumberFormatException e) {
                     LOGGER.error("Obtainable level is not a number in obtainable level entry: {}", entry);
