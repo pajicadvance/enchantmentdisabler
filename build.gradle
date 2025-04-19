@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.171'
+    id 'net.neoforged.gradle.userdev' version '7.0.184'
 }
 
 version = mod_version + "+" + stonecutter.current.version
@@ -77,12 +77,15 @@ tasks.named('jarJar') {
 
 dependencies {
     implementation "net.neoforged:neoforge:${property("neo_version")}"
-    implementation("io.github.llamalad7:mixinextras-neoforge:${project.mixinextras_version}")
-    jarJar(group: 'io.github.llamalad7', name: 'mixinextras-neoforge', version: "[0.4.1,${project.mixinextras_version}]")
-    implementation("com.github.ramixin:mixson-neoforge:${project.mixson_version}")
-    jarJar(group: 'com.github.ramixin', name: 'mixson-neoforge', version: project.mixson_version)
-    implementation 'net.objecthunter:exp4j:0.4.8'
-    jarJar(group: 'net.objecthunter', name: 'exp4j', version: '0.4.8')
+    implementation(jarJar("io.github.llamalad7:mixinextras-neoforge:${project.mixinextras_version}")) {
+        jarJar.ranged(it, "[0.5.0-rc.2,)")
+    }
+    implementation(jarJar("com.github.ramixin:mixson-neoforge:${project.mixson_version}")) {
+        jarJar.ranged(it, "[v1.3.2,)")
+    }
+    implementation(jarJar("net.objecthunter:exp4j:0.4.8")) {
+        jarJar.ranged(it, "[0.4.8,)")
+    }
 
     compileOnly "dev.emi:emi-neoforge:${property("emi_version")}:api"
     if (stonecutter.eval(stonecutter.current.version, "1.21.1")) runtimeOnly "dev.emi:emi-neoforge:${property("emi_version")}"

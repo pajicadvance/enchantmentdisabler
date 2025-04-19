@@ -47,7 +47,7 @@ public abstract class EnchantmentMenuMixin {
                 Optional<HolderSet.Named<Enchantment>> possibleEnchantments =
                         //? if 1.21.1
                         level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getTag(EnchantmentTags.IN_ENCHANTING_TABLE);
-                        //? if 1.21.4
+                        //? if >= 1.21.4
                         /*level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).get(EnchantmentTags.IN_ENCHANTING_TABLE);*/
                 List<EnchantmentInstance> list = EnchantmentHelper.getAvailableEnchantmentResults(
                         EnchantmentHelper.getEnchantmentCost(random, 2, 15, itemStack),
