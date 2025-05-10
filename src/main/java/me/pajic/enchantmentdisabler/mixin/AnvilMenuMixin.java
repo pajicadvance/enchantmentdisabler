@@ -73,8 +73,8 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
                         if (entry.getKey().is(ResourceLocation.parse(entry1.getKey()))) {
                             Enchantment e = entry.getKey().value();
                             int levelLimit = entry1.getIntValue();
-                            int inputLevel = ModUtil.getItemEnchantments(input).getLevel(entry.getKey());
-                            int materialLevel = ModUtil.getItemEnchantments(material).getLevel(entry.getKey());
+                            int inputLevel = EnchantmentHelper.hasAnyEnchantments(input) ? ModUtil.getItemEnchantments(input).getLevel(entry.getKey()) : 0;
+                            int materialLevel = EnchantmentHelper.hasAnyEnchantments(material) ? ModUtil.getItemEnchantments(material).getLevel(entry.getKey()) : 0;
                             int maxInputLevel = inputLevel == 0 ? 0 : e.getMaxLevel();
                             int maxMaterialLevel = materialLevel == 0 ? 0 : e.getMaxLevel();
                             if (inputLevel >= levelLimit && inputLevel < maxInputLevel && materialLevel >= levelLimit && materialLevel < maxMaterialLevel) {
