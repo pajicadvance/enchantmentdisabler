@@ -1,6 +1,5 @@
 package me.pajic.enchantmentdisabler.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import me.pajic.enchantmentdisabler.config.ModCommonConfig;
@@ -54,12 +53,13 @@ public class EnchantRandomlyFunctionMixin {
         return selections;
     }
 
-    @ModifyExpressionValue(
+    @ModifyArg(
             method = "enchantItem",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/item/enchantment/Enchantment;getMaxLevel()I"
-            )
+                    target = "Lnet/minecraft/util/Mth;nextInt(Lnet/minecraft/util/RandomSource;II)I"
+            ),
+            index = 2
     )
     private static int limitEnchantmentLevel(int original, @Local(argsOnly = true) Holder<Enchantment> enchantment) {
         if (ModServerConfig.limitObtainableEnchantmentLevel) {
