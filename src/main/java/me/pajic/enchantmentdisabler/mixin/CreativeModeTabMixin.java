@@ -1,6 +1,6 @@
 package me.pajic.enchantmentdisabler.mixin;
 
-import me.pajic.enchantmentdisabler.config.ModCommonConfig;
+import me.pajic.enchantmentdisabler.Main;
 import me.pajic.enchantmentdisabler.util.ModUtil;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +22,7 @@ public class CreativeModeTabMixin {
 
     @Inject(method = "buildContents", at = @At("TAIL"))
     private void removeDisabledEnchantmentBooks(CallbackInfo ci) {
-        if (ModCommonConfig.disablerEnabled) {
+        if (Main.CONFIG.disabler.disablerEnabled.get()) {
             filter(displayItems);
             filter(displayItemsSearchTab);
         }

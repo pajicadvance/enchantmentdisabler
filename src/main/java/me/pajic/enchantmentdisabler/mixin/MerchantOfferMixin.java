@@ -1,6 +1,6 @@
 package me.pajic.enchantmentdisabler.mixin;
 
-import me.pajic.enchantmentdisabler.config.ModServerConfig;
+import me.pajic.enchantmentdisabler.Main;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
@@ -18,11 +18,11 @@ public class MerchantOfferMixin {
 
     @Inject(method = "resetUses", at = @At("HEAD"), cancellable = true)
     private void skipEnchantedItemTradeRestock(CallbackInfo ci) {
-        if (!ModServerConfig.enchantedBookTradeRestockEnabled && result.is(Items.ENCHANTED_BOOK)) {
+        if (!Main.CONFIG.trades.enchantedBookTradeRestockEnabled.get() && result.is(Items.ENCHANTED_BOOK)) {
             ci.cancel();
         }
-        if (!ModServerConfig.enchantedItemTradeRestockEnabled &&
-                !result.is(Items.ENCHANTED_BOOK) && !result.getEnchantments().isEmpty()) {
+        if (!Main.CONFIG.trades.enchantedItemTradeRestockEnabled.get() &&
+                !result.is(Items.ENCHANTED_BOOK) && !result.getTagEnchantments().isEmpty()) {
             ci.cancel();
         }
     }

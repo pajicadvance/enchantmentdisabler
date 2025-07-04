@@ -4,9 +4,7 @@ import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import me.pajic.enchantmentdisabler.config.ModCommonConfig;
-import me.pajic.enchantmentdisabler.config.ModServerConfig;
-import me.pajic.enchantmentdisabler.util.ModUtil;
+import me.pajic.enchantmentdisabler.Main;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.EnchantmentTags;
@@ -24,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Mixin(EnchantmentMenu.class)
@@ -41,7 +40,7 @@ public abstract class EnchantmentMenuMixin {
             )
     )
     private boolean dontUpdateIfNoEnchantmentsAvailable(boolean original, @Local ItemStack itemStack) {
-        if (ModCommonConfig.disablerEnabled && ModServerConfig.enchantingTableEnabled) {
+        if (Main.CONFIG.disabler.disablerEnabled.get() && Main.CONFIG.enchantingTable.enchantingTableEnabled.get()) {
             final boolean[] con = {true};
             access.execute((level, pos) -> {
                 Optional<HolderSet.Named<Enchantment>> possibleEnchantments =
@@ -71,7 +70,7 @@ public abstract class EnchantmentMenuMixin {
             )
     )
     private boolean modifyMaxTablePower(boolean original, @Local float j) {
-        if (ModServerConfig.modifyMaxTablePower && j >= ModServerConfig.maxTablePower) {
+        if (Main.CONFIG.enchantingTable.modifyMaxTablePower.get() && j >= Main.CONFIG.enchantingTable.maxTablePower.get()) {
             return false;
         }
         return original;
@@ -84,11 +83,9 @@ public abstract class EnchantmentMenuMixin {
             at = @At("MIXINEXTRAS:EXPRESSION")
     )
     private boolean modifyLapisCostButtonClickCondition(boolean original, @Local(argsOnly = true) int id, @Local(ordinal = 1) ItemStack itemStack2) {
-        if (ModServerConfig.modifyLapisCost) {
-            int newValue = ModUtil.evaluateFormulaAndReturnValue(ModServerConfig.lapisCostFormula, id);
-            if (newValue > 0) {
-                return itemStack2.getCount() < newValue;
-            }
+        if (Main.CONFIG.enchantingTable.modifyLapisCost.get()) {
+            int val = (int) Main.CONFIG.enchantingTable.lapisCostFormula.evalSafe(Map.of('i', (double) id), id);
+            return val > 0 ? itemStack2.getCount() < val : original;
         }
         return original;
     }
@@ -102,11 +99,9 @@ public abstract class EnchantmentMenuMixin {
             index = 0
     )
     private int modifyLapisCostConsumeItemStack(int i) {
-        if (ModServerConfig.modifyLapisCost) {
-            int newValue = ModUtil.evaluateFormulaAndReturnValue(ModServerConfig.lapisCostFormula, i - 1);
-            if (newValue > 0) {
-                return newValue;
-            }
+        if (Main.CONFIG.enchantingTable.modifyLapisCost.get()) {
+            int val = (int) Main.CONFIG.enchantingTable.lapisCostFormula.evalSafe(Map.of('i', (double) i - 1), i);
+            return val > 0 ? val : i;
         }
         return i;
     }
@@ -120,11 +115,9 @@ public abstract class EnchantmentMenuMixin {
             index = 1
     )
     private int modifyXpCostOnEnchantmentPerformed(int i) {
-        if (ModServerConfig.modifyXpCost) {
-            int newValue = ModUtil.evaluateFormulaAndReturnValue(ModServerConfig.xpCostFormula, i - 1);
-            if (newValue > 0) {
-                return newValue;
-            }
+        if (Main.CONFIG.enchantingTable.modifyXpCost.get()) {
+            int val = (int) Main.CONFIG.enchantingTable.xpCostFormula.evalSafe(Map.of('i', (double) i - 1), i);
+            return val > 0 ? val : i;
         }
         return i;
     }

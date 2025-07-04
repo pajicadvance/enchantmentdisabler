@@ -2,19 +2,17 @@ package me.pajic.enchantmentdisabler.mixson;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import me.pajic.enchantmentdisabler.config.ModCommonConfig;
+import me.pajic.enchantmentdisabler.Main;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.loading.FMLLoader;
 import net.ramixin.mixson.debug.DebugMode;
 import net.ramixin.mixson.inline.EventContext;
 import net.ramixin.mixson.inline.Mixson;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+@SuppressWarnings({"removal", "deprecation"})
 public class ResourceModifications {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger("EnchantmentDisabler-ResourceModifications");
 
     private static final List<String> DISABLER_TARGETS = List.of(
             "minecraft:curse",
@@ -30,7 +28,7 @@ public class ResourceModifications {
     public static void init() {
         if (!FMLLoader.isProduction()) Mixson.setDebugMode(DebugMode.EXPORT);
 
-        if (ModCommonConfig.disablerEnabled) {
+        if (Main.CONFIG.disabler.disablerEnabled.get()) {
             DISABLER_TARGETS.forEach(tag -> Mixson.registerEvent(
                     Mixson.DEFAULT_PRIORITY,
                     tag.replace(":", ":tags/enchantment/"),
@@ -39,33 +37,16 @@ public class ResourceModifications {
             ));
         }
 
-        if (ModCommonConfig.modifyMaxLevels) {
-            ModCommonConfig.maxLevels.forEach(entry -> {
-                int i = entry.lastIndexOf('/');
-                if (i == -1) {
-                    LOGGER.error("Invalid max level entry: {}", entry);
-                } else {
-                    String entryString = entry.substring(0, i);
-                    int maxLevel;
-                    try {
-                        maxLevel = Integer.parseInt(entry.substring(i + 1));
-                        String[] split2 = entryString.split(":", 2);
-                        if (split2.length != 2) {
-                            LOGGER.error("Enchantment in max level entry must be in format namespace:enchantment: {}", entry);
-                        } else {
-                            String namespace = split2[0];
-                            String enchantment = split2[1];
-                            Mixson.registerEvent(
-                                    Mixson.DEFAULT_PRIORITY,
-                                    namespace + ":enchantment/" + enchantment,
-                                    "enchantmentdisabler:modify_" + enchantment + "_max_level",
-                                    context -> context.getFile().getAsJsonObject().addProperty("max_level", maxLevel)
-                            );
-                        }
-                    } catch (NumberFormatException e) {
-                        LOGGER.error("Max level is not a number in max level entry: {}", entry);
-                    }
-                }
+        if (Main.CONFIG.maxLevel.modifyMaxLevels.get()) {
+            Main.CONFIG.maxLevel.maxLevels.forEach((key, value) -> {
+                String namespace = key.getNamespace();
+                String path = key.getPath();
+                Mixson.registerEvent(
+                        Mixson.DEFAULT_PRIORITY,
+                        namespace + ":enchantment/" + path,
+                        "enchantmentdisabler:modify_" + path + "_max_level",
+                        context -> context.getFile().getAsJsonObject().addProperty("max_level", value)
+                );
             });
         }
     }
@@ -84,7 +65,7 @@ public class ResourceModifications {
                         if (entry.startsWith("#")) {
                             runEventOnTag(context1, entry.replace("#", ""));
                             return false;
-                        } else return ModCommonConfig.disabledEnchantments.contains(entry);
+                        } else return Main.CONFIG.disabler.disabledEnchantments.contains(ResourceLocation.parse(entry));
                     });
                     JsonArray newValues = new JsonArray();
                     values.forEach(newValues::add);

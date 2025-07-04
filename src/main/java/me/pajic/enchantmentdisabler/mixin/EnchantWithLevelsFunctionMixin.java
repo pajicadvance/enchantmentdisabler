@@ -1,6 +1,6 @@
 package me.pajic.enchantmentdisabler.mixin;
 
-import me.pajic.enchantmentdisabler.config.ModServerConfig;
+import me.pajic.enchantmentdisabler.Main;
 import net.minecraft.world.level.storage.loot.functions.EnchantWithLevelsFunction;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,8 +18,8 @@ public class EnchantWithLevelsFunctionMixin {
             index = 2
     )
     private int modifyMaxEnchantmentLevel(int level) {
-        if (ModServerConfig.modifyEnchantWithLevelsMaxPower && level > ModServerConfig.enchantWithLevelsMaxPower) {
-            return ModServerConfig.enchantWithLevelsMaxPower;
+        if (Main.CONFIG.loot.modifyEnchantWithLevelsMaxPower.get() && level > Main.CONFIG.loot.enchantWithLevelsMaxPower.get()) {
+            return Main.CONFIG.loot.enchantWithLevelsMaxPower.get();
         }
         return level;
     }

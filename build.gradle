@@ -4,6 +4,7 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'net.neoforged.gradle.userdev' version '7.0.184'
+    id "me.modmuss50.mod-publish-plugin" version "0.8.4"
 }
 
 version = mod_version + "+" + stonecutter.current.version
@@ -12,6 +13,8 @@ group = mod_group_id
 repositories {
     mavenLocal()
     maven { url = "https://jitpack.io/" }
+    maven { url = "https://maven.fzzyhmstrs.me/" }
+    maven { url = "https://thedarkcolour.github.io/KotlinForForge/" }
     maven { url = "https://maven.terraformersmc.com/" }
     maven { url = "https://maven.shedaniel.me" }
 }
@@ -83,14 +86,16 @@ dependencies {
     implementation(jarJar("com.github.ramixin:mixson-neoforge:${project.mixson_version}")) {
         jarJar.ranged(it, "[v1.3.2,)")
     }
-    implementation(jarJar("net.objecthunter:exp4j:0.4.8")) {
-        jarJar.ranged(it, "[0.4.8,)")
-    }
+    implementation "me.fzzyhmstrs:fzzy_config:${property("fzzy_version")}"
 
-    compileOnly "dev.emi:emi-neoforge:${property("emi_version")}:api"
-    if (stonecutter.eval(stonecutter.current.version, "1.21.1")) runtimeOnly "dev.emi:emi-neoforge:${property("emi_version")}"
-    compileOnly "me.shedaniel:RoughlyEnoughItems-api-neoforge:${property("rei_version")}"
-    runtimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${property("rei_version")}"
+    if (stonecutter.eval(stonecutter.current.version, "1.21.1"))
+        implementation "dev.emi:emi-neoforge:${property("emi_version")}"
+    else
+        compileOnly "dev.emi:emi-neoforge:${property("emi_version")}"
+    if (stonecutter.eval(stonecutter.current.version, "<1.21.7"))
+        implementation "me.shedaniel:RoughlyEnoughItems-neoforge:${property("rei_version")}"
+    else
+        compileOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${property("rei_version")}"
 }
 
 tasks.withType(ProcessResources).configureEach {
@@ -122,5 +127,32 @@ idea {
     module {
         downloadSources = true
         downloadJavadoc = true
+    }
+}
+
+publishMods {
+    file = tasks.jarJar.archiveFile
+    changelog = file(getRootDir().path + "/CHANGELOG.md").text
+    type = STABLE
+    modLoaders.add("neoforge")
+    displayName = project.mod_version + " for NeoForge " + stonecutter.current.version
+
+    modrinth {
+        accessToken = providers.environmentVariable("MR_KEY")
+        projectId = "Kd03i2oU"
+        minecraftVersions.add(stonecutter.current.version)
+        requires("fzzy-config", "kotlin-for-forge")
+        embeds("mixson")
+    }
+
+    curseforge {
+        accessToken = providers.environmentVariable("CF_KEY")
+        projectId = "912326"
+        minecraftVersions.add(stonecutter.current.version)
+        javaVersions.add(stonecutter.eval(stonecutter.current.version, ">=1.20.5")
+                ? JavaVersion.VERSION_21 : JavaVersion.VERSION_17)
+        clientRequired = true
+        serverRequired = true
+        requires("fzzy-config", "kotlin-for-forge")
     }
 }

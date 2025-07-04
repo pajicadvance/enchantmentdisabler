@@ -4,7 +4,7 @@ import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiInitRegistry;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
-import me.pajic.enchantmentdisabler.config.ModCommonConfig;
+import me.pajic.enchantmentdisabler.Main;
 import me.pajic.enchantmentdisabler.util.ModUtil;
 
 @EmiEntrypoint
@@ -12,7 +12,7 @@ public class EMIPlugin implements EmiPlugin {
 
     @Override
     public void initialize(EmiInitRegistry registry) {
-        if (ModCommonConfig.disablerEnabled) {
+        if (Main.CONFIG.disabler.disablerEnabled.get()) {
             registry.disableStacks(emiStack -> ModUtil.filterStacks(emiStack.getItemStack()));
         }
     }

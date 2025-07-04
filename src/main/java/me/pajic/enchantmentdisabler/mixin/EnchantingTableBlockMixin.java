@@ -1,6 +1,6 @@
 package me.pajic.enchantmentdisabler.mixin;
 
-import me.pajic.enchantmentdisabler.config.ModServerConfig;
+import me.pajic.enchantmentdisabler.Main;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +22,7 @@ public class EnchantingTableBlockMixin {
             cancellable = true
     )
     private void disableEnchantingTableFunctionality(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
-        if (!ModServerConfig.enchantingTableEnabled) {
+        if (!Main.CONFIG.enchantingTable.enchantingTableEnabled.get()) {
             cir.setReturnValue(InteractionResult.FAIL);
         }
     }
