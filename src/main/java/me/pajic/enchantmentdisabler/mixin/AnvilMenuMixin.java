@@ -1,6 +1,5 @@
 package me.pajic.enchantmentdisabler.mixin;
 
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import me.pajic.enchantmentdisabler.Main;
 import me.pajic.enchantmentdisabler.util.ModUtil;
@@ -23,6 +22,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Map;
+
 @Mixin(AnvilMenu.class)
 public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 
@@ -41,7 +42,7 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
     @Inject(method = "onTake", at = @At("HEAD"))
     private void triggerEnchanterAdvancement(Player player, ItemStack stack, CallbackInfo ci) {
         if (
-                !Main.CONFIG.enchantingTable.enchantingTableEnabled() &&
+                !Main.CONFIG.enchantingTable.enchantingTableEnabled.get() &&
                 !resultSlots.getItem(0).is(Items.ENCHANTED_BOOK) &&
                 !inputSlots.getItem(0).isEnchanted() &&
                 inputSlots.getItem(1).is(Items.ENCHANTED_BOOK)
@@ -61,7 +62,7 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
             )
     )
     private void preventCombineIfLimitExceeded(CallbackInfo ci) {
-        if (Main.CONFIG.maxLevel.limitObtainableEnchantmentLevel()) {
+        if (Main.CONFIG.maxLevel.limitObtainableEnchantmentLevel.get()) {
             ItemStack input = inputSlots.getItem(0);
             ItemStack material = inputSlots.getItem(1);
             ItemStack output = resultSlots.getItem(0);
@@ -69,10 +70,10 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
                 ItemEnchantments outputEnchantments = ModUtil.getItemEnchantments(output);
                 boolean flag = false;
                 for (Object2IntOpenHashMap.Entry<Holder<Enchantment>> entry : outputEnchantments.entrySet()) {
-                    for (Object2IntMap.Entry<String> entry1 : ModUtil.parseObtainableEnchantmentLevelLimits().object2IntEntrySet()) {
-                        if (entry.getKey().is(ResourceLocation.parse(entry1.getKey()))) {
+                    for (Map.Entry<ResourceLocation, Integer> entry1 : Main.CONFIG.maxLevel.obtainableEnchantmentLevels.entrySet()) {
+                        if (entry.getKey().is(entry1.getKey())) {
                             Enchantment e = entry.getKey().value();
-                            int levelLimit = entry1.getIntValue();
+                            int levelLimit = entry1.getValue();
                             int inputLevel = EnchantmentHelper.hasAnyEnchantments(input) ? ModUtil.getItemEnchantments(input).getLevel(entry.getKey()) : 0;
                             int materialLevel = EnchantmentHelper.hasAnyEnchantments(material) ? ModUtil.getItemEnchantments(material).getLevel(entry.getKey()) : 0;
                             int maxInputLevel = inputLevel == 0 ? 0 : e.getMaxLevel();

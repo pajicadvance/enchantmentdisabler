@@ -22,7 +22,7 @@ public class CreativeModeTabMixin {
 
     @Inject(method = "buildContents", at = @At("TAIL"))
     private void removeDisabledEnchantmentBooks(CallbackInfo ci) {
-        if (Main.CONFIG.disablerEnabled()) {
+        if (Main.CONFIG.disabler.disablerEnabled.get()) {
             filter(displayItems);
             filter(displayItemsSearchTab);
         }

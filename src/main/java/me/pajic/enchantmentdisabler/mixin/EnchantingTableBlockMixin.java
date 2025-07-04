@@ -22,7 +22,7 @@ public class EnchantingTableBlockMixin {
             cancellable = true
     )
     private void disableEnchantingTableFunctionality(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
-        if (!Main.CONFIG.enchantingTable.enchantingTableEnabled()) {
+        if (!Main.CONFIG.enchantingTable.enchantingTableEnabled.get()) {
             cir.setReturnValue(InteractionResult.FAIL);
         }
     }

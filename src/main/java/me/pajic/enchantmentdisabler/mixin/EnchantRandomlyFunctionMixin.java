@@ -2,10 +2,7 @@ package me.pajic.enchantmentdisabler.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import me.pajic.enchantmentdisabler.Main;
-import me.pajic.enchantmentdisabler.util.ModUtil;
-import net.minecraft.ResourceLocationException;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.resources.ResourceLocation;
@@ -19,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Mixin(EnchantRandomlyFunction.class)
@@ -35,19 +33,12 @@ public class EnchantRandomlyFunctionMixin {
             index = 0
     )
     private List<Holder<Enchantment>> filter(List<Holder<Enchantment>> selections) {
-        if (Main.CONFIG.disablerEnabled()) {
+        if (Main.CONFIG.disabler.disablerEnabled.get()) {
             if (options.isEmpty()) {
                 return selections.stream().filter(holder -> holder.is(EnchantmentTags.ON_RANDOM_LOOT)).toList();
             }
             else {
-                return selections.stream().filter(holder -> Main.CONFIG.disabledEnchantments().stream().noneMatch(s -> {
-                    try {
-                        return holder.is(ResourceLocation.parse(s));
-                    } catch (ResourceLocationException e) {
-                        ModUtil.handleResourceLocationException(s ,e);
-                        return false;
-                    }
-                })).toList();
+                return selections.stream().filter(holder -> Main.CONFIG.disabler.disabledEnchantments.stream().noneMatch(holder::is)).toList();
             }
         }
         return selections;
@@ -61,10 +52,10 @@ public class EnchantRandomlyFunctionMixin {
             )
     )
     private static int limitEnchantmentLevel(int original, @Local(argsOnly = true) Holder<Enchantment> enchantment) {
-        if (Main.CONFIG.maxLevel.limitObtainableEnchantmentLevel()) {
-            for (Object2IntMap.Entry<String> entry : ModUtil.parseObtainableEnchantmentLevelLimits().object2IntEntrySet()) {
-                if (enchantment.is(ResourceLocation.parse(entry.getKey()))) {
-                    if (original > entry.getIntValue()) return entry.getIntValue();
+        if (Main.CONFIG.maxLevel.limitObtainableEnchantmentLevel.get()) {
+            for (Map.Entry<ResourceLocation, Integer> entry : Main.CONFIG.maxLevel.obtainableEnchantmentLevels.entrySet()) {
+                if (enchantment.is(entry.getKey())) {
+                    if (original > entry.getValue()) return entry.getValue();
                 }
             }
         }

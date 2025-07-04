@@ -15,7 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
-import net.objecthunter.exp4j.ExpressionBuilder;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -23,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Mixin(EnchantmentMenu.class)
@@ -40,7 +40,7 @@ public abstract class EnchantmentMenuMixin {
             )
     )
     private boolean dontUpdateIfNoEnchantmentsAvailable(boolean original, @Local ItemStack itemStack) {
-        if (Main.CONFIG.disablerEnabled() && Main.CONFIG.enchantingTable.enchantingTableEnabled()) {
+        if (Main.CONFIG.disabler.disablerEnabled.get() && Main.CONFIG.enchantingTable.enchantingTableEnabled.get()) {
             final boolean[] con = {true};
             access.execute((level, pos) -> {
                 Optional<HolderSet.Named<Enchantment>> possibleEnchantments =
@@ -70,7 +70,7 @@ public abstract class EnchantmentMenuMixin {
             )
     )
     private boolean modifyMaxTablePower(boolean original, @Local int ix) {
-        if (Main.CONFIG.enchantingTable.modifyMaxTablePower() && ix >= Main.CONFIG.enchantingTable.maxTablePower()) {
+        if (Main.CONFIG.enchantingTable.modifyMaxTablePower.get() && ix >= Main.CONFIG.enchantingTable.maxTablePower.get()) {
             return false;
         }
         return original;
@@ -83,19 +83,9 @@ public abstract class EnchantmentMenuMixin {
             at = @At("MIXINEXTRAS:EXPRESSION")
     )
     private boolean modifyLapisCostButtonClickCondition(boolean original, @Local(argsOnly = true) int id, @Local(ordinal = 1) ItemStack itemStack2) {
-        if (Main.CONFIG.enchantingTable.modifyLapisCost()) {
-            net.objecthunter.exp4j.Expression expression = new ExpressionBuilder(Main.CONFIG.enchantingTable.lapisCostFormula())
-                    .variable("id")
-                    .build().setVariable("id", id);
-            if (expression.validate().isValid()) {
-                int newValue = (int) expression.evaluate();
-                if (newValue > 0) {
-                    return itemStack2.getCount() < newValue;
-                }
-                else {
-                    return original;
-                }
-            }
+        if (Main.CONFIG.enchantingTable.modifyLapisCost.get()) {
+            int val = (int) Main.CONFIG.enchantingTable.lapisCostFormula.evalSafe(Map.of('i', (double) id), id);
+            return val > 0 ? itemStack2.getCount() < val : original;
         }
         return original;
     }
@@ -109,19 +99,9 @@ public abstract class EnchantmentMenuMixin {
             index = 0
     )
     private int modifyLapisCostConsumeItemStack(int i) {
-        if (Main.CONFIG.enchantingTable.modifyLapisCost()) {
-            net.objecthunter.exp4j.Expression expression = new ExpressionBuilder(Main.CONFIG.enchantingTable.lapisCostFormula())
-                    .variable("id")
-                    .build().setVariable("id", i - 1);
-            if (expression.validate().isValid()) {
-                int newValue = (int) expression.evaluate();
-                if (newValue > 0) {
-                    return newValue;
-                }
-                else {
-                    return i;
-                }
-            }
+        if (Main.CONFIG.enchantingTable.modifyLapisCost.get()) {
+            int val = (int) Main.CONFIG.enchantingTable.lapisCostFormula.evalSafe(Map.of('i', (double) i - 1), i);
+            return val > 0 ? val : i;
         }
         return i;
     }
@@ -135,19 +115,9 @@ public abstract class EnchantmentMenuMixin {
             index = 1
     )
     private int modifyXpCostOnEnchantmentPerformed(int i) {
-        if (Main.CONFIG.enchantingTable.modifyXpCost()) {
-            net.objecthunter.exp4j.Expression expression = new ExpressionBuilder(Main.CONFIG.enchantingTable.xpCostFormula())
-                    .variable("id")
-                    .build().setVariable("id", i - 1);
-            if (expression.validate().isValid()) {
-                int newValue = (int) expression.evaluate();
-                if (newValue > 0) {
-                    return newValue;
-                }
-                else {
-                    return i;
-                }
-            }
+        if (Main.CONFIG.enchantingTable.modifyXpCost.get()) {
+            int val = (int) Main.CONFIG.enchantingTable.xpCostFormula.evalSafe(Map.of('i', (double) i - 1), i);
+            return val > 0 ? val : i;
         }
         return i;
     }

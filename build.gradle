@@ -1,6 +1,6 @@
 plugins {
     id 'fabric-loom' version '1.10-SNAPSHOT'
-    id 'maven-publish'
+    id "me.modmuss50.mod-publish-plugin" version "0.8.4"
 }
 
 version = project.mod_version + "+" + stonecutter.current.version
@@ -10,11 +10,10 @@ base {
     archivesName = project.archives_base_name
 }
 
-
 repositories {
     maven { url = "https://maven.parchmentmc.org" }
     maven { url = "https://maven.terraformersmc.com/" }
-    maven { url = "https://maven.wispforest.io/releases/" }
+    maven { url = "https://maven.fzzyhmstrs.me/" }
     maven { url = "https://maven.shedaniel.me/" }
     maven { url = "https://jitpack.io/" }
 }
@@ -32,13 +31,16 @@ dependencies {
     include("io.github.llamalad7:mixinextras-fabric:${property("mixinextras_version")}")
     modImplementation(include("com.github.ramixin:mixson-fabric:${project.mixson_version}"))
     modImplementation("com.terraformersmc:modmenu:${property("modmenu_version")}")
-    annotationProcessor modImplementation("io.wispforest:owo-lib:${property("owo_version")}")
-    include 'net.objecthunter:exp4j:0.4.8'
-    implementation 'net.objecthunter:exp4j:0.4.8'
+    modImplementation "me.fzzyhmstrs:fzzy_config:${property("fzzy_version")}"
 
-    modCompileOnly "dev.emi:emi-fabric:${property("emi_version")}"
-    if (stonecutter.eval(stonecutter.current.version, "1.21.1")) modImplementation "dev.emi:emi-fabric:${property("emi_version")}"
-    modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:${property("rei_version")}"
+    if (stonecutter.eval(stonecutter.current.version, "1.21.1"))
+        modImplementation "dev.emi:emi-fabric:${property("emi_version")}"
+    else
+        modCompileOnly "dev.emi:emi-fabric:${property("emi_version")}"
+    if (stonecutter.eval(stonecutter.current.version, "<1.21.7"))
+        modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:${property("rei_version")}"
+    else
+        modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${property("rei_version")}"
 }
 
 processResources {
@@ -77,5 +79,34 @@ java {
 jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
+    }
+}
+
+publishMods {
+    file = remapJar.archiveFile
+    changelog = file(getRootDir().path + "/CHANGELOG.md").text
+    type = STABLE
+    modLoaders.add("fabric")
+    displayName = project.mod_version + " for Fabric " + stonecutter.current.version
+
+    modrinth {
+        accessToken = providers.environmentVariable("MR_KEY")
+        projectId = "Kd03i2oU"
+        minecraftVersions.add(stonecutter.current.version)
+        requires("fabric-api", "fzzy-config")
+        optional("modmenu")
+        embeds("mixson")
+    }
+
+    curseforge {
+        accessToken = providers.environmentVariable("CF_KEY")
+        projectId = "912326"
+        minecraftVersions.add(stonecutter.current.version)
+        javaVersions.add(stonecutter.eval(stonecutter.current.version, ">=1.20.5")
+                ? JavaVersion.VERSION_21 : JavaVersion.VERSION_17)
+        clientRequired = true
+        serverRequired = true
+        requires("fabric-api", "fzzy-config")
+        optional("modmenu")
     }
 }

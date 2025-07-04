@@ -18,10 +18,10 @@ public class MerchantOfferMixin {
 
     @Inject(method = "resetUses", at = @At("HEAD"), cancellable = true)
     private void skipEnchantedItemTradeRestock(CallbackInfo ci) {
-        if (!Main.CONFIG.trades.enchantedBookTradeRestockEnabled() && result.is(Items.ENCHANTED_BOOK)) {
+        if (!Main.CONFIG.trades.enchantedBookTradeRestockEnabled.get() && result.is(Items.ENCHANTED_BOOK)) {
             ci.cancel();
         }
-        if (!Main.CONFIG.trades.enchantedItemTradeRestockEnabled() &&
+        if (!Main.CONFIG.trades.enchantedItemTradeRestockEnabled.get() &&
                 !result.is(Items.ENCHANTED_BOOK) && !result.getEnchantments().isEmpty()) {
             ci.cancel();
         }

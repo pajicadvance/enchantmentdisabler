@@ -10,7 +10,7 @@ public class EMIPlugin implements EmiPlugin {
 
     @Override
     public void initialize(EmiInitRegistry registry) {
-        if (Main.CONFIG.disablerEnabled()) {
+        if (Main.CONFIG.disabler.disablerEnabled.get()) {
             registry.disableStacks(emiStack -> ModUtil.filterStacks(emiStack.getItemStack()));
         }
     }

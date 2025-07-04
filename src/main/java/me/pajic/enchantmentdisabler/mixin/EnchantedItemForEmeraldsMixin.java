@@ -14,8 +14,8 @@ public class EnchantedItemForEmeraldsMixin {
             at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/npc/VillagerTrades$EnchantedItemForEmeralds;maxUses:I")
     )
     private int setTradeUses(int original) {
-        if (Main.CONFIG.trades.modifyEnchantedItemTradeUses()) {
-            return Main.CONFIG.trades.maxEnchantedItemTradeUses();
+        if (Main.CONFIG.trades.modifyEnchantedItemTradeUses.get() && original > Main.CONFIG.trades.maxEnchantedItemTradeUses.get()) {
+            return Main.CONFIG.trades.maxEnchantedItemTradeUses.get();
         }
         else {
             return original;

@@ -1,67 +1,21 @@
 package me.pajic.enchantmentdisabler.util;
 
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import me.pajic.enchantmentdisabler.Main;
-import net.minecraft.ResourceLocationException;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ModUtil {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("EnchantmentDisabler-ResourceParsing");
-
-    private static final List<String> INVALID_ENTRIES = new ArrayList<>();
-
     public static boolean filterStacks(ItemStack stack) {
-        for (String s : Main.CONFIG.disabledEnchantments()) {
+        for (ResourceLocation rl : Main.CONFIG.disabler.disabledEnchantments) {
             ItemEnchantments storedEnchantments = stack.get(DataComponents.STORED_ENCHANTMENTS);
             if (storedEnchantments != null) {
-                try {
-                    if (storedEnchantments.keySet().stream().anyMatch(holder -> holder.is(ResourceLocation.parse(s))))
-                        return true;
-                } catch (ResourceLocationException e) {
-                    handleResourceLocationException(s, e);
-                }
+                if (storedEnchantments.keySet().stream().anyMatch(holder -> holder.is(rl))) return true;
             }
         }
         return false;
-    }
-
-    public static void handleResourceLocationException(String s, ResourceLocationException e) {
-        if (!INVALID_ENTRIES.contains(s)) {
-            LOGGER.error("[Enchantment Disabler] Failed to parse enchantment {}:", s);
-            LOGGER.error(e.getMessage());
-            LOGGER.error("Verify that enchantments added in the disabled enchantments list inside the mod config are valid.");
-            INVALID_ENTRIES.add(s);
-        }
-    }
-
-    public static Object2IntMap<String> parseObtainableEnchantmentLevelLimits() {
-        Object2IntMap<String> map = new Object2IntOpenHashMap<>();
-        Main.CONFIG.maxLevel.obtainableEnchantmentLevels().forEach(entry -> {
-            int i = entry.lastIndexOf('/');
-            if (i == -1) {
-                LOGGER.error("Invalid obtainable level entry: {}", entry);
-            } else {
-                String enchantment = entry.substring(0, i);
-                int maxLevel;
-                try {
-                    maxLevel = Integer.parseInt(entry.substring(i + 1));
-                    map.put(enchantment, maxLevel);
-                } catch (NumberFormatException e) {
-                    LOGGER.error("Obtainable level is not a number in obtainable level entry: {}", entry);
-                }
-            }
-        });
-        return map;
     }
 
     public static ItemEnchantments getItemEnchantments(ItemStack stack) {

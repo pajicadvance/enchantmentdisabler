@@ -18,8 +18,8 @@ public class EnchantWithLevelsFunctionMixin {
             index = 2
     )
     private int modifyMaxEnchantmentLevel(int level) {
-        if (Main.CONFIG.loot.modifyEnchantWithLevelsMaxPower() && level > Main.CONFIG.loot.enchantWithLevelsMaxPower()) {
-            return Main.CONFIG.loot.enchantWithLevelsMaxPower();
+        if (Main.CONFIG.loot.modifyEnchantWithLevelsMaxPower.get() && level > Main.CONFIG.loot.enchantWithLevelsMaxPower.get()) {
+            return Main.CONFIG.loot.enchantWithLevelsMaxPower.get();
         }
         return level;
     }

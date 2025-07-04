@@ -4,10 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import me.pajic.enchantmentdisabler.Main;
-import me.pajic.enchantmentdisabler.util.ModUtil;
-import net.minecraft.ResourceLocationException;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
@@ -15,6 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.List;
+import java.util.Map;
 
 @Mixin(EnchantmentHelper.class)
 public class EnchantmentHelperMixin {
@@ -29,14 +27,9 @@ public class EnchantmentHelperMixin {
     private static <E> boolean preventAdditionIfDisabled(List<EnchantmentInstance> instance, E e, Operation<Boolean> original) {
         EnchantmentInstance ei = (EnchantmentInstance) e;
         if (
-                Main.CONFIG.disablerEnabled() &&
-                Main.CONFIG.disabledEnchantments().stream().anyMatch(s -> {
-                    try {
-                        return ei.enchantment/*? if 1.21.5 {*//*()*//*?}*/.is(ResourceLocation.parse(s));
-                    } catch (ResourceLocationException ex) {
-                        ModUtil.handleResourceLocationException(s ,ex);
-                        return false;
-                    }
+                Main.CONFIG.disabler.disablerEnabled.get() &&
+                Main.CONFIG.disabler.disabledEnchantments.stream().anyMatch(rl -> {
+                    return ei.enchantment/*? if > 1.21.4 {*//*()*//*?}*/.is(rl);
                 })
         ) {
             return false;
@@ -47,21 +40,21 @@ public class EnchantmentHelperMixin {
     @ModifyExpressionValue(
             method = "enchantItem(Lnet/minecraft/util/RandomSource;Lnet/minecraft/world/item/ItemStack;ILjava/util/stream/Stream;)Lnet/minecraft/world/item/ItemStack;",
             at = @At(
-                    //? if < 1.21.5 {
+                    //? if <= 1.21.4 {
                     value = "FIELD",
                     target = "Lnet/minecraft/world/item/enchantment/EnchantmentInstance;level:I"
                     //?}
-                    //? if >= 1.21.5 {
+                    //? if > 1.21.4 {
                     /*value = "INVOKE",
                     target = "Lnet/minecraft/world/item/enchantment/EnchantmentInstance;level()I"
                     *///?}
             )
     )
     private static int limitEnchantmentLevel(int original, @Local EnchantmentInstance ei) {
-        if (Main.CONFIG.maxLevel.limitObtainableEnchantmentLevel()) {
-            for (Object2IntMap.Entry<String> entry : ModUtil.parseObtainableEnchantmentLevelLimits().object2IntEntrySet()) {
-                if (ei.enchantment/*? if 1.21.5 {*//*()*//*?}*/.is(ResourceLocation.parse(entry.getKey()))) {
-                    if (original > entry.getIntValue()) return entry.getIntValue();
+        if (Main.CONFIG.maxLevel.limitObtainableEnchantmentLevel.get()) {
+            for (Map.Entry<ResourceLocation, Integer> entry : Main.CONFIG.maxLevel.obtainableEnchantmentLevels.entrySet()) {
+                if (ei.enchantment/*? if > 1.21.4 {*//*()*//*?}*/.is(entry.getKey())) {
+                    if (original > entry.getValue()) return entry.getValue();
                 }
             }
         }
