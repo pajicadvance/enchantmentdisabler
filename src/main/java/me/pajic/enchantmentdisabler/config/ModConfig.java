@@ -12,7 +12,7 @@ import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedExpression;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 import me.pajic.enchantmentdisabler.Main;
-import net.minecraft.core.registries.Registries;
+import me.pajic.enchantmentdisabler.util.ModUtil;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Set;
@@ -33,11 +33,9 @@ public class ModConfig extends Config {
         @RequiresAction(action = Action.RESTART)
         public ValidatedBoolean disablerEnabled = new ValidatedBoolean(false);
         @RequiresAction(action = Action.RESTART)
-        public ValidatedList<ResourceLocation> disabledEnchantments = ValidatedIdentifier.ofDynamicKey(
+        public ValidatedList<ResourceLocation> disabledEnchantments = ValidatedIdentifier.ofSuppliedList(
                 ResourceLocation.withDefaultNamespace("mending"),
-                Registries.ENCHANTMENT,
-                "all_enchantments",
-                (rl, eh) -> true
+                () -> ModUtil.registeredEnchantments
         ).toList();
     }
 
@@ -47,21 +45,17 @@ public class ModConfig extends Config {
         public ValidatedBoolean modifyMaxLevels = new ValidatedBoolean(false);
         @RequiresAction(action = Action.RESTART)
         public ValidatedMap<ResourceLocation, Integer> maxLevels = (new ValidatedMap.Builder())
-                .keyHandler(ValidatedIdentifier.ofDynamicKey(
+                .keyHandler(ValidatedIdentifier.ofSuppliedList(
                         ResourceLocation.withDefaultNamespace("mending"),
-                        Registries.ENCHANTMENT,
-                        "all_enchantments",
-                        (rl, eh) -> true
+                        () -> ModUtil.registeredEnchantments
                 ))
                 .valueHandler(new ValidatedInt(1, Integer.MAX_VALUE, 1))
                 .build();
         public ValidatedBoolean limitObtainableEnchantmentLevel = new ValidatedBoolean(false);
         public ValidatedMap<ResourceLocation, Integer> obtainableEnchantmentLevels = (new ValidatedMap.Builder())
-                .keyHandler(ValidatedIdentifier.ofDynamicKey(
+                .keyHandler(ValidatedIdentifier.ofSuppliedList(
                         ResourceLocation.withDefaultNamespace("mending"),
-                        Registries.ENCHANTMENT,
-                        "all_enchantments",
-                        (rl, eh) -> true
+                        () -> ModUtil.registeredEnchantments
                 ))
                 .valueHandler(new ValidatedInt(1, Integer.MAX_VALUE, 1))
                 .build();
