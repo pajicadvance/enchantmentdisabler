@@ -1,9 +1,1 @@
-- Updated to Minecraft 1.21.7.
-- Switched config API to Fzzy Config:
-    - More user friendly config menu layout.
-    - When adding enchantments to lists, enchantment suggestions are shown in a dropdown menu, allowing for easy lookup of available enchantments without having to look at external files or read code.
-    - Built-in validation, so it's impossible to input invalid values and crash the game.
-- Your configuration **will be reset**, but the old configuration file will remain in your config folder so you can match the new config with the old one.
-- Removed exp4j library as expression handling is being done by Fzzy Config now.
-- Removed a lot of custom exception handling code made obsolete by Fzzy Config.
-- Supported Minecraft versions are now 1.21.1, 1.21.4, and 1.21.7. Other versions are unsupported.
+- Fix modded enchantments not showing up in enchantment suggestions in the configuration screen.
