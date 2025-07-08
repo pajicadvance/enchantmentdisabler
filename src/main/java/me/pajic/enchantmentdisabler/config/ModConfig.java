@@ -35,7 +35,7 @@ public class ModConfig extends Config {
         @RequiresAction(action = Action.RESTART)
         public ValidatedList<ResourceLocation> disabledEnchantments = ValidatedIdentifier.ofSuppliedList(
                 ResourceLocation.withDefaultNamespace("mending"),
-                () -> ModUtil.registeredEnchantments
+                () -> ModUtil.enchantmentSuggestions
         ).toList();
     }
 
@@ -47,7 +47,7 @@ public class ModConfig extends Config {
         public ValidatedMap<ResourceLocation, Integer> maxLevels = (new ValidatedMap.Builder())
                 .keyHandler(ValidatedIdentifier.ofSuppliedList(
                         ResourceLocation.withDefaultNamespace("mending"),
-                        () -> ModUtil.registeredEnchantments
+                        () -> ModUtil.enchantmentSuggestions
                 ))
                 .valueHandler(new ValidatedInt(1, Integer.MAX_VALUE, 1))
                 .build();
@@ -55,7 +55,7 @@ public class ModConfig extends Config {
         public ValidatedMap<ResourceLocation, Integer> obtainableEnchantmentLevels = (new ValidatedMap.Builder())
                 .keyHandler(ValidatedIdentifier.ofSuppliedList(
                         ResourceLocation.withDefaultNamespace("mending"),
-                        () -> ModUtil.registeredEnchantments
+                        () -> ModUtil.enchantmentSuggestions
                 ))
                 .valueHandler(new ValidatedInt(1, Integer.MAX_VALUE, 1))
                 .build();

@@ -1,1 +1,2 @@
-- Fix modded enchantments not showing up in enchantment suggestions in the configuration screen.
+- [Fabric] Fixed some modded enchantments still not showing up in enchantment suggestions.
+- [NeoForge] Removed enchantment suggestions as NeoForge does not have the tooling required to get them working properly.

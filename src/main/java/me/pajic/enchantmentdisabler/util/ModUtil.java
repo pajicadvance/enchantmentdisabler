@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModUtil {
-    public static List<ResourceLocation> registeredEnchantments = new ArrayList<>();
+    public static List<ResourceLocation> enchantmentSuggestions = new ArrayList<>();
 
     public static boolean filterStacks(ItemStack stack) {
         for (ResourceLocation rl : Main.CONFIG.disabler.disabledEnchantments) {
