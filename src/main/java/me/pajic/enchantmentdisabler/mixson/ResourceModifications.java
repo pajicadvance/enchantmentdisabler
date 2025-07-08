@@ -3,7 +3,6 @@ package me.pajic.enchantmentdisabler.mixson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import me.pajic.enchantmentdisabler.Main;
-import me.pajic.enchantmentdisabler.util.ModUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.loading.FMLLoader;
 import net.ramixin.mixson.debug.DebugMode;
@@ -65,9 +64,6 @@ public class ResourceModifications {
                             runEventOnTag(context1, entry.replace("#", ""));
                             return false;
                         } else {
-                            if (!ModUtil.registeredEnchantments.contains(ResourceLocation.parse(entry))) {
-                                ModUtil.registeredEnchantments.add(ResourceLocation.parse(entry));
-                            }
                             if (!Main.CONFIG.disabler.disablerEnabled.get()) return false;
                             return Main.CONFIG.disabler.disabledEnchantments.contains(ResourceLocation.parse(entry));
                         }

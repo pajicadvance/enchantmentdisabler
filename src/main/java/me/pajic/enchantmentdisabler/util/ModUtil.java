@@ -6,12 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ModUtil {
-    public static List<ResourceLocation> registeredEnchantments = new ArrayList<>();
-
     public static boolean filterStacks(ItemStack stack) {
         for (ResourceLocation rl : Main.CONFIG.disabler.disabledEnchantments) {
             ItemEnchantments storedEnchantments = stack.get(DataComponents.STORED_ENCHANTMENTS);
