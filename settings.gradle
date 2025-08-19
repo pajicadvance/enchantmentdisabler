@@ -7,13 +7,13 @@ pluginManagement {
 }
 
 plugins {
-    id "dev.kikugie.stonecutter" version "0.6.2"
+    id "dev.kikugie.stonecutter" version "0.7.8"
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 }
 
 stonecutter {
     create(rootProject) {
-        versions "1.21.1", "1.21.4", "1.21.7"
+        versions "1.21.1", "1.21.4", "1.21.8"
         vcsVersion = "1.21.1"
     }
 }

@@ -1,2 +1,3 @@
-- [Fabric] Fixed some modded enchantments still not showing up in enchantment suggestions.
-- [NeoForge] Removed enchantment suggestions as NeoForge does not have the tooling required to get them working properly.
+- [Fabric] Disabled enchantment suggestions in the config menu due to issues.
+- Mod now requires *latest Fabric Loader and NeoForge* - will crash on older versions.
+- Added support for Minecraft 1.21.8.

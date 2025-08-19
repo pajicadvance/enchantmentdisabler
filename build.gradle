@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.184'
+    id 'net.neoforged.gradle.userdev' version '7.0.192'
     id "me.modmuss50.mod-publish-plugin" version "0.8.4"
 }
 
@@ -80,9 +80,6 @@ tasks.named('jarJar') {
 
 dependencies {
     implementation "net.neoforged:neoforge:${property("neo_version")}"
-    implementation(jarJar("io.github.llamalad7:mixinextras-neoforge:${project.mixinextras_version}")) {
-        jarJar.ranged(it, "[0.5.0-rc.2,)")
-    }
     implementation(jarJar("com.github.ramixin:mixson-neoforge:${project.mixson_version}")) {
         jarJar.ranged(it, "[v1.3.2,)")
     }
