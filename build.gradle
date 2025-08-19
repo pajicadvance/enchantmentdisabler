@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'fabric-loom' version '1.11-SNAPSHOT'
     id "me.modmuss50.mod-publish-plugin" version "0.8.4"
 }
 
@@ -27,9 +27,9 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}"
-    implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${property("mixinextras_version")}"))
-    include("io.github.llamalad7:mixinextras-fabric:${property("mixinextras_version")}")
-    modImplementation(include("com.github.ramixin:mixson-fabric:${project.mixson_version}"))
+    modImplementation(include("com.github.ramixin:mixson-fabric:${project.mixson_version}")) {
+        exclude group: "net.fabricmc.fabric-api", module: "fabric-api"
+    }
     modImplementation("com.terraformersmc:modmenu:${property("modmenu_version")}")
     modImplementation "me.fzzyhmstrs:fzzy_config:${property("fzzy_version")}"
 
@@ -93,6 +93,9 @@ publishMods {
         accessToken = providers.environmentVariable("MR_KEY")
         projectId = "Kd03i2oU"
         minecraftVersions.add(stonecutter.current.version)
+        if (stonecutter.eval(stonecutter.current.version, "1.21.7")) {
+            minecraftVersions.add("1.21.8")
+        }
         requires("fabric-api", "fzzy-config")
         optional("modmenu")
         embeds("mixson")
@@ -102,6 +105,9 @@ publishMods {
         accessToken = providers.environmentVariable("CF_KEY")
         projectId = "912326"
         minecraftVersions.add(stonecutter.current.version)
+        if (stonecutter.eval(stonecutter.current.version, "1.21.7")) {
+            minecraftVersions.add("1.21.8")
+        }
         javaVersions.add(stonecutter.eval(stonecutter.current.version, ">=1.20.5")
                 ? JavaVersion.VERSION_21 : JavaVersion.VERSION_17)
         clientRequired = true

@@ -33,10 +33,7 @@ public class ModConfig extends Config {
         @RequiresAction(action = Action.RESTART)
         public ValidatedBoolean disablerEnabled = new ValidatedBoolean(false);
         @RequiresAction(action = Action.RESTART)
-        public ValidatedList<ResourceLocation> disabledEnchantments = ValidatedIdentifier.ofSuppliedList(
-                ResourceLocation.withDefaultNamespace("mending"),
-                () -> ModUtil.enchantmentSuggestions
-        ).toList();
+        public ValidatedList<ResourceLocation> disabledEnchantments = new ValidatedIdentifier(ResourceLocation.withDefaultNamespace("mending")).toList();
     }
 
     @SuppressWarnings("unchecked")
@@ -45,18 +42,12 @@ public class ModConfig extends Config {
         public ValidatedBoolean modifyMaxLevels = new ValidatedBoolean(false);
         @RequiresAction(action = Action.RESTART)
         public ValidatedMap<ResourceLocation, Integer> maxLevels = (new ValidatedMap.Builder())
-                .keyHandler(ValidatedIdentifier.ofSuppliedList(
-                        ResourceLocation.withDefaultNamespace("mending"),
-                        () -> ModUtil.enchantmentSuggestions
-                ))
+                .keyHandler(new ValidatedIdentifier(ResourceLocation.withDefaultNamespace("mending")))
                 .valueHandler(new ValidatedInt(1, Integer.MAX_VALUE, 1))
                 .build();
         public ValidatedBoolean limitObtainableEnchantmentLevel = new ValidatedBoolean(false);
         public ValidatedMap<ResourceLocation, Integer> obtainableEnchantmentLevels = (new ValidatedMap.Builder())
-                .keyHandler(ValidatedIdentifier.ofSuppliedList(
-                        ResourceLocation.withDefaultNamespace("mending"),
-                        () -> ModUtil.enchantmentSuggestions
-                ))
+                .keyHandler(new ValidatedIdentifier(ResourceLocation.withDefaultNamespace("mending")))
                 .valueHandler(new ValidatedInt(1, Integer.MAX_VALUE, 1))
                 .build();
     }
