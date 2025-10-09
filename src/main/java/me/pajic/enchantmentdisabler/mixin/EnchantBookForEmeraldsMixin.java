@@ -21,6 +21,7 @@ import java.util.Optional;
 @Mixin(VillagerTrades.EnchantBookForEmeralds.class)
 public class EnchantBookForEmeraldsMixin {
 
+    @SuppressWarnings({"rawtypes", "OptionalUsedAsFieldOrParameterType"})
     @WrapOperation(
             method = "getOffer",
             at = @At(

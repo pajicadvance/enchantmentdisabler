@@ -31,7 +31,7 @@ public abstract class EnchantmentMenuMixin {
     @Shadow @Final private ContainerLevelAccess access;
     @Shadow @Final private RandomSource random;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes", "OptionalGetWithoutIsPresent", "LocalMayBeArgsOnly"})
     @ModifyExpressionValue(
             method = "slotsChanged",
             at = @At(
@@ -45,9 +45,9 @@ public abstract class EnchantmentMenuMixin {
             access.execute((level, pos) -> {
                 Optional<HolderSet.Named<Enchantment>> possibleEnchantments =
                         //? if 1.21.1
-                        level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getTag(EnchantmentTags.IN_ENCHANTING_TABLE);
+                        /*level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getTag(EnchantmentTags.IN_ENCHANTING_TABLE);*/
                         //? if >= 1.21.4
-                        /*level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).get(EnchantmentTags.IN_ENCHANTING_TABLE);*/
+                        level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).get(EnchantmentTags.IN_ENCHANTING_TABLE);
                 List<EnchantmentInstance> list = EnchantmentHelper.getAvailableEnchantmentResults(
                         EnchantmentHelper.getEnchantmentCost(random, 2, 15, itemStack),
                         itemStack,
@@ -76,6 +76,7 @@ public abstract class EnchantmentMenuMixin {
         return original;
     }
 
+    @SuppressWarnings("LocalMayBeArgsOnly")
     @Definition(id = "getCount", method = "Lnet/minecraft/world/item/ItemStack;getCount()I")
     @Expression("?.getCount() < ?")
     @ModifyExpressionValue(

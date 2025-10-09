@@ -18,6 +18,7 @@ import java.util.Optional;
 
 public class REIPlugin implements REIClientPlugin {
 
+    @SuppressWarnings({"UnstableApiUsage", "DataFlowIssue"})
     @Override
     public void registerBasicEntryFiltering(BasicFilteringRule<?> rule) {
         Main.CONFIG.disabler.disabledEnchantments.forEach(rl -> {

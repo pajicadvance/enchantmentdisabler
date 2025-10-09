@@ -26,6 +26,7 @@ public abstract class EnchantmentScreenMixin extends AbstractContainerScreen<Enc
         super(menu, playerInventory, title);
     }
 
+    @SuppressWarnings("LocalMayBeArgsOnly")
     @Expression("? < ? + 1")
     @ModifyExpressionValue(
             method = "renderBg",

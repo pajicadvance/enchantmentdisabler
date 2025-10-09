@@ -12,7 +12,6 @@ import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedExpression;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 import me.pajic.enchantmentdisabler.Main;
-import me.pajic.enchantmentdisabler.util.ModUtil;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Set;
@@ -36,7 +35,7 @@ public class ModConfig extends Config {
         public ValidatedList<ResourceLocation> disabledEnchantments = new ValidatedIdentifier(ResourceLocation.withDefaultNamespace("mending")).toList();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static class MaxLevel extends ConfigSection {
         @RequiresAction(action = Action.RESTART)
         public ValidatedBoolean modifyMaxLevels = new ValidatedBoolean(false);

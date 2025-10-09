@@ -1,3 +1,1 @@
-- [Fabric] Disabled enchantment suggestions in the config menu due to issues.
-- Mod now requires *latest Fabric Loader and NeoForge* - will crash on older versions.
-- Added support for Minecraft 1.21.8.
+- Updated to Minecraft 1.21.10.

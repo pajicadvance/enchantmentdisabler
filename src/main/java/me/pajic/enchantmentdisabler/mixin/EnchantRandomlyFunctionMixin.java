@@ -22,6 +22,7 @@ import java.util.Optional;
 @Mixin(EnchantRandomlyFunction.class)
 public class EnchantRandomlyFunctionMixin {
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @Shadow @Final private Optional<HolderSet<Enchantment>> options;
 
     @ModifyArg(

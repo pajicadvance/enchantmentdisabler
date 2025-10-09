@@ -28,16 +28,16 @@ import java.util.Map;
 public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 
     //? if >= 1.21.4 {
-    /*public AnvilMenuMixin(@Nullable MenuType<?> menuType, int containerId, Inventory inventory, ContainerLevelAccess access, ItemCombinerMenuSlotDefinition slotDefinition) {
+    public AnvilMenuMixin(@Nullable MenuType<?> menuType, int containerId, Inventory inventory, ContainerLevelAccess access, ItemCombinerMenuSlotDefinition slotDefinition) {
         super(menuType, containerId, inventory, access, slotDefinition);
     }
-    *///?}
+    //?}
 
     //? if 1.21.1 {
-    public AnvilMenuMixin(@Nullable MenuType<?> type, int containerId, Inventory playerInventory, ContainerLevelAccess access) {
+    /*public AnvilMenuMixin(@Nullable MenuType<?> type, int containerId, Inventory playerInventory, ContainerLevelAccess access) {
         super(type, containerId, playerInventory, access);
     }
-    //?}
+    *///?}
 
     @Inject(method = "onTake", at = @At("HEAD"))
     private void triggerEnchanterAdvancement(Player player, ItemStack stack, CallbackInfo ci) {

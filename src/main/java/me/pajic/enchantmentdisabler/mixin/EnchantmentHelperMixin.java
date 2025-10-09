@@ -29,7 +29,7 @@ public class EnchantmentHelperMixin {
         if (
                 Main.CONFIG.disabler.disablerEnabled.get() &&
                 Main.CONFIG.disabler.disabledEnchantments.stream().anyMatch(rl -> {
-                    return ei.enchantment/*? if > 1.21.4 {*//*()*//*?}*/.is(rl);
+                    return ei.enchantment/*? if > 1.21.4 {*/()/*?}*/.is(rl);
                 })
         ) {
             return false;
@@ -41,19 +41,18 @@ public class EnchantmentHelperMixin {
             method = "enchantItem(Lnet/minecraft/util/RandomSource;Lnet/minecraft/world/item/ItemStack;ILjava/util/stream/Stream;)Lnet/minecraft/world/item/ItemStack;",
             at = @At(
                     //? if <= 1.21.4 {
-                    value = "FIELD",
+                    /*value = "FIELD",
                     target = "Lnet/minecraft/world/item/enchantment/EnchantmentInstance;level:I"
-                    //?}
-                    //? if > 1.21.4 {
-                    /*value = "INVOKE",
+                    *///?} else {
+                    value = "INVOKE",
                     target = "Lnet/minecraft/world/item/enchantment/EnchantmentInstance;level()I"
-                    *///?}
+                    //?}
             )
     )
     private static int limitEnchantmentLevel(int original, @Local EnchantmentInstance ei) {
         if (Main.CONFIG.maxLevel.limitObtainableEnchantmentLevel.get()) {
             for (Map.Entry<ResourceLocation, Integer> entry : Main.CONFIG.maxLevel.obtainableEnchantmentLevels.entrySet()) {
-                if (ei.enchantment/*? if > 1.21.4 {*//*()*//*?}*/.is(entry.getKey())) {
+                if (ei.enchantment/*? if > 1.21.4 {*/()/*?}*/.is(entry.getKey())) {
                     if (original > entry.getValue()) return entry.getValue();
                 }
             }

@@ -40,7 +40,9 @@ dependencies {
     if (stonecutter.eval(stonecutter.current.version, "<1.21.7"))
         modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:${property("rei_version")}"
     else
-        modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${property("rei_version")}"
+        modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${property("rei_version")}") {
+            exclude group: "net.fabricmc.fabric-api", module: "fabric-api"
+        }
 }
 
 processResources {
