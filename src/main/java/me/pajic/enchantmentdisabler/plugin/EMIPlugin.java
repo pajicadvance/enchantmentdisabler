@@ -1,0 +1,19 @@
+package me.pajic.enchantmentdisabler.plugin;
+
+import dev.emi.emi.api.EmiEntrypoint;
+import dev.emi.emi.api.EmiInitRegistry;
+import dev.emi.emi.api.EmiPlugin;
+import dev.emi.emi.api.EmiRegistry;
+import me.pajic.enchantmentdisabler.util.ModUtil;
+
+@EmiEntrypoint
+public class EMIPlugin implements EmiPlugin {
+
+    @Override
+    public void initialize(EmiInitRegistry registry) {
+        registry.disableStacks(emiStack -> ModUtil.filterStacks(emiStack.getItemStack()));
+    }
+
+    @Override
+    public void register(EmiRegistry registry) {}
+}

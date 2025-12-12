@@ -33,6 +33,10 @@ stonecutter {
 		direction = dir
 		replace("ResourceLocation", "Identifier")
 	}
+	replacements.string {
+		direction = dir
+		replace("net.minecraft.world.entity.npc.VillagerTrades", "net.minecraft.world.entity.npc.villager.VillagerTrades")
+	}
 }
 
 fletchingTable {
@@ -43,7 +47,6 @@ fletchingTable {
 
 neoForge {
 	version = property("deps.neoforge") as String
-	accessTransformers.from(rootProject.file("src/main/resources/aw/${stonecutter.current.version}.cfg"))
 	validateAccessTransformers = true
 
 	if (hasProperty("deps.parchment")) parchment {
@@ -76,7 +79,10 @@ neoForge {
 repositories {
 	maven("https://maven.parchmentmc.org") { name = "ParchmentMC" }
 	maven("https://maven.fzzyhmstrs.me/") { name = "Fzzy Config" }
+	maven("https://maven.terraformersmc.com/" ) { name = "TerraformersMC" }
+	maven("https://maven.blamejared.com/") { name = "BlameJared" }
 	maven("https://thedarkcolour.github.io/KotlinForForge/") { name = "KotlinForForge" }
+	maven("https://maven.shedaniel.me/") { name = "Shedaniel" }
 	maven("https://jitpack.io") { name = "Jitpack" }
 	exclusiveContent {
 		forRepository { maven("https://api.modrinth.com/maven") { name = "Modrinth" } }
@@ -86,10 +92,12 @@ repositories {
 
 dependencies {
 	implementation( "me.fzzyhmstrs:fzzy_config:${prop("deps.fzzy_config")}+neoforge")
-	implementation("com.moulberry:mixinconstraints:${prop("deps.mixinconstraints")}")
-	jarJar("com.moulberry:mixinconstraints:${prop("deps.mixinconstraints")}")
 	implementation("com.github.ramixin:mixson-neoforge:${prop("deps.mixson")}")
 	jarJar("com.github.ramixin:mixson-neoforge:${prop("deps.mixson")}")
+
+	compileOnly("dev.emi:emi-neoforge:${prop("deps.emi")}")
+	compileOnly("mezz.jei:jei-${prop("deps.jei")}")
+	compileOnly("me.shedaniel:RoughlyEnoughItems-neoforge:${prop("deps.rei")}")
 }
 
 tasks.named("createMinecraftArtifacts") {

@@ -30,7 +30,6 @@ platform {
 }
 
 loom {
-	accessWidenerPath = rootProject.file("src/main/resources/aw/${stonecutter.current.version}.accesswidener")
 	runs.named("client") {
 		client()
 		ideConfigGenerated(true)
@@ -59,6 +58,10 @@ stonecutter {
 		direction = dir
 		replace("ResourceLocation", "Identifier")
 	}
+	replacements.string {
+		direction = dir
+		replace("net.minecraft.world.entity.npc.VillagerTrades", "net.minecraft.world.entity.npc.villager.VillagerTrades")
+	}
 }
 
 fletchingTable {
@@ -71,7 +74,9 @@ repositories {
 	maven("https://maven.parchmentmc.org") { name = "ParchmentMC" }
 	maven("https://maven.fzzyhmstrs.me/") { name = "Fzzy Config" }
 	maven("https://maven.terraformersmc.com/" ) { name = "TerraformersMC" }
+	maven("https://maven.blamejared.com/") { name = "BlameJared" }
 	maven("https://thedarkcolour.github.io/KotlinForForge/") { name = "KotlinForForge" }
+	maven("https://maven.shedaniel.me/") { name = "Shedaniel" }
 	maven("https://jitpack.io") { name = "Jitpack" }
 	exclusiveContent {
 		forRepository { maven("https://api.modrinth.com/maven") { name = "Modrinth" } }
@@ -91,12 +96,16 @@ dependencies {
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${prop("deps.fabric-api")}")
 	modImplementation("me.fzzyhmstrs:fzzy_config:${prop("deps.fzzy_config")}")
 	modImplementation("com.terraformersmc:modmenu:${prop("deps.modmenu")}")
-	implementation("com.moulberry:mixinconstraints:${prop("deps.mixinconstraints")}")
-	include("com.moulberry:mixinconstraints:${prop("deps.mixinconstraints")}")
 	modImplementation("com.github.ramixin:mixson-fabric:${prop("deps.mixson")}") {
 		exclude(group = "net.fabricmc.fabric-api", module = "fabric-api")
 	}
 	include("com.github.ramixin:mixson-fabric:${prop("deps.mixson")}") {
+		exclude(group = "net.fabricmc.fabric-api", module = "fabric-api")
+	}
+
+	modCompileOnly("dev.emi:emi-fabric:${prop("deps.emi")}")
+	modCompileOnly("mezz.jei:jei-${prop("deps.jei")}")
+	modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${prop("deps.rei")}") {
 		exclude(group = "net.fabricmc.fabric-api", module = "fabric-api")
 	}
 }

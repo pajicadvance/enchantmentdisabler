@@ -1,0 +1,11 @@
+- Reworked enchantment disabler to support disabling enchantments per-source.
+  - There are 3 enchantment sources: loot, enchanting table, and villager trades.
+  - Every source can be enabled/disabled for each enchantment.
+  - Adding an enchantment will disable it in all sources by default.
+  - Your disabled enchantments list from previous mod versions will be transferred to the new one, with all the enchantments from the list being disabled in all sources.
+- Enchantments will now be hidden from recipe viewer mods only if they're disabled in all sources.
+- Added compatibility for Just Enough Items (JEI).
+- The max levels setting is no longer capped to the vanilla maximum, meaning you can now use it to increase the max level of enchantments.
+- Added a new "Global enchantment max level" option that sets a max level to all enchantments in the game.
+- There is now a wiki page ["How to configure the mod"](https://github.com/pajicadvance/enchantmentdisabler/wiki/How-to-configure-the-mod) that explains how to disable enchantments and set max levels in detail.
+- Updated to Minecraft 1.21.11.

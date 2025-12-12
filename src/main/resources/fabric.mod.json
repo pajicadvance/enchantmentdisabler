@@ -21,13 +21,18 @@
   "icon": "icon.png",
   "license": "${license}",
   "environment": "*",
-  "accessWidener": "aw/${minecraft}.accesswidener",
   "entrypoints": {
     "main": [
       "${group}.${id}.platform.fabric.FabricEntrypoint"
     ],
-    "client": [
-      "${group}.${id}.platform.fabric.FabricClientEntrypoint"
+    "emi": [
+      "${group}.${id}.plugin.EMIPlugin"
+    ],
+    "rei_client": [
+      "${group}.${id}.plugin.REIPlugin"
+    ],
+    "jei_mod_plugin": [
+      "${group}.${id}.plugin.JEIPlugin"
     ]
   },
   "mixins": [
