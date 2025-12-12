@@ -1,3 +1,7 @@
+3.4.2:
+
+- Fixed incompatibility with Apotheosis.
+
 3.4.1:
 
 - Added 1.21.10 version and fixed JEI compat.

@@ -46,13 +46,14 @@ public class EnchantRandomlyFunctionMixin {
         ).toList();
     }
 
-    @ModifyExpressionValue(
-            method = "enchantItem",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/item/enchantment/Enchantment;getMaxLevel()I"
-            )
-    )
+	@ModifyArg(
+			method = "enchantItem",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/util/Mth;nextInt(Lnet/minecraft/util/RandomSource;II)I"
+			),
+			index = 2
+	)
     private static int limitEnchantmentLevel(int original, @Local(argsOnly = true) Holder<Enchantment> enchantment) {
         if (ED.CONFIG.maxLevel.limitObtainableEnchantmentLevel.get()) {
             for (Map.Entry<Identifier, Integer> entry : ED.CONFIG.maxLevel.obtainableEnchantmentLevels.entrySet()) {
