@@ -1,8 +1,6 @@
 package me.pajic.enchantmentdisabler.plugin;
 
-//? if < 1.21.11 {
-
-/*import me.pajic.enchantmentdisabler.ED;
+import me.pajic.enchantmentdisabler.ED;
 import me.pajic.enchantmentdisabler.util.ModUtil;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -12,12 +10,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -27,7 +26,7 @@ import java.util.Set;
 public class JEIPlugin implements IModPlugin {
 
 	@Override
-	public ResourceLocation getPluginUid() {
+	public @NotNull Identifier getPluginUid() {
 		return ED.id("jei_plugin");
 	}
 
@@ -52,4 +51,3 @@ public class JEIPlugin implements IModPlugin {
 		registration.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, hiddenItems);
 	}
 }
-*///?}

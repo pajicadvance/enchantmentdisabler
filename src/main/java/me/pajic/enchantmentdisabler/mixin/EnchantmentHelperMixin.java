@@ -21,9 +21,11 @@ public class EnchantmentHelperMixin {
 	@WrapOperation(
 			//? if fabric
 			method = "method_60106",
-			//? if neoforge && >= 1.21.11
+			//? if neoforge && > 1.21.10
 			//method = "lambda$getAvailableEnchantmentResults$43",
-			//? if neoforge && < 1.21.11
+			//? if neoforge && 1.21.10
+			//method = "lambda$getAvailableEnchantmentResults$42",
+			//? if neoforge && < 1.21.10
 			//method = "lambda$getAvailableEnchantmentResults$41",
 			at = @At(
 					value = "INVOKE",

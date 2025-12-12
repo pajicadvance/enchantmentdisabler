@@ -57,9 +57,9 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
     }
 
     @Inject(
-			//? if fabric || (< 1.21.11 && neoforge)
+			//? if fabric || (< 1.21.10 && neoforge)
             method = "createResult",
-			//? if >= 1.21.11 && neoforge
+			//? if >= 1.21.10 && neoforge
 			//method = "createResultInternal",
             at = @At(
                     value = "INVOKE",

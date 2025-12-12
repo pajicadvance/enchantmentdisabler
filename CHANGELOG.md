@@ -1,3 +1,9 @@
+3.4.1:
+
+- Added 1.21.10 version and fixed JEI compat.
+
+3.4.0:
+
 - Reworked enchantment disabler to support disabling enchantments per-source.
   - There are 3 enchantment sources: loot, enchanting table, and villager trades.
   - Every source can be enabled/disabled for each enchantment.
