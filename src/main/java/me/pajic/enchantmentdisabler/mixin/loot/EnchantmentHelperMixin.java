@@ -30,7 +30,7 @@ public class EnchantmentHelperMixin {
 			Stream<Holder<Enchantment>> enchantments,
 			@Local(argsOnly = true) Optional<? extends HolderSet<Enchantment>> possibleEnchantments
 	) {
-		if (possibleEnchantments.isEmpty()) {
+		if (possibleEnchantments.isEmpty() || possibleEnchantments.get().size() == 0) {
 			ED.debugLog("[EnchantmentHelper] No options found, filtering fallback");
 			return enchantments.filter(enchantment ->
 					ModUtil.filter(enchantment, sources -> !sources.loot.get())
