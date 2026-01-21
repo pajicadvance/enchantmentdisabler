@@ -17,7 +17,7 @@ import me.pajic.enchantmentdisabler.platform.fabric.FabricPlatform;
 public class ED {
 
 	public static final String MOD_ID = /*$ mod_id*/ "enchantmentdisabler";
-	public static final String MOD_VERSION = /*$ mod_version*/ "3.4.3";
+	public static final String MOD_VERSION = /*$ mod_version*/ "3.4.4";
 	public static final String MOD_FRIENDLY_NAME = /*$ mod_name*/ "Enchantment Disabler";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final Identifier CONFIG_RL = id("config");

@@ -1,2 +1,1 @@
-- Fixed a bug that caused creating Enchanted Books with no enchantments when a loot table used a SetEnchantments function and Enchantment Disabler filtered out all provided enchantments.
-- Fixed a bug that caused items to receive disabled enchantments when a loot table used a EnchantWithLevels function without providing any options.
+- Added compatibility for Reliable Recipe Viewer.

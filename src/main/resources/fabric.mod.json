@@ -33,6 +33,9 @@
     ],
     "jei_mod_plugin": [
       "${group}.${id}.plugin.JEIPlugin"
+    ],
+    "rrv_client": [
+      "${group}.${id}.plugin.RRVPlugin"
     ]
   },
   "mixins": [

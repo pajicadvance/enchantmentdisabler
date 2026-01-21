@@ -77,6 +77,7 @@ repositories {
 	maven("https://maven.blamejared.com/") { name = "BlameJared" }
 	maven("https://thedarkcolour.github.io/KotlinForForge/") { name = "KotlinForForge" }
 	maven("https://maven.shedaniel.me/") { name = "Shedaniel" }
+	maven("https://maven.cassian.cc") { name = "Cassian" }
 	maven("https://jitpack.io") { name = "Jitpack" }
 	exclusiveContent {
 		forRepository { maven("https://api.modrinth.com/maven") { name = "Modrinth" } }
@@ -108,4 +109,6 @@ dependencies {
 	modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${prop("deps.rei")}") {
 		exclude(group = "net.fabricmc.fabric-api", module = "fabric-api")
 	}
+	if (sc.current.parsed.matches("> 1.21.1"))
+		modCompileOnly("cc.cassian.rrv:reliable-recipe-viewer-fabric:${prop("deps.rrv")}+${sc.current.version}")
 }

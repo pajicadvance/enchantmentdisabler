@@ -83,6 +83,7 @@ repositories {
 	maven("https://maven.blamejared.com/") { name = "BlameJared" }
 	maven("https://thedarkcolour.github.io/KotlinForForge/") { name = "KotlinForForge" }
 	maven("https://maven.shedaniel.me/") { name = "Shedaniel" }
+	maven("https://maven.cassian.cc") { name = "Cassian" }
 	maven("https://jitpack.io") { name = "Jitpack" }
 	exclusiveContent {
 		forRepository { maven("https://api.modrinth.com/maven") { name = "Modrinth" } }
@@ -98,6 +99,8 @@ dependencies {
 	compileOnly("dev.emi:emi-neoforge:${prop("deps.emi")}")
 	compileOnly("mezz.jei:jei-${prop("deps.jei")}")
 	compileOnly("me.shedaniel:RoughlyEnoughItems-neoforge:${prop("deps.rei")}")
+	if (sc.current.parsed.matches("> 1.21.10"))
+		compileOnly("cc.cassian.rrv:reliable-recipe-viewer-neoforge:${prop("deps.rrv")}+${stonecutter.current.version}")
 }
 
 tasks.named("createMinecraftArtifacts") {

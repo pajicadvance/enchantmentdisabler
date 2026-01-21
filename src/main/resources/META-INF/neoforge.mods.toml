@@ -18,4 +18,6 @@ description = '''${description}'''
 
 [[mixins]]
 config = "${id}.mixins.json"
+[modproperties.${id}]
+"rrv_client" = "${group}.${id}.plugin.RRVPlugin"
 ${dependencies}
