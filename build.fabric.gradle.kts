@@ -27,7 +27,6 @@ platform {
 }
 
 loom {
-	accessWidenerPath = rootProject.file("src/main/resources/aw/${stonecutter.current.version}.accesswidener")
 	runs.named("client") {
 		client()
 		ideConfigGenerated(true)
@@ -50,14 +49,14 @@ repositories {
 	strictMaven("https://maven.fzzyhmstrs.me/", "me.fzzyhmstrs") { name = "Fzzy Config" }
 	strictMaven("https://maven.terraformersmc.com/", "com.terraformersmc") { name = "TerraformersMC" }
 	strictMaven("https://jitpack.io") { name = "Jitpack" }
+	strictMaven("https://maven.blamejared.com/") { name = "BlameJared" }
+	strictMaven("https://maven.cassian.cc") { name = "Cassian" }
 	strictMaven("https://api.modrinth.com/maven", "maven.modrinth") { name = "Modrinth" }
 }
 
 dependencies {
 	minecraft("com.mojang:minecraft:${prop("deps.minecraft")}")
 	implementation(libs.fabric.loader)
-	implementation(libs.moulberry.mixinconstraints)
-	include(libs.moulberry.mixinconstraints)
 	implementation("net.fabricmc.fabric-api:fabric-api:${prop("deps.fabric-api")}")
 	localRuntime("com.terraformersmc:modmenu:${prop("deps.modmenu")}")
 	implementation("me.fzzyhmstrs:fzzy_config:${prop("deps.fzzy_config")}")
@@ -67,4 +66,6 @@ dependencies {
 	include("com.github.ramixin:mixson-fabric:${prop("deps.mixson")}") {
 		exclude(group = "net.fabricmc.fabric-api", module = "fabric-api")
 	}
+	compileOnly("mezz.jei:jei-${prop("deps.jei")}")
+	compileOnly("cc.cassian.rrv:reliable-recipe-viewer-fabric:${prop("deps.rrv")}")
 }

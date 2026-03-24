@@ -21,8 +21,6 @@ platform {
 
 neoForge {
 	version = property("deps.neoforge") as String
-	accessTransformers.from(rootProject.file("src/main/resources/aw/${stonecutter.current.version}.cfg"))
-	validateAccessTransformers = true
 
 	runs {
 		register("client") {
@@ -50,15 +48,17 @@ repositories {
 	strictMaven("https://maven.fzzyhmstrs.me/", "me.fzzyhmstrs") { name = "Fzzy Config" }
 	strictMaven("https://thedarkcolour.github.io/KotlinForForge/") { name = "KotlinForForge" }
 	strictMaven("https://jitpack.io") { name = "Jitpack" }
+	strictMaven("https://maven.blamejared.com/") { name = "BlameJared" }
+	strictMaven("https://maven.cassian.cc") { name = "Cassian" }
 	strictMaven("https://api.modrinth.com/maven", "maven.modrinth") { name = "Modrinth" }
 }
 
 dependencies {
-	implementation(libs.moulberry.mixinconstraints)
-	jarJar(libs.moulberry.mixinconstraints)
 	implementation("me.fzzyhmstrs:fzzy_config:${prop("deps.fzzy_config")}+neoforge")
 	implementation("com.github.ramixin:mixson-neoforge:${prop("deps.mixson")}")
 	jarJar("com.github.ramixin:mixson-neoforge:${prop("deps.mixson")}")
+	compileOnly("mezz.jei:jei-${prop("deps.jei")}")
+	compileOnly("cc.cassian.rrv:reliable-recipe-viewer-neoforge:${prop("deps.rrv")}")
 }
 
 tasks.named("createMinecraftArtifacts") {
