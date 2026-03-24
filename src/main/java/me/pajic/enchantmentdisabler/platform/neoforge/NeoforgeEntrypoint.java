@@ -6,6 +6,7 @@ package me.pajic.enchantmentdisabler.platform.neoforge;
 import me.pajic.enchantmentdisabler.mixson.DataPatches;import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 @Mod(ED.MOD_ID)
@@ -13,7 +14,12 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 public class NeoforgeEntrypoint {
 
 	@SubscribeEvent
-	private static void onCommonSetup(RegisterEvent event) {
+	private static void onCommonSetup(FMLCommonSetupEvent event) {
+		ED.onInitialize();
+	}
+
+	@SubscribeEvent
+	private static void initDataPatches(RegisterEvent event) {
 		DataPatches.init();
 	}
 }

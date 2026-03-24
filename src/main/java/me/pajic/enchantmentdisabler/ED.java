@@ -21,6 +21,8 @@ public class ED {
 	private static final Platform PLATFORM = createPlatformInstance();
 	public static ModConfig CONFIG = ConfigApiJava.registerAndLoadConfig(ModConfig::new);
 
+	public static void onInitialize() {}
+
 	public static Platform xplat() {
 		return PLATFORM;
 	}
