@@ -25,71 +25,65 @@ public class DataPatches {
 	private static final List<String> REMOVE_TABLE = new ArrayList<>();
 	private static final List<String> REMOVE_TRADE = new ArrayList<>();
 
-	private static boolean initialized = false;
-
 	public static void init() {
-		if (!initialized) {
-			if (ED.xplat().isDebug()) {
-				Mixson.enableDebugOption(DebugOption.BASIC_LOGGING);
-				Mixson.enableDebugOption(DebugOption.EXTRA_LOGGING);
-				Mixson.enableDebugOption(DebugOption.EXPORT_PATCHED_FILE);
-			}
-
-			ED.CONFIG.disabler.disabledEnchantmentsV2.forEach((id, sources) -> {
-				String s = id.toString();
-				if (ModUtil.anySourceDisabled(sources)) {
-					REMOVE_NON_TREASURE.add(s);
-					if (!sources.loot.get()) REMOVE_LOOT.add(s);
-					else ADD_LOOT.add(s);
-					if (!sources.table.get()) REMOVE_TABLE.add(s);
-					else ADD_TABLE.add(s);
-					if (!sources.trade.get()) REMOVE_TRADE.add(s);
-					else ADD_TRADE.add(s);
-				}
-			});
-
-			MixsonHelper.registerSingleJsonPersistent(
-					"Modify non-treasure tag",
-					new Index("minecraft:tags/enchantment/non_treasure"),
-					context -> runEventOnTag(context, "minecraft:non_treasure", List.of(), REMOVE_NON_TREASURE)
-			);
-			MixsonHelper.registerSingleJsonPersistent(
-					"Modify enchanting table tags",
-					new Index("minecraft:tags/enchantment/in_enchanting_table"),
-					context -> runEventOnTag(context, "minecraft:in_enchanting_table", ADD_TABLE, REMOVE_TABLE)
-			);
-			LOOT_TAGS.forEach(s -> MixsonHelper.registerSingleJsonPersistent(
-					"Modify random loot tags",
-					new Index(s.replace(":", ":tags/enchantment/")),
-					context -> runEventOnTag(context, s, ADD_LOOT, REMOVE_LOOT)
-			));
-			TRADE_TAGS.forEach(s -> MixsonHelper.registerSingleJsonPersistent(
-					"Modify trade tags",
-					new Index(s.replace(":", ":tags/enchantment/")),
-					context -> runEventOnTag(context, s, ADD_TRADE, REMOVE_TRADE)
-			));
-
-			int globalMaxLevel = ED.CONFIG.maxLevel.globalMaxLevel.get();
-			if (globalMaxLevel > 0) {
-				MixsonHelper.registerMultiJsonPersistent(
-						"Set global max level " + globalMaxLevel,
-						index -> index.id().getPath().startsWith("enchantment/"),
-						context -> context.getFile().getAsJsonObject().addProperty("max_level", globalMaxLevel)
-				);
-			}
-
-			ED.CONFIG.maxLevel.maxLevels.forEach((key, value) -> {
-				String namespace = key.getNamespace();
-				String path = key.getPath();
-				MixsonHelper.registerSingleJsonPersistent(
-						"Modify max level for enchantment " + key,
-						new Index(namespace + ":enchantment/" + path),
-						context -> context.getFile().getAsJsonObject().addProperty("max_level", value)
-				);
-			});
-
-			initialized = true;
+		if (ED.xplat().isDebug()) {
+			Mixson.enableDebugOption(DebugOption.BASIC_LOGGING);
+			Mixson.enableDebugOption(DebugOption.EXTRA_LOGGING);
+			Mixson.enableDebugOption(DebugOption.EXPORT_PATCHED_FILE);
 		}
+
+		ED.CONFIG.disabler.disabledEnchantmentsV2.forEach((id, sources) -> {
+			String s = id.toString();
+			if (ModUtil.anySourceDisabled(sources)) {
+				REMOVE_NON_TREASURE.add(s);
+				if (!sources.loot.get()) REMOVE_LOOT.add(s);
+				else ADD_LOOT.add(s);
+				if (!sources.table.get()) REMOVE_TABLE.add(s);
+				else ADD_TABLE.add(s);
+				if (!sources.trade.get()) REMOVE_TRADE.add(s);
+				else ADD_TRADE.add(s);
+			}
+		});
+
+		MixsonHelper.registerSingleJsonPersistent(
+				"Modify non-treasure tag",
+				new Index("minecraft:tags/enchantment/non_treasure"),
+				context -> runEventOnTag(context, "minecraft:non_treasure", List.of(), REMOVE_NON_TREASURE)
+		);
+		MixsonHelper.registerSingleJsonPersistent(
+				"Modify enchanting table tags",
+				new Index("minecraft:tags/enchantment/in_enchanting_table"),
+				context -> runEventOnTag(context, "minecraft:in_enchanting_table", ADD_TABLE, REMOVE_TABLE)
+		);
+		LOOT_TAGS.forEach(s -> MixsonHelper.registerSingleJsonPersistent(
+				"Modify random loot tags",
+				new Index(s.replace(":", ":tags/enchantment/")),
+				context -> runEventOnTag(context, s, ADD_LOOT, REMOVE_LOOT)
+		));
+		TRADE_TAGS.forEach(s -> MixsonHelper.registerSingleJsonPersistent(
+				"Modify trade tags",
+				new Index(s.replace(":", ":tags/enchantment/")),
+				context -> runEventOnTag(context, s, ADD_TRADE, REMOVE_TRADE)
+		));
+
+		int globalMaxLevel = ED.CONFIG.maxLevel.globalMaxLevel.get();
+		if (globalMaxLevel > 0) {
+			MixsonHelper.registerMultiJsonPersistent(
+					"Set global max level " + globalMaxLevel,
+					index -> index.id().getPath().startsWith("enchantment/"),
+					context -> context.getFile().getAsJsonObject().addProperty("max_level", globalMaxLevel)
+			);
+		}
+
+		ED.CONFIG.maxLevel.maxLevels.forEach((key, value) -> {
+			String namespace = key.getNamespace();
+			String path = key.getPath();
+			MixsonHelper.registerSingleJsonPersistent(
+					"Modify max level for enchantment " + key,
+					new Index(namespace + ":enchantment/" + path),
+					context -> context.getFile().getAsJsonObject().addProperty("max_level", value)
+			);
+		});
 	}
 
 	private static void runEventOnTag(EventContext<JsonElement> context, String tag, List<String> addList, List<String> removeList) {

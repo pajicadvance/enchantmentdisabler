@@ -2,6 +2,7 @@ package me.pajic.enchantmentdisabler;
 
 import me.fzzyhmstrs.fzzy_config.api.ConfigApiJava;
 import me.pajic.enchantmentdisabler.config.ModConfig;
+import me.pajic.enchantmentdisabler.mixson.DataPatches;
 import me.pajic.enchantmentdisabler.platform.Platform;
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
@@ -21,7 +22,9 @@ public class ED {
 	private static final Platform PLATFORM = createPlatformInstance();
 	public static ModConfig CONFIG = ConfigApiJava.registerAndLoadConfig(ModConfig::new);
 
-	public static void onInitialize() {}
+	public static void onInitialize() {
+		DataPatches.init();
+	}
 
 	public static Platform xplat() {
 		return PLATFORM;
