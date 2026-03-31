@@ -3,6 +3,7 @@ package me.pajic.enchantmentdisabler;
 import me.fzzyhmstrs.fzzy_config.api.ConfigApiJava;
 import me.pajic.enchantmentdisabler.config.ModConfig;
 import me.pajic.enchantmentdisabler.mixson.DataPatches;
+import me.pajic.enchantmentdisabler.mixson.MixsonHelper;
 import me.pajic.enchantmentdisabler.platform.Platform;
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ public class ED {
 	public static ModConfig CONFIG = ConfigApiJava.registerAndLoadConfig(ModConfig::new);
 
 	public static void onInitialize() {
+		MixsonHelper.setDebugFlags();
 		DataPatches.init();
 	}
 
