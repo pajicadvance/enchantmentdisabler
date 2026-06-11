@@ -3,7 +3,7 @@ package me.pajic.enchantmentdisabler.mixin;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import me.pajic.enchantmentdisabler.ED;
 import me.pajic.enchantmentdisabler.util.ModUtil;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;

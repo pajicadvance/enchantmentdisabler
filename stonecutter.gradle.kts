@@ -40,4 +40,10 @@ stonecutter parameters {
 	swaps["mod_group"] = "\"" + property("mod.group") + "\";"
 	swaps["minecraft"] = "\"" + node.metadata.version + "\";"
 	constants["release"] = property("mod.id") != "modtemplate"
+
+	replacements {
+		string(current.parsed > "26.1.2") {
+			replace("import net.minecraft.advancements.CriteriaTriggers;", "import net.minecraft.advancements.triggers.CriteriaTriggers;")
+		}
+	}
 }
