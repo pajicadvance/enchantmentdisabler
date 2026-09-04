@@ -27,10 +27,13 @@ repositories {
     strictMaven("https://maven.su5ed.dev/releases", "Sinytra", "org.sinytra.forgified-fabric-api")
     strictMaven("https://thedarkcolour.github.io/KotlinForForge/", "Kotlin Forge")
     strictMaven("https://repo.nyon.dev/releases", "Kotlin Forge Again")
+    strictMaven("https://maven.blamejared.com/", "BlameJared")
+    strictMaven("https://maven.cassian.cc", "Cassian")
+    strictMaven("https://repo.sleeping.town/", "Sleeping Town")
     ivy {
-        url = uri("https://github.com/xameryn/Mixson/releases/download/")
+        url = uri("https://github.com/pajicadvance/Mixson/releases/download/")
         patternLayout {
-            artifact("[revision]/[module]-[revision]-${sc.current.version}-neoforge.[ext]")
+            artifact("[revision]/mixson_backport-neoforge-${sc.current.version}-[revision].[ext]")
         }
         metadataSources { artifact() }
     }
@@ -121,8 +124,6 @@ dependencies {
 
 neoForge {
     version = property("loader.neo") as String
-    accessTransformers.from(rootProject.file("src/main/resources/aw/${sc.current.project.substringBefore('-')}.cfg"))
-    validateAccessTransformers = true
 
     mods {
         register(property("mod.id") as String) {

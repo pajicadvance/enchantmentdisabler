@@ -39,6 +39,11 @@ stonecutter parameters {
             replace("ValidatedIdentifier", "ValidatedIdentifier")
             replace("ResourceLocation", "Identifier")
             replace("location()", "identifier()")
+            replace("Lnet/minecraft/Util", "Lnet/minecraft/util/Util")
+            replace("net.ramixin.mixson_backport", "net.ramixin.mixson")
+        }
+        string(current.parsed >= "26.2") {
+            replace("import net.minecraft.advancements.CriteriaTriggers;", "import net.minecraft.advancements.triggers.CriteriaTriggers;")
         }
     }
 }

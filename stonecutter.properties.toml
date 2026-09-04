@@ -1,38 +1,38 @@
 # general
-mod.id = "modid"
-mod.name = "Template mod"
+mod.id = "enchantmentdisabler"
+mod.name = "Enchantment Disabler"
 mod.group = "me.pajic"
-mod.version = "1.0.0"
-mod.description = ""
+mod.version = "3.4.8"
+mod.description = "Disable enchantments and nerf enchanting in multiple ways with an extensive configuration"
 mod.authors = "pajic"
 mod.contributors = ""
 mod.license = "MIT"
 
 # links
-mod.sources_url = "https://github.com/pajicadvance/modid"
-mod.homepage_url = "https://modrinth.com/mod/modid"
-mod.issues_url = "https://github.com/pajicadvance/modid/issues"
+mod.sources_url = "https://github.com/pajicadvance/enchantmentdisabler"
+mod.homepage_url = "https://modrinth.com/mod/enchantment-disabler"
+mod.issues_url = "https://github.com/pajicadvance/enchantmentdisabler/issues"
 mod.discord_url = "https://discord.gg/5RkzS66zWb"
 
 # publishing
-publish.modrinth = ""
-publish.curseforge = ""
-publish.env.mr = "CLIENT_AND_SERVER" #https://modmuss50.github.io/mod-publish-plugin/platforms/modrinth/#all-options
-publish.env.cf.client = true
+publish.modrinth = "Kd03i2oU"
+publish.curseforge = "912326"
+publish.env.mr = "SERVER_ONLY_CLIENT_OPTIONAL" #https://modmuss50.github.io/mod-publish-plugin/platforms/modrinth/#all-options
+publish.env.cf.client = false
 publish.env.cf.server = true
-publish.dry_run = true
+publish.dry_run = false
 
 # loom
 loomx.loom_version = "1.17-SNAPSHOT"
 
 # dependencies
 loader.fabric = "0.19.3"
-dep.mixinconstraints.coords = "com.moulberry:$id:$version"
 dep.fzzy_config.coords = "me.fzzyhmstrs:$id:$version"
 dep.fzzy_config.slug = "fzzy-config"
 dep.sodium.coords = "net.caffeinemc:$id-$loader:$version"
-include.mixinconstraints = "1.1.0"
-dev.runtime_optionals = []
+dep.jei.coords = "mezz.$id:$id-$version"
+dep.rrv.coords = "cc.cassian.$id:reliable-recipe-viewer-$loader:$version"
+dep.emi.coords = "dev.emi:$id-$loader:$version"
 
 [fabric]
 dep.fabric-api.coords = "net.fabricmc.fabric-api:$id:$version"
@@ -45,18 +45,22 @@ dep.modmenu.coords = "com.terraformersmc:$id:$version"
 mod.mc_releases = ["1.21", "1.21.1"]
 loader.neo = "21.1.244"
 dep.mixson.coords = "com.github:Mixson:$version"
-include.mixson = "2.1.0"
+include.mixson = "2.2.0"
+optional.emi = "1.1.24+1.21.1"
 runtime.sodium = "0.8.12+mc1.21.1"
+dev.runtime_optionals = ["emi"]
 
 [fabric."1.21.1"]
 mod.mc_compat = ">=1.21 <=1.21.1"
 required.fabric-api = "0.116.14+1.21.1"
 required.fzzy_config = "0.7.6+1.21"
+optional.jei = "1.21.1-fabric:19.52.0.422"
 runtime.modmenu = "11.0.4"
 
 [neoforge."1.21.1"]
 mod.mc_compat = "[1.21, 1.21.1]"
 required.fzzy_config = "0.7.6+1.21+neoforge"
+optional.jei = "1.21.1-neoforge:19.52.0.422"
 
 
 ["26.1"]
@@ -64,17 +68,21 @@ mod.mc_releases = ["26.1", "26.1.1", "26.1.2"]
 loader.neo = "26.1.2.87"
 dep.mixson.coords = "maven.modrinth:$id:$version"
 required.mixson = "2.2.0"
+optional.rrv = "8.10.1+26.1.2"
 runtime.sodium = "0.9.1+mc26.1.2"
+dev.runtime_optionals = ["rrv"]
 
 [fabric."26.1"]
 mod.mc_compat = "~26.1"
 required.fabric-api = "0.155.2+26.1.2"
 required.fzzy_config = "0.7.6+26.1-pre-3"
+optional.jei = "26.1.2-fabric:29.35.0.94"
 runtime.modmenu = "18.0.0"
 
 [neoforge."26.1"]
 mod.mc_compat = "[26.1, 26.2)"
 required.fzzy_config = "0.7.6+26.1-pre-3+neoforge"
+optional.jei = "26.1.2-neoforge:29.35.0.94"
 
 
 ["26.2"]
@@ -82,17 +90,21 @@ mod.mc_releases = ["26.2"]
 loader.neo = "26.2.0.36-beta"
 dep.mixson.coords = "maven.modrinth:$id:$version"
 required.mixson = "2.2.0"
+optional.rrv = "8.10.1+26.2"
 runtime.sodium = "0.9.1+mc26.2"
+dev.runtime_optionals = ["rrv"]
 
 [fabric."26.2"]
 mod.mc_compat = "~26.2"
 required.fabric-api = "0.155.2+26.2"
 required.fzzy_config = "0.7.6+26.2-pre-3"
+optional.jei = "26.2-fabric:30.30.0.204"
 runtime.modmenu = "20.0.1"
 
 [neoforge."26.2"]
 mod.mc_compat = "[26.2, 26.3)"
 required.fzzy_config = "0.7.6+26.2+neoforge"
+optional.jei = "26.2-neoforge:30.30.0.204"
 
 
 ["26.3"]

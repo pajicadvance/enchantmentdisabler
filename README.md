@@ -1,35 +1,20 @@
-# Multicutter
+# Enchantment Disabler
+Enchantment Disabler is a mod for Fabric and NeoForge that effectively disables enchantments specified by the config by preventing them from appearing anywhere in the game.
 
-Based on [Stonecutter Fabric & NeoForge template](https://github.com/stonecutter-versioning/stonecutter-template-multiloader)
+The mod doesn't technically remove enchantments from the game's registry, but rather prevents them from being added to tools, armor and enchanted books from loot chests, villager trades and the enchanting table, which is basically equivalent to playing the game without those enchantments. This approach should be entirely safe and mostly mod-compatible compared to actually deleting the enchantments from the game's registry.
 
-- Multiloader and multiversion management with helper classes
-- Supports both obfuscated and unobfuscated game versions
-- Dependency handling using Stonecutter versioned properties
-- Versioned class tweakers and access transformers
-- Automatic Mixin and entrypoint registration
-- Automated Modrinth and CurseForge publishing
+**Enchantment disabling does NOT apply retroactively - enchantments you obtained before installing the mod will be unaffected.**
 
-### Pre-configured content
+Disabled enchantments are also hidden from creative menus and recipe viewer mods.
 
-- Versions:
-    - 1.21.1 Fabric and NeoForge
-    - 26.1.2 Fabric and NeoForge
-    - 26.2 Fabric and NeoForge
-- Dependencies:
-    - Fabric API (required)
-    - Fzzy Config (required)
-    - Mixson (required)
-    - MixinConstraints (JiJ-d)
-    - Sodium (runtime)
+The mod also contains additional tweaks, which are disabled by default and fully configurable:
 
-No instructions on how to use this yet. If you do want to try it out, the only big difference compared to other templates is that dependencies are declared inside `stonecutter.properties.toml` and not manually inside the build scripts. You only need to add repositories to the build scripts. You can see how pre-configured dependencies are added as examples.
+- Limit the maximum enchantment level for every enchantment
+- Limit the amount of times enchanted book and item villager trades can be used
+- Permanently disable restocking of enchanted book and item villager trades
+- Entirely disable the enchanting table
+- Limit the amount of bookshelves that the enchanting table can accept
+- Modify the amount of lapis and XP levels required to enchant items in the enchanting table (Requires the mod on the client in order to correctly display the costs)
+- Set a limit on how strong enchantments can be on looted equipment
 
-The template may have bugs and oversights as I haven't moved any of my mods to it yet.
-
-Tooling used:
-- [Fabric Loom](https://github.com/FabricMC/fabric-loom): Used for the Fabric build script
-- [ModDevGradle](https://github.com/neoforged/ModDevGradle): Used for the NeoForge build script
-- [Stonecutter](https://stonecutter.kikugie.dev/): Multiloader and multiversion handling
-- [Loom Backwards Compatibility](https://codeberg.org/KikuGie/loom-back-compat): Allows the Fabric build script to handle both obfuscated and unobfuscated versions of the game
-- [Fletching Table](https://stonecutter.kikugie.dev/wiki/fletching-table/#fletching-table-overview): Handles automatic mixin and entrypoint registration
-- [Mod Publish Plugin](https://github.com/modmuss50/mod-publish-plugin): Handles automated publishing to Modrinth and CurseForge
+## [How to configure the mod](https://github.com/pajicadvance/enchantmentdisabler/wiki/How-to-configure-the-mod)
