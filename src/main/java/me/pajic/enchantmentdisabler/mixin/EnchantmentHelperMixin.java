@@ -20,7 +20,7 @@ import java.util.Map;
 public class EnchantmentHelperMixin {
 
 	@WrapOperation(
-			method = {"lambda$getAvailableEnchantmentResults$1", "lambda$getAvailableEnchantmentResults$0", "method_60106"},
+			method = {"lambda$getAvailableEnchantmentResults$1", "lambda$getAvailableEnchantmentResults$0", "method_60106", "lambda$getAvailableEnchantmentResults$41"},
 			at = @At(
 					value = "INVOKE",
 					target = "Ljava/util/List;add(Ljava/lang/Object;)Z"

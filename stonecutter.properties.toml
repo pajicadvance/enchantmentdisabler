@@ -2,7 +2,7 @@
 mod.id = "enchantmentdisabler"
 mod.name = "Enchantment Disabler"
 mod.group = "me.pajic"
-mod.version = "3.4.8"
+mod.version = "3.4.9"
 mod.description = "Disable enchantments and nerf enchanting in multiple ways with an extensive configuration"
 mod.authors = "pajic"
 mod.contributors = ""
