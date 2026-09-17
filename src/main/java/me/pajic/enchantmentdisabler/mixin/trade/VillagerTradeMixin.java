@@ -25,25 +25,36 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.List;
 import java.util.Map;
+
+//? >26.2 {
+import net.minecraft.core.Holder;
+import java.util.Optional;
+//?} else {
+/*import java.util.List;
+*///?}
 
 @Mixin(VillagerTrade.class)
 public class VillagerTradeMixin {
 
-	@Shadow @Final private List<LootItemFunction> givenItemModifiers;
+    //~ if >26.2 'List<LootItemFunction> givenItemModifiers' -> 'Optional<Holder<LootItemFunction>> givenItemModifier'
+	@Shadow @Final private Optional<Holder<LootItemFunction>> givenItemModifier;
 	@Shadow @Final private ItemStackTemplate gives;
 
-	@ModifyExpressionValue(
+    @ModifyExpressionValue(
 			method = "getOffer",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/world/level/storage/loot/providers/number/NumberProvider;getInt(Lnet/minecraft/world/level/storage/loot/LootContext;)I",
+                    //~ if >26.2 'NumberProvider' -> 'ints/ContextIntProvider'
+                    target = "Lnet/minecraft/world/level/storage/loot/providers/number/ints/ContextIntProvider;getInt(Lnet/minecraft/world/level/storage/loot/LootContext;)I",
 					ordinal = 0
 			)
 	)
 	private int modifyMaxUses(int original) {
-		if (givenItemModifiers.stream().anyMatch(f -> f instanceof EnchantRandomlyFunction || f instanceof EnchantWithLevelsFunction || f instanceof SetEnchantmentsFunction)) {
+        //~ if >26.2 'givenItemModifiers' -> 'givenItemModifier'
+		if (givenItemModifier.stream()/*? >26.2 {*/.map(Holder::value)/*?}*/.anyMatch(f ->
+                f instanceof EnchantRandomlyFunction || f instanceof EnchantWithLevelsFunction || f instanceof SetEnchantmentsFunction
+        )) {
 			if (gives.is(Items.ENCHANTED_BOOK) && ED.CONFIG.trades.modifyEnchantedBookTradeUses.get() && original > ED.CONFIG.trades.maxEnchantedBookTradeUses.get()) {
 				return ED.CONFIG.trades.maxEnchantedBookTradeUses.get();
 			}
