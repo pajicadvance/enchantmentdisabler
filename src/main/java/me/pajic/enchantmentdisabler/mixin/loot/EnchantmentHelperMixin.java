@@ -33,7 +33,7 @@ public class EnchantmentHelperMixin {
 		if (possibleEnchantments.isEmpty() || possibleEnchantments.get().size() == 0) {
 			ED.debugLog("[EnchantmentHelper] No options found, filtering fallback");
 			return enchantments.filter(enchantment ->
-					ModUtil.filter(enchantment, sources -> !sources.loot.get())
+					ModUtil.filter(enchantment, ModUtil::lootOrTradeDisabled)
 			);
 		}
 		return enchantments;

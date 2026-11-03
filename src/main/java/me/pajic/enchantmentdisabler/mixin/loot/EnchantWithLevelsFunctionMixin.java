@@ -28,7 +28,7 @@ public class EnchantWithLevelsFunctionMixin {
 	private Optional<HolderSet<Enchantment>> filterEnchantments(Optional<HolderSet<Enchantment>> original) {
 		return original.map(holders ->
 				HolderSet.direct(holders.stream().filter(enchantment ->
-						ModUtil.filter(enchantment, sources -> !sources.loot.get())).toList()
+						ModUtil.filter(enchantment, ModUtil::lootOrTradeDisabled)).toList()
 				)
 		);
 	}

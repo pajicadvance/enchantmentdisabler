@@ -5,8 +5,9 @@ import me.pajic.enchantmentdisabler.ED;
 import me.pajic.enchantmentdisabler.util.ModUtil;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.resources.Identifier;
 import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
 import org.spongepowered.asm.mixin.Final;
@@ -16,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Mixin(EnchantRandomlyFunction.class)
@@ -38,7 +38,7 @@ public class EnchantRandomlyFunctionMixin {
 				enchantment.is(EnchantmentTags.ON_RANDOM_LOOT)
 		).toList();
         return selections.stream().filter(enchantment ->
-				ModUtil.filter(enchantment, sources -> !sources.loot.get())
+				ModUtil.filter(enchantment, ModUtil::lootOrTradeDisabled)
         ).toList();
     }
 
@@ -50,14 +50,15 @@ public class EnchantRandomlyFunctionMixin {
 			),
 			index = 2
 	)
-    private static int limitEnchantmentLevel(int original, @Local(argsOnly = true) Holder<Enchantment> enchantment) {
-        if (ED.CONFIG.maxLevel.limitObtainableEnchantmentLevel.get()) {
-            for (Map.Entry<Identifier, Integer> entry : ED.CONFIG.maxLevel.obtainableEnchantmentLevels.entrySet()) {
-                if (enchantment.is(entry.getKey())) {
-                    if (original > entry.getValue()) return entry.getValue();
-                }
-            }
+    private static int limitEnchantmentLevel(int original, @Local(argsOnly = true) ItemStack stack, @Local(argsOnly = true) Holder<Enchantment> enchantment) {
+        int level = ModUtil.capObtainableLevel(enchantment, original);
+        if (
+                ModUtil.isTrading() &&
+                ED.CONFIG.trades.limitBookTradeLevel.get() &&
+                (stack.is(Items.BOOK) || stack.is(Items.ENCHANTED_BOOK))
+        ) {
+            level = Math.min(level, ED.CONFIG.trades.bookTradeLevelLimit.get());
         }
-        return original;
+        return level;
     }
 }

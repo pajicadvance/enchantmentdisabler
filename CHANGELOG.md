@@ -1,1 +1,9 @@
-- Added Fabric 26.3 version.
+- Added NeoForge 26.3 version.
+- Fixed enchanted book and enchanted item trade use limits not applying on 26.3.
+- Enchantments disabled in loot are no longer removed from villager trades on 26.1+.
+- Enabling a source for a disabled enchantment no longer adds it to places where it never appeared in vanilla.
+- Fixed the book trade level limit not lowering the trade price on 26.1+.
+- Fixed the XP cost formula not being checked when enchanting. 
+- The enchanting screen now shows the correct XP requirement when the XP cost formula is modified.
+- Fixed modified lapis and XP costs showing on the wrong lines of the enchanting table tooltip on NeoForge.
+- Max obtainable levels now also apply to the enchanting table and to mob spawn equipment.

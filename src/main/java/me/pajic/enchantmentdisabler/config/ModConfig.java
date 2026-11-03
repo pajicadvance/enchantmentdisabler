@@ -48,6 +48,7 @@ public class ModConfig extends Config {
 				.keyHandler(new ValidatedIdentifier())
 				.valueHandler(new ValidatedInt(1, Integer.MAX_VALUE, 1))
 				.build();
+		@RequiresAction(action = Action.RESTART)
 		public ValidatedInt globalMaxLevel = new ValidatedInt(0, Integer.MAX_VALUE, 0);
 		public ValidatedBoolean limitObtainableEnchantmentLevel = new ValidatedBoolean(false);
 		public ValidatedMap<Identifier, Integer> obtainableEnchantmentLevels = (new ValidatedMap.Builder())

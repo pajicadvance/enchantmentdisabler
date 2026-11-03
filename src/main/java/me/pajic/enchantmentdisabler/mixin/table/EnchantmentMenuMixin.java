@@ -3,12 +3,15 @@ package me.pajic.enchantmentdisabler.mixin.table;
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.pajic.enchantmentdisabler.ED;
+import me.pajic.enchantmentdisabler.util.ModUtil;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.EnchantmentMenu;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +25,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Mixin(EnchantmentMenu.class)
@@ -80,11 +82,19 @@ public abstract class EnchantmentMenuMixin {
             at = @At("MIXINEXTRAS:EXPRESSION")
     )
     private boolean modifyLapisCostButtonClickCondition(boolean original, @Local(argsOnly = true) int id, @Local(ordinal = 1) ItemStack currency) {
-        if (ED.CONFIG.enchantingTable.modifyLapisCost.get()) {
-            int val = (int) ED.CONFIG.enchantingTable.lapisCostFormula.evalSafe(Map.of('i', (double) id), id);
-            return val > 0 ? currency.getCount() < val : original;
-        }
-        return original;
+        int val = ModUtil.lapisCost(id);
+        return val > 0 ? currency.getCount() < val : original;
+    }
+
+    @Definition(id = "experienceLevel", field = "Lnet/minecraft/world/entity/player/Player;experienceLevel:I")
+    @Expression("?.experienceLevel < ?")
+    @ModifyExpressionValue(
+            method = "clickMenuButton",
+            at = @At(value = "MIXINEXTRAS:EXPRESSION", ordinal = 0)
+    )
+    private boolean modifyXpCostButtonClickCondition(boolean original, @Local(argsOnly = true) Player player, @Local(argsOnly = true) int id) {
+        int val = ModUtil.xpCost(id);
+        return val > 0 ? player.experienceLevel < val : original;
     }
 
     @ModifyArg(
@@ -96,11 +106,8 @@ public abstract class EnchantmentMenuMixin {
             index = 0
     )
     private int modifyLapisCostConsumeItemStack(int i) {
-        if (ED.CONFIG.enchantingTable.modifyLapisCost.get()) {
-            int val = (int) ED.CONFIG.enchantingTable.lapisCostFormula.evalSafe(Map.of('i', (double) i - 1), i);
-            return val > 0 ? val : i;
-        }
-        return i;
+        int val = ModUtil.lapisCost(i - 1);
+        return val > 0 ? val : i;
     }
 
     @ModifyArg(
@@ -112,10 +119,19 @@ public abstract class EnchantmentMenuMixin {
             index = 1
     )
     private int modifyXpCostOnEnchantmentPerformed(int i) {
-        if (ED.CONFIG.enchantingTable.modifyXpCost.get()) {
-            int val = (int) ED.CONFIG.enchantingTable.xpCostFormula.evalSafe(Map.of('i', (double) i - 1), i);
-            return val > 0 ? val : i;
-        }
-        return i;
+        int val = ModUtil.xpCost(i - 1);
+        return val > 0 ? val : i;
+    }
+
+    @ModifyReturnValue(
+            method = "getEnchantmentList",
+            at = @At("RETURN")
+    )
+    private List<EnchantmentInstance> limitEnchantmentLevels(List<EnchantmentInstance> original) {
+        if (!ED.CONFIG.maxLevel.limitObtainableEnchantmentLevel.get()) return original;
+        return original.stream().map(ei -> new EnchantmentInstance(
+                ei.enchantment/*? if >=26.1 {*/()/*?}*/,
+                ModUtil.capObtainableLevel(ei.enchantment/*? if >=26.1 {*/()/*?}*/, ei.level/*? if >=26.1 {*/()/*?}*/)
+        )).toList();
     }
 }

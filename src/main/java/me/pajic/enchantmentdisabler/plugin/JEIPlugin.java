@@ -39,15 +39,17 @@ public class JEIPlugin implements IModPlugin {
 		ED.CONFIG.disabler.disabledEnchantmentsV2.forEach((id, sources) -> {
 			if (ModUtil.allSourcesDisabled(sources)) {
 				Minecraft mc = Minecraft.getInstance();
-				ItemStack enchantedBook = Items.ENCHANTED_BOOK.getDefaultInstance();
-				ItemEnchantments.Mutable enchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
 				Optional<Holder.Reference<Enchantment>> enchantment = mc.level.registryAccess()
 						.lookupOrThrow(Registries.ENCHANTMENT)
 						.get(ResourceKey.create(Registries.ENCHANTMENT, id));
 				if (enchantment.isPresent()) {
-					enchantments.set(enchantment.get(), enchantment.get().value().getMaxLevel());
-					enchantedBook.set(DataComponents.STORED_ENCHANTMENTS, enchantments.toImmutable());
-					hiddenItems.add(enchantedBook);
+					for (int level = enchantment.get().value().getMinLevel(); level <= enchantment.get().value().getMaxLevel(); level++) {
+						ItemStack enchantedBook = Items.ENCHANTED_BOOK.getDefaultInstance();
+						ItemEnchantments.Mutable enchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+						enchantments.set(enchantment.get(), level);
+						enchantedBook.set(DataComponents.STORED_ENCHANTMENTS, enchantments.toImmutable());
+						hiddenItems.add(enchantedBook);
+					}
 				}
 			}
 		});

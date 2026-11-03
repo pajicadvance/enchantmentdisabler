@@ -24,7 +24,7 @@ public class SetEnchantmentsFunctionMixin {
 			)
 	)
 	private static boolean preventSetEnchantmentIfDisabled(ItemEnchantments.Mutable instance, Holder<Enchantment> enchantment, int level) {
-		return ModUtil.filter(enchantment, sources -> !sources.loot.get());
+		return ModUtil.filter(enchantment, ModUtil::lootOrTradeDisabled);
 	}
 
 	@ModifyReturnValue(
@@ -32,6 +32,6 @@ public class SetEnchantmentsFunctionMixin {
 			at = @At("RETURN")
 	)
 	private ItemStack returnBookIfNoEnchantments(ItemStack original) {
-		return original.is(Items.ENCHANTED_BOOK) && !EnchantmentHelper.hasAnyEnchantments(original) ? new ItemStack(Items.BOOK) : original;
+		return original.is(Items.ENCHANTED_BOOK) && !EnchantmentHelper.hasAnyEnchantments(original) ? new ItemStack(Items.BOOK, original.getCount()) : original;
 	}
 }

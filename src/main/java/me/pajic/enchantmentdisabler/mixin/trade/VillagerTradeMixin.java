@@ -3,10 +3,12 @@ package me.pajic.enchantmentdisabler.mixin.trade;
 //? >=26.1 {
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.pajic.enchantmentdisabler.ED;
+import me.pajic.enchantmentdisabler.util.ModUtil;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
@@ -17,15 +19,15 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
 import net.minecraft.world.level.storage.loot.functions.EnchantWithLevelsFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
+import net.minecraft.world.level.storage.loot.functions.SequenceFunction;
 import net.minecraft.world.level.storage.loot.functions.SetEnchantmentsFunction;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.Map;
 
 //? >26.2 {
 import net.minecraft.core.Holder;
@@ -52,17 +54,32 @@ public class VillagerTradeMixin {
 	)
 	private int modifyMaxUses(int original) {
         //~ if >26.2 'givenItemModifiers' -> 'givenItemModifier'
-		if (givenItemModifier.stream()/*? >26.2 {*/.map(Holder::value)/*?}*/.anyMatch(f ->
-                f instanceof EnchantRandomlyFunction || f instanceof EnchantWithLevelsFunction || f instanceof SetEnchantmentsFunction
-        )) {
-			if (gives.is(Items.ENCHANTED_BOOK) && ED.CONFIG.trades.modifyEnchantedBookTradeUses.get() && original > ED.CONFIG.trades.maxEnchantedBookTradeUses.get()) {
-				return ED.CONFIG.trades.maxEnchantedBookTradeUses.get();
-			}
-			if (ED.CONFIG.trades.modifyEnchantedItemTradeUses.get() && original > ED.CONFIG.trades.maxEnchantedItemTradeUses.get()) {
+		if (givenItemModifier.stream()/*? >26.2 {*/.map(Holder::value)/*?}*/.anyMatch(VillagerTradeMixin::ed$isEnchantFunction)) {
+			if (gives.is(Items.ENCHANTED_BOOK)) {
+				if (ED.CONFIG.trades.modifyEnchantedBookTradeUses.get() && original > ED.CONFIG.trades.maxEnchantedBookTradeUses.get()) {
+					return ED.CONFIG.trades.maxEnchantedBookTradeUses.get();
+				}
+			} else if (ED.CONFIG.trades.modifyEnchantedItemTradeUses.get() && original > ED.CONFIG.trades.maxEnchantedItemTradeUses.get()) {
 				return ED.CONFIG.trades.maxEnchantedItemTradeUses.get();
 			}
 		}
 		return original;
+	}
+
+	@WrapOperation(
+			method = "getOffer",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/level/storage/loot/functions/LootItemFunction;apply(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"
+			)
+	)
+	private Object markTrading(LootItemFunction instance, Object stack, Object context, Operation<Object> original) {
+		ModUtil.setTrading(true);
+		try {
+			return original.call(instance, stack, context);
+		} finally {
+			ModUtil.setTrading(false);
+		}
 	}
 
 	@Inject(
@@ -82,21 +99,21 @@ public class VillagerTradeMixin {
 			if (ie != null) {
 				ItemEnchantments.Mutable enchantments = new ItemEnchantments.Mutable(ie);
 				enchantments.keySet().forEach(e -> {
-					if (ED.CONFIG.trades.limitBookTradeLevel.get() && enchantments.getLevel(e) > ED.CONFIG.trades.bookTradeLevelLimit.get()) {
-						enchantments.set(e, ED.CONFIG.trades.bookTradeLevelLimit.get());
-					}
-					if (ED.CONFIG.maxLevel.limitObtainableEnchantmentLevel.get()) {
-						for (Map.Entry<Identifier, Integer> entry : ED.CONFIG.maxLevel.obtainableEnchantmentLevels.entrySet()) {
-							if (e.is(entry.getKey()) && enchantments.getLevel(e) > entry.getValue()) {
-								enchantments.set(e, entry.getValue());
-								break;
-							}
-						}
-					}
+					int level = ModUtil.capObtainableLevel(e, enchantments.getLevel(e));
+					if (ED.CONFIG.trades.limitBookTradeLevel.get()) level = Math.min(level, ED.CONFIG.trades.bookTradeLevelLimit.get());
+					enchantments.set(e, level);
 				});
 				result.set(DataComponents.STORED_ENCHANTMENTS, enchantments.toImmutable());
 			}
 		}
+	}
+
+	@Unique
+	private static boolean ed$isEnchantFunction(LootItemFunction function) {
+		if (function instanceof SequenceFunction sequence) {
+			return ((SequenceFunctionAccessor) sequence).getFunctions().stream()/*? >26.2 {*/.map(Holder::value)/*?}*/.anyMatch(VillagerTradeMixin::ed$isEnchantFunction);
+		}
+		return function instanceof EnchantRandomlyFunction || function instanceof EnchantWithLevelsFunction || function instanceof SetEnchantmentsFunction;
 	}
 }
 //?}

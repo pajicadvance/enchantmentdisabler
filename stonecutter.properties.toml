@@ -2,7 +2,7 @@
 mod.id = "enchantmentdisabler"
 mod.name = "Enchantment Disabler"
 mod.group = "me.pajic"
-mod.version = "3.4.9"
+mod.version = "3.4.10"
 mod.description = "Disable enchantments and nerf enchanting in multiple ways with an extensive configuration"
 mod.authors = "pajic"
 mod.contributors = ""
@@ -109,7 +109,7 @@ optional.jei = "26.2-neoforge:30.30.0.204"
 
 ["26.3"]
 mod.mc_releases = ["26.3"]
-#loader.neo = "26.2.0.36-beta"
+loader.neo = "26.3.0.101"
 dep.mixson.coords = "maven.modrinth:$id:$version"
 required.mixson = "2.2.0"
 optional.rrv = "8.10.5+26.3"
@@ -124,6 +124,7 @@ required.fzzy_config = "0.7.7+26.3"
 optional.jei = "26.3-fabric:31.0.0.5"
 runtime.modmenu = "21.0.0-beta.1"
 
-#[neoforge."26.2"]
-#mod.mc_compat = "[26.3, 26.4)"
-#required.fzzy_config = "0.7.6+26.2+neoforge"
+[neoforge."26.3"]
+mod.mc_compat = "[26.3, 26.4)"
+required.fzzy_config = "0.7.7+fix3+26.3+neoforge"
+optional.jei = "26.3-neoforge:31.0.0.5"

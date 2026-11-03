@@ -13,6 +13,8 @@ import java.util.function.Predicate;
 
 public class ModUtil {
 
+	private static final ThreadLocal<Boolean> TRADING = ThreadLocal.withInitial(() -> false);
+
 	public static boolean filter(Holder<Enchantment> enchantment, Predicate<EnchantmentSources> predicate) {
 		for (Map.Entry<Identifier, EnchantmentSources> entry : ED.CONFIG.disabler.disabledEnchantmentsV2.entrySet()) {
 			if (enchantment.is(entry.getKey()) && predicate.test(entry.getValue())) {
@@ -44,5 +46,36 @@ public class ModUtil {
 
 	public static boolean anySourceDisabled(EnchantmentSources sources) {
 		return !sources.loot.get() || !sources.table.get() || !sources.trade.get();
+	}
+
+	public static void setTrading(boolean trading) {
+		TRADING.set(trading);
+	}
+
+	public static boolean isTrading() {
+		return TRADING.get();
+	}
+
+	public static boolean lootOrTradeDisabled(EnchantmentSources sources) {
+		return isTrading() ? !sources.trade.get() : !sources.loot.get();
+	}
+
+	public static int capObtainableLevel(Holder<Enchantment> enchantment, int level) {
+		if (ED.CONFIG.maxLevel.limitObtainableEnchantmentLevel.get()) {
+			for (Map.Entry<Identifier, Integer> entry : ED.CONFIG.maxLevel.obtainableEnchantmentLevels.entrySet()) {
+				if (enchantment.is(entry.getKey()) && level > entry.getValue()) return entry.getValue();
+			}
+		}
+		return level;
+	}
+
+	public static int lapisCost(int index) {
+		if (!ED.CONFIG.enchantingTable.modifyLapisCost.get()) return 0;
+		return (int) ED.CONFIG.enchantingTable.lapisCostFormula.evalSafe(Map.of('i', (double) index), 0);
+	}
+
+	public static int xpCost(int index) {
+		if (!ED.CONFIG.enchantingTable.modifyXpCost.get()) return 0;
+		return (int) ED.CONFIG.enchantingTable.xpCostFormula.evalSafe(Map.of('i', (double) index), 0);
 	}
 }

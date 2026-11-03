@@ -7,7 +7,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("dev.kikugie.fletching-table.fabric")
     id("me.modmuss50.mod-publish-plugin")
-    id("net.neoforged.moddev") version "2.0.141"
+    id("net.neoforged.moddev") version "2.0.148"
     id("neoforge-mutex")
 }
 

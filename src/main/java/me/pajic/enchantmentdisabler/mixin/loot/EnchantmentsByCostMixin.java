@@ -8,6 +8,7 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.item.enchantment.providers.EnchantmentsByCost;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(EnchantmentsByCost.class)
 public class EnchantmentsByCostMixin {
@@ -21,5 +22,17 @@ public class EnchantmentsByCostMixin {
 	)
 	private boolean filterEnchantments(ItemEnchantments.Mutable instance, Holder<Enchantment> enchantment, int level) {
 		return ModUtil.filter(enchantment, sources -> !sources.loot.get());
+	}
+
+	@ModifyArg(
+			method = "enchant",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/item/enchantment/ItemEnchantments$Mutable;upgrade(Lnet/minecraft/core/Holder;I)V"
+			),
+			index = 1
+	)
+	private int limitEnchantmentLevel(Holder<Enchantment> enchantment, int level) {
+		return ModUtil.capObtainableLevel(enchantment, level);
 	}
 }

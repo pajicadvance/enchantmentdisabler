@@ -7,8 +7,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.pajic.enchantmentdisabler.ED;
+import me.pajic.enchantmentdisabler.util.ModUtil;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -17,7 +17,6 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-import java.util.Map;
 import java.util.Optional;
 
 @Mixin(VillagerTrades.EnchantBookForEmeralds.class)
@@ -50,15 +49,7 @@ public class EnchantBookForEmeraldsMixin {
         if (ED.CONFIG.trades.limitBookTradeLevel.get() && original > ED.CONFIG.trades.bookTradeLevelLimit.get()) {
             value = ED.CONFIG.trades.bookTradeLevelLimit.get();
         }
-        if (ED.CONFIG.maxLevel.limitObtainableEnchantmentLevel.get()) {
-            for (Map.Entry<Identifier, Integer> entry : ED.CONFIG.maxLevel.obtainableEnchantmentLevels.entrySet()) {
-                if (enchantment.is(entry.getKey()) && value >= entry.getValue()) {
-                    value = entry.getValue();
-                    break;
-                }
-            }
-        }
-        return value;
+        return ModUtil.capObtainableLevel(enchantment, value);
     }
 }
 *///?}
